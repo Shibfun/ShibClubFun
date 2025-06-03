@@ -503,6 +503,7 @@
                 const address = card.dataset.tokenAddress;
                 const tokenContract = new web3.eth.Contract(memeCoinAbi, address);
                 const balance = await tokenContract.methods.balanceOf(account).call();
+                card.dataset.tokenBalance = balance;
                 const balanceRow = card.querySelector(".balance-row");
                 const isBuy = card.querySelector(".swap-toggle .buy.active");
                 balanceRow.innerHTML = isBuy
@@ -583,6 +584,7 @@
             card.className = "post-card";
             card.dataset.tokenAddress = token;
             card.dataset.symbol = symbol;
+            card.dataset.tokenBalance = tokenBalance;
             card.innerHTML = `
                 <div class="post-header">
                     <span>Created by</span>
@@ -635,13 +637,14 @@
                             <button data-percentage="100">MAX</button>
                         </div>
                         <button class="trade-button" data-address="${token}" ${!account ? "disabled" : ""}>
-                            Trade
+                            Buy
                             <span class="spinner"></span>
                         </button>
                     </div>
                 </div>
             `;
             waterfall.appendChild(card);
+            setupCardListeners(card);
         }
 
         async function searchToken() {
@@ -684,18 +687,74 @@
             }
         }
 
-        async function setAmount(tokenAddress, percentage, type) {
-            if (!web3 || !account) return;
-            const card = document.querySelector(`.post-card[data-token-address="${tokenAddress}"]`);
+        function setupCardListeners(card) {
+            const tokenAddress = card.dataset.tokenAddress;
+            card.querySelectorAll(".copy-button").forEach(button => {
+                button.addEventListener("click", () => {
+                    const address = button.dataset.address;
+                    navigator.clipboard.writeText(address).then(() => {
+                        button.classList.add("copied");
+                        setTimeout(() => button.classList.remove("copied"), 1000);
+                    }).catch(() => {
+                        document.getElementById("searchStatus").innerText = "Failed to copy address.";
+                    });
+                });
+            });
+            card.querySelectorAll(".swap-toggle button").forEach(button => {
+                button.addEventListener("click", async () => {
+                    const toggleButtons = card.querySelectorAll(".swap-toggle button");
+                    toggleButtons.forEach(btn => btn.classList.remove("active"));
+                    button.classList.add("active");
+                    const isBuy = button.classList.contains("buy");
+                    const balanceRow = card.querySelector(".balance-row");
+                    const tokenInfo = card.querySelector(".token-info");
+                    const tradeButton = card.querySelector(".trade-button");
+                    const input = card.querySelector(".amount-input");
+                    const percentageButtons = card.querySelectorAll(".percentage-buttons button");
+                    if (isBuy) {
+                        balanceRow.innerHTML = `<span>BONE</span><span>Balance: ${parseFloat(web3.utils.fromWei(boneBalance, "ether")).toFixed(2)}</span>`;
+                        tokenInfo.innerHTML = `<img src="${boneLogo}" alt="BONE"><span>BONE</span>`;
+                        tradeButton.innerText = "Buy";
+                        percentageButtons.forEach(btn => {
+                            btn.onclick = () => setAmount(tokenAddress, parseFloat(btn.dataset.percentage), "buy", card);
+                        });
+                    } else {
+                        const tokenContract = new web3.eth.Contract(memeCoinAbi, tokenAddress);
+                        const tokenBalance = await tokenContract.methods.balanceOf(account).call();
+                        card.dataset.tokenBalance = tokenBalance;
+                        balanceRow.innerHTML = `<span>${card.dataset.symbol}</span><span>Balance: ${parseFloat(web3.utils.fromWei(tokenBalance, "ether")).toFixed(2)}</span>`;
+                        tokenInfo.innerHTML = `<img src="${card.querySelector(".post-image").src}" alt="${card.dataset.symbol}"><span>${card.dataset.symbol}</span>`;
+                        tradeButton.innerText = "Sell";
+                        percentageButtons.forEach(btn => {
+                            btn.onclick = () => setAmount(tokenAddress, parseFloat(btn.dataset.percentage), "sell", card);
+                        });
+                    }
+                    input.value = "";
+                    tradeButton.disabled = !account;
+                });
+            });
+            card.querySelector(".trade-button").addEventListener("click", async () => {
+                const isBuy = card.querySelector(".swap-toggle .buy.active");
+                if (isBuy) {
+                    await buyToken(tokenAddress, card.querySelector(".trade-button"), card);
+                } else {
+                    await sellToken(tokenAddress, card.querySelector(".trade-button"), card);
+                }
+            });
+        }
+
+        async function setAmount(tokenAddress, percentage, type, card) {
+            if (!web3 || !account) {
+                document.getElementById("searchStatus").innerText = "Please connect wallet.";
+                return;
+            }
             const input = card.querySelector(".amount-input");
             let amount;
             if (type === "buy") {
                 let balance = parseFloat(web3.utils.fromWei(boneBalance, "ether"));
                 amount = percentage === 100 ? Math.max(0, balance - 0.1) : balance * (percentage / 100);
             } else {
-                const tokenContract = new web3.eth.Contract(memeCoinAbi, tokenAddress);
-                let balance = await tokenContract.methods.balanceOf(account).call();
-                balance = parseFloat(web3.utils.fromWei(balance, "ether"));
+                let balance = parseFloat(web3.utils.fromWei(card.dataset.tokenBalance, "ether"));
                 amount = percentage === 100 ? Math.max(0, balance - 1) : balance * (percentage / 100);
             }
             input.value = amount.toFixed(2);
@@ -852,7 +911,7 @@
                     await tokenContract.methods.approve(routerAddress, amountInWei).send({ from: account });
                 }
                 status.innerText = "Processing sell...";
-                await router.methods.swapExactTokensForETHSupportingFeeOnTransferTokens(
+                await routerMethods.swapExactTokensForETHSupportingFeeOnTransferTokens(
                     amountInWei.toString(),
                     amountOutMin.toString(),
                     routes,
@@ -862,63 +921,11 @@
                 status.innerText = "Sell successful!";
                 await updateBalances();
             } catch (error) {
-                status.innerText = error.code === 4001 ? "Transaction rejected." : `Sell failed: ${error.message}`;
+                status.innerText = error.code === 4001 ? "Transaction rejected!" : `Sell failed: ${error.message}`;
             } finally {
                 button.classList.remove("loading");
-                button.disabled = false;
+                button.classList.disabled = false;
             }
-        }
-
-        function setupEventListeners() {
-            document.getElementById("waterfall").addEventListener("click", async (e) => {
-                const target = e.target;
-                if (target.closest(".copy-button")) {
-                    const button = target.closest(".copy-button");
-                    navigator.clipboard.writeText(button.dataset.address).then(() => {
-                        button.classList.add("copied");
-                        setTimeout(() => button.classList.remove("copied"), 1000);
-                    });
-                }
-                if (target.closest(".swap-toggle button")) {
-                    const button = target.closest(".swap-toggle button");
-                    const card = button.closest(".post-card");
-                    const toggleButtons = card.querySelectorAll(".swap-toggle button");
-                    toggleButtons.forEach(btn => btn.classList.remove("active"));
-                    button.classList.add("active");
-                    const isBuy = button.classList.contains("buy");
-                    const tokenAddress = card.dataset.tokenAddress;
-                    const balanceRow = card.querySelector(".balance-row");
-                    const tokenInfo = card.querySelector(".token-info");
-                    const input = card.querySelector(".amount-input");
-                    const percentageButtons = card.querySelectorAll(".percentage-buttons button");
-                    if (isBuy) {
-                        balanceRow.innerHTML = `<span>BONE</span><span>Balance: ${parseFloat(web3.utils.fromWei(boneBalance, "ether")).toFixed(2)}</span>`;
-                        tokenInfo.innerHTML = `<img src="${boneLogo}" alt="BONE"><span>BONE</span>`;
-                        percentageButtons.forEach(btn => {
-                            btn.onclick = () => setAmount(tokenAddress, parseFloat(btn.dataset.percentage), "buy");
-                        });
-                    } else {
-                        const tokenContract = new web3.eth.Contract(memeCoinAbi, tokenAddress);
-                        const tokenBalance = await tokenContract.methods.balanceOf(account).call();
-                        balanceRow.innerHTML = `<span>${card.dataset.symbol}</span><span>Balance: ${parseFloat(web3.utils.fromWei(tokenBalance, "ether")).toFixed(2)}</span>`;
-                        tokenInfo.innerHTML = `<img src="${card.querySelector(".post-image").src}" alt="${card.dataset.symbol}"><span>${card.dataset.symbol}</span>`;
-                        percentageButtons.forEach(btn => {
-                            btn.onclick = () => setAmount(tokenAddress, parseFloat(btn.dataset.percentage), "sell");
-                        });
-                    }
-                    input.value = "";
-                }
-                if (target.closest(".trade-button")) {
-                    const button = target.closest(".trade-button");
-                    const card = button.closest(".post-card");
-                    const isBuy = card.querySelector(".swap-toggle .buy.active");
-                    if (isBuy) {
-                        await buyToken(button.dataset.address, button, card);
-                    } else {
-                        await sellToken(button.dataset.address, button, card);
-                    }
-                }
-            });
         }
 
         document.getElementById("connectWalletButton").addEventListener("click", connectWallet);
@@ -931,7 +938,7 @@
             if (await tryInitializeWeb3()) {
                 loadLatestTokens();
             } else {
-                document.getElementById("searchStatus").innerText = "Failed to connect to Shibarium. Please try again.";
+                document.getElementById("searchStatus").innerText = "Failed to connect to Shibarium";
             }
         });
     </script>
