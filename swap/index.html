@@ -756,9 +756,9 @@
             if (type === "buy") {
                 let balance = parseFloat(web3.utils.fromWei(boneBalance, "ether"));
                 amount = percentage === "100" ? Math.max(0, balance - 0.01) : balance * (percentage / 100);
-            } else {
+            else {
                 let balance = parseFloat(web3.utils.fromWei(card.dataset.tokenBalance, "ether"));
-                amount = percentage === "100" ? balance : balance * (percentage / 100);
+                amount = percentage === "100" ? Math.max(0, balance - 1) : balance * (percentage / 100);
             }
             input.value = amount.toFixed(2);
         }
