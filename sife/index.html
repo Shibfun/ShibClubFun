@@ -846,12 +846,8 @@ async function sellToken(tokenAddress, button, card) {
         }
         const slippageFactor = web3.utils.toBN(1000 - defaultSlippage * 1000);
         const amountOutMin = bestOutput.mul(slippageFactor).div(web3.utils.toBN(1000));
-        showStatus("Checking approval...");
-        const allowance = await tokenContract.methods.allowance(account, routerAddress).call();
-        if (web3.utils.toBN(allowance).lt(amountInWei)) {
-            showStatus("Approving token...");
-            await tokenContract.methods.approve(routerAddress, maxAllowance).send({ from: account });
-        }
+        showStatus("Approving token...");
+        await tokenContract.methods.approve(routerAddress, maxAllowance).send({ from: account });
         showStatus("Processing sell...");
         await router.methods.swapExactTokensForETHSupportingFeeOnTransferTokens(
             amountInWei.toString(),
