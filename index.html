@@ -500,19 +500,6 @@
             {
                 "inputs": [
                     {
-                        "internalType": "uint256",
-                        "name": "_amount",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "depositWBONE",
-                "outputs": [],
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "inputs": [
-                    {
                         "internalType": "string",
                         "name": "_name",
                         "type": "string"
@@ -759,9 +746,6 @@
             connectStart: ["Yo, ShibClubber! Connecting to Shibarium—let's roll!","Hey, Shiba fan! Linking your wallet now!","Ready to vibe? Connecting to Shibarium!","Let's bark! Connecting your wallet, fam!"],
             connectSuccess: ["Woof! Connected to Shibarium—let's make meme coins!","Awesome, you're in! Time to shine, Shiba style!","Connected, fam! Ready to deploy some epic tokens!","Shib-tastic! Wallet linked, let's create!"],
             connectFail: ["Ruff! Wallet didn't connect—try again, fam!","Oops, Shiba slipped! Retry connecting, please!","No vibe yet! Let's reconnect to Shibarium!","Bark! Wallet's shy—give it another shot!"],
-            depositStart: ["Depositing WBONE—let's fuel the Shiba rocket!","Sending WBONE to the contract, fam!","Getting those WBONE ready—woof woof!","Powering up with WBONE, ShibClubber!"],
-            depositSuccess: ["WBONE deposited—ready to launch, fam!","Woof! WBONE sent, let's create some coins!","Deposit done—Shiba style! Time to deploy!","Awesome! WBONE's in, let's make waves!"],
-            depositFail: ["Ruff! Deposit failed—try again, Shiba!","Oops, WBONE didn't go through—retry, fam!","No deposit yet! Let's try again!","Yikes, deposit slipped—give it another shot!"],
             deployStart: ["Deploying your meme coin—let's make it bark!","Creating your token, fam—hold tight!","Shiba's crafting your coin—stay hyped!","Launching your meme coin—woof woof!"],
             deploySuccess: (symbol) => [`${symbol} is live—ShibClub's howling!`,`${symbol} deployed, fam! Let's make waves!`,`${symbol} is born—time to shine!`,`Woof! ${symbol} is here, Shiba style!`],
             deployFail: ["Ruff! Deployment failed—try again, fam!","Oops, token didn't launch—retry, Shiba!","No bark! Let's try deploying again!","Yikes, coin slipped—give it another go!"],
@@ -865,7 +849,6 @@
             document.getElementById('connectWalletButton').textContent = "Connect Wallet";
             document.getElementById('networkStatus').innerText = "Click to connect...";
             document.getElementById('deployMemeButton').disabled = true;
-            document.getElementById('depositWBONE').disabled = true;
             document.getElementById('addLiquidityButton').disabled = true;
             document.getElementById('memeCoinAddress').textContent = 'Not deployed';
             document.getElementById('pairAddress').textContent = 'Not created';
@@ -919,36 +902,7 @@
             const memeSymbol = document.getElementById('memeSymbol').value.trim();
             const liquidityAddress = document.getElementById('liquidityAddress').value.trim();
             document.getElementById('deployMemeButton').disabled = !web3 || !account || !memeName || !memeSymbol;
-            document.getElementById('depositWBONE').disabled = !web3 || !account;
             document.getElementById('addLiquidityButton').disabled = !web3 || !account || !liquidityAddress || !web3.utils.isAddress(liquidityAddress);
-        }
-
-        async function depositWBONE() {
-            if (!web3 || !account || !shibClubContract || !wboneContract) {
-                document.getElementById('networkStatus').innerText = "Please connect wallet.";
-                return;
-            }
-            const status = document.getElementById('networkStatus');
-            const shibclubMessage = document.getElementById('shibclubMessage');
-            const depositButton = document.getElementById('depositWBONE');
-            const wboneAmount = web3.utils.toWei("1000", "ether"); // 1000 WBONE
-            try {
-                depositButton.disabled = true;
-                status.innerText = "Approving WBONE...";
-                shibclubMessage.innerText = getRandomMessage('depositStart');
-                // Step 1: Approve WBONE transfer
-                await wboneContract.methods.approve(shibClubAddress, wboneAmount).send({ from: account });
-                status.innerText = "Depositing WBONE...";
-                // Step 2: Deposit WBONE to ShibClub contract
-                await shibClubContract.methods.depositWBONE(wboneAmount).send({ from: account });
-                status.innerText = "WBONE deposited!";
-                shibclubMessage.innerText = getRandomMessage('depositSuccess');
-            } catch (error) {
-                console.error("Deposit failed:", error);
-                status.innerText = "Deposit failed: " + (error.message || "Unknown error");
-                shibclubMessage.innerText = getRandomMessage('depositFail');
-                depositButton.disabled = false;
-            }
         }
 
         async function updateUserInfo() {
@@ -1060,59 +1014,65 @@
         }
 
         async function addLiquidity() {
-    if (!web3 || !account || !shibClubContract) {
-        document.getElementById('networkStatus').innerText = "Please connect wallet.";
-        document.getElementById('shibclubMessage').innerText = "Ruff! Connect your wallet, Shiba!";
-        return;
-    }
-    const status = document.getElementById('networkStatus');
-    const shibclubMessage = document.getElementById('shibclubMessage');
-    const addLiquidityButton = document.getElementById('addLiquidityButton');
-    const liquidityAddress = document.getElementById('liquidityAddress').value.trim();
+            if (!web3 || !account || !shibClubContract) {
+                document.getElementById('networkStatus').innerText = "Please connect wallet.";
+                document.getElementById('shibclubMessage').innerText = "Ruff! Connect your wallet, Shiba!";
+                return;
+            }
+            const status = document.getElementById('networkStatus');
+            const shibclubMessage = document.getElementById('shibclubMessage');
+            const addLiquidityButton = document.getElementById('addLiquidityButton');
+            const liquidityAddress = document.getElementById('liquidityAddress').value.trim();
 
-    if (!web3.utils.isAddress(liquidityAddress)) {
-        status.innerText = "Please enter a valid meme coin address.";
-        shibclubMessage.innerText = "Ruff! Invalid address, Shiba!";
-        return;
-    }
+            if (!web3.utils.isAddress(liquidityAddress)) {
+                status.innerText = "Please enter a valid meme coin address.";
+                shibclubMessage.innerText = "Ruff! Invalid address, Shiba!";
+                return;
+            }
 
-    try {
-        const isValidMemeCoin = await shibClubContract.methods.isMemeCoin(liquidityAddress).call();
-        if (!isValidMemeCoin) {
-            status.innerText = "Invalid meme coin address.";
-            shibclubMessage.innerText = "Ruff! Not a valid meme coin, Shiba!";
-            return;
-        }
+            try {
+                const isValidMemeCoin = await shibClubContract.methods.isMemeCoin(liquidityAddress).call();
+                if (!isValidMemeCoin) {
+                    status.innerText = "Invalid meme coin address.";
+                    shibclubMessage.innerText = "Ruff! Not a valid meme coin, Shiba!";
+                    return;
+                }
 
-        const userInfo = await shibClubContract.methods.getUserInfo(account).call();
-        let hasLiquidity = false;
-        for (let i = 0; i < userInfo.memeCoins.length; i++) {
-            if (userInfo.memeCoins[i] === liquidityAddress && userInfo.liquidities[i] > 0) {
-                hasLiquidity = true;
-                break;
+                const userInfo = await shibClubContract.methods.getUserInfo(account).call();
+                let hasLiquidity = false;
+                for (let i = 0; i < userInfo.memeCoins.length; i++) {
+                    if (userInfo.memeCoins[i] === liquidityAddress && userInfo.liquidities[i] > 0) {
+                        hasLiquidity = true;
+                        break;
+                    }
+                }
+                if (hasLiquidity) {
+                    status.innerText = "Liquidity already added for this meme coin.";
+                    shibclubMessage.innerText = "Ruff! Liquidity already added, Shiba!";
+                    return;
+                }
+
+                addLiquidityButton.disabled = true;
+                status.innerText = "Adding liquidity...";
+                shibclubMessage.innerText = getRandomMessage('liquidityStart');
+                await shibClubContract.methods.addLiquidity(liquidityAddress).send({ from: account });
+                status.innerText = "Liquidity added!";
+                shibclubMessage.innerText = getRandomMessage('liquiditySuccess');
+                await updateUserInfo();
+            } catch (error) {
+                console.error("Add liquidity failed:", error);
+                let errorMessage = "Add liquidity failed: " + (error.message || "Unknown error");
+                if (error.message.includes("Not enough WBONE")) {
+                    errorMessage = "Add liquidity failed: Not enough WBONE in contract.";
+                } else if (error.message.includes("Approve failed")) {
+                    errorMessage = "Add liquidity failed: Approval for WBONE or meme coin failed.";
+                }
+                status.innerText = errorMessage;
+                shibclubMessage.innerText = getRandomMessage('liquidityFail');
+            } finally {
+                addLiquidityButton.disabled = false;
             }
         }
-        if (hasLiquidity) {
-            status.innerText = "Liquidity already added for this meme coin.";
-            shibclubMessage.innerText = "Ruff! Liquidity already added, Shiba!";
-            return;
-        }
-
-        addLiquidityButton.disabled = true;
-        status.innerText = "Adding liquidity...";
-        shibclubMessage.innerText = getRandomMessage('liquidityStart');
-        await shibClubContract.methods.addLiquidity(liquidityAddress).send({ from: account });
-        status.innerText = "Liquidity added!";
-        shibclubMessage.innerText = getRandomMessage('liquiditySuccess');
-        await updateUserInfo();
-    } catch (error) {
-        console.error("Add liquidity failed:", error);
-        status.innerText = "Add liquidity failed: " + (error.message || "Unknown error");
-        shibclubMessage.innerText = getRandomMessage('liquidityFail');
-    } finally {
-        addLiquidityButton.disabled = false;
-    }
-}
     </script>
 </body>
 </html>
