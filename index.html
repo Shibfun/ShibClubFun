@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShibClub - Deploy Meme Coins</title>
+    <link rel="icon" type="image/x-icon" href="/swap/images/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff4500;
+            --secondary-color: #8b0000;
+            --accent-color: #ffa500;
+            --gradient-bg: linear-gradient(180deg, #ffe4e1 0%, #fffacd 100%);
+            --card-bg: #fff5ee;
+            --input-bg: #fffaf0;
+            --text-color: #2f4f4f;
+            --border-radius: 15px;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--gradient-bg);
+            color: var(--text-color);
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: var(--card-bg);
+            box-shadow: 0 8px 32px rgba(139, 0, 0, 0.2);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            position: relative;
+        }
+        .header {
+            background: linear-gradient(90deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+            padding: 12px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+        .connect-section button {
+            padding: 12px;
+            background: var(--primary-color);
+            color: var(--text-color);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            transition: background 0.2s;
+            margin-bottom: 10px;
+        }
+        .connect-section button:hover { background: #ff6347; }
+        .connect-section button:disabled {
+            background: var(--accent-color);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        .shibclub-button {
+            padding: 12px;
+            background: var(--secondary-color);
+            color: var(--text-color);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            transition: background 0.2s;
+            margin-bottom: 10px;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+        .shibclub-button:hover { background: #a52a2a; }
+        .action-box {
+            background: var(--input-bg);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .action-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .action-row span {
+            font-size: 1em;
+            font-weight: 600;
+        }
+        .action-row button {
+            padding: 8px 16px;
+            background: var(--primary-color);
+            color: var(--text-color);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        .action-row button:hover { background: #ff6347; }
+        .action-row button:disabled {
+            background: var(--accent-color);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+        .input-group label {
+            font-size: 0.9em;
+            margin-bottom: 5px;
+            color: var(--secondary-color);
+        }
+        .input-group input, .input-group textarea {
+            padding: 8px;
+            border: 1px solid var(--accent-color);
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9em;
+            background: #fff;
+            color: var(--text-color);
+        }
+        .info-box {
+            background: var(--input-bg);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+        .info-row span {
+            color: var(--secondary-color);
+        }
+        .address-container {
+            display: flex;
+            align-items: center;
+        }
+        .short-address {
+            font-family: monospace;
+            color: var(--text-color);
+        }
+        .copy-button {
+            margin-left: 8px;
+            padding: 4px 8px;
+            background: var(--accent-color);
+            color: var(--text-color);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8em;
+        }
+        .copy-button:hover { background: #ffb84d; }
+        .status {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: var(--secondary-color);
+            text-align: center;
+        }
+        .token-list {
+            background: var(--input-bg);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .token-list h3 {
+            font-size: 1em;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+        .token-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            border-bottom: 1px solid var(--accent-color);
+        }
+        .token-item:last-child { border-bottom: none; }
+        .shibclub-section {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .shibclub-section img {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 10px;
+        }
+        .shibclub-message {
+            font-size: 0.9em;
+            color: var(--secondary-color);
+            font-style: italic;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.8em;
+            color: var(--secondary-color);
+        }
+        .footer a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: var(--primary-color);
+            transition: color 0.2s;
+        }
+        .footer a:hover {
+            color: #ff6347;
+        }
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+        .social-icon svg {
+            fill: var(--text-color);
+            width: 16px;
+            height: 16px;
+        }
+        .hint {
+            margin-top: 10px;
+            font-size: 0.8em;
+            color: var(--secondary-color);
+            text-align: center;
+            font-style: italic;
+        }
+        @media (max-width: 480px) {
+            body { padding: 10px; }
+            .container { padding: 15px; }
+            .header { font-size: 1.1em; }
+            .action-row button { padding: 6px 12px; }
+            .shibclub-section img { width: 50px; height: 50px; }
+            .shibclub-message { font-size: 0.8em; }
+            .footer { font-size: 0.7em; }
+            .hint { font-size: 0.7em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">ShibClub - Deploy Meme Coins</div>
+        <div class="connect-section">
+            <button id="connectWalletButton">Connect Wallet</button>
+            <a href="https://shibclub.io" class="shibclub-button">ShibClub</a>
+            <div id="networkStatus" class="status">Click to connect...</div>
+        </div>
+        <div class="action-box">
+            <div class="input-group">
+                <label for="memeName">Meme Coin Name *</label>
+                <input type="text" id="memeName" placeholder="Enter token name" required>
+            </div>
+            <div class="input-group">
+                <label for="memeSymbol">Meme Coin Symbol *</label>
+                <input type="text" id="memeSymbol" placeholder="Enter token symbol" required>
+            </div>
+            <div class="input-group">
+                <label for="imageUrl">Image URL</label>
+                <input type="text" id="imageUrl" placeholder="Enter image URL">
+            </div>
+            <div class="input-group">
+                <label for="description">Description</label>
+                <textarea id="description" placeholder="Enter token description" rows="4"></textarea>
+            </div>
+            <div class="input-group">
+                <label for="websiteUrl">Website URL</label>
+                <input type="text" id="websiteUrl" placeholder="Enter website URL">
+            </div>
+            <div class="input-group">
+                <label for="twitterUrl">Twitter URL</label>
+                <input type="text" id="twitterUrl" placeholder="Enter Twitter URL">
+            </div>
+            <div class="input-group">
+                <label for="telegramUrl">Telegram URL</label>
+                <input type="text" id="telegramUrl" placeholder="Enter Telegram URL">
+            </div>
+            <div class="action-row">
+                <span>Deploy Meme Coin</span>
+                <button id="deployMemeButton" onclick="deployMemeCoin()" disabled>Deploy</button>
+            </div>
+            <div class="action-row">
+                <span>Add Liquidity</span>
+                <button id="addLiquidityButton" onclick="addLiquidity()" disabled>Add</button>
+            </div>
+            <div class="action-row">
+                <span>Update Metadata</span>
+                <button id="updateMetadataButton" onclick="updateMetadata()" disabled>Update</button>
+            </div>
+        </div>
+        <div class="info-box" id="userInfoBox">
+            <div class="info-row">
+                <span>Latest Meme Coin:</span>
+                <div class="address-container">
+                    <span id="memeCoinAddress" class="short-address">Not deployed</span>
+                    <button id="copyMemeCoinButton" class="copy-button" onclick="copyToClipboard('memeCoinAddress')" disabled>Copy</button>
+                </div>
+            </div>
+            <div class="info-row">
+                <span>Pair:</span>
+                <div class="address-container">
+                    <span id="pairAddress" class="short-address">Not created</span>
+                    <button id="copyPairButton" class="copy-button" onclick="copyToClipboard('pairAddress')" disabled>Copy</button>
+                </div>
+            </div>
+            <div class="info-row">
+                <span>Liquidity:</span>
+                <span id="liquidityStatus">Not added</span>
+            </div>
+        </div>
+        <div class="token-list" id="tokenList">
+            <h3>Your Latest 100 Meme Coins</h3>
+            <div id="tokenListContent"></div>
+        </div>
+        <div class="shibclub-section">
+            <img src="/swap/images/shibclub.png" alt="ShibClub">
+            <div class="shibclub-message" id="shibclubMessage">"Yo, ShibClubber! Connect your wallet to launch epic meme coins!"</div>
+        </div>
+        <div class="footer">
+            All rights reserved by ShibClub © 2025
+            <a href="https://x.com/shibclub" target="_blank">
+                <span class="social-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                </span>
+            </a>
+            <a href="https://t.me/shibclub" target="_blank">
+                <span class="social-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M9.417 15.181l-.397 5.584c.568 0 .814-.244 1.109-.537l2.663-2.545 5.518 4.041c1.013.564 1.727.267 2.039-.592l3.638-17.032c.319-1.491-.594-2.074-1.609-1.712l-21.54 8.317c-1.491.564-1.491 1.491 0 1.955l5.518 1.712 12.846-8.117c.892-.564-.297-1.128-1.109 0z"/>
+                    </svg>
+                </span>
+            </a>
+        </div>
+        <div class="hint">
+            Note: Deploy your meme coin with 1,000 WBONE and 1,000,000,000,000,000 tokens!
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
+    <script>
+        const shibarium = {
+            chainId: 109,
+            chainName: 'Shibarium',
+            nativeCurrency: { name: 'BONE', symbol: 'BONE', decimals: 18 },
+            rpcUrls: ['https://rpc.shibrpc.com'],
+            blockExplorerUrls: ['https://shibariumscan.io']
+        };
+        const shibClubAddress = "0xD200958c47daa78498Ca8577f88F6CBaD1A87679";
+        const shibClubAbi = [
+            {
+                "inputs": [],
+                "stateMutability": "nonpayable",
+                "type": "constructor"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "user",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "pair",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "LiquidityAdded",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "user",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "memeCoin",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "string",
+                        "name": "name",
+                        "type": "string"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "string",
+                        "name": "symbol",
+                        "type": "string"
+                    }
+                ],
+                "name": "MemeCoinDeployed",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "memeCoin",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "user",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "string",
+                        "name": "imageUrl",
+                        "type": "string"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "string",
+                        "name": "description",
+                        "type": "string"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "string",
+                        "name": "websiteUrl",
+                        "type": "string"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "string",
+                        "name": "twitterUrl",
+                        "type": "string"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "string",
+                        "name": "telegramUrl",
+                        "type": "string"
+                    }
+                ],
+                "name": "MetadataUpdated",
+                "type": "event"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "memeCoinAddress",
+                        "type": "address"
+                    }
+                ],
+                "name": "addLiquidity",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "_amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "depositWBONE",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "string",
+                        "name": "_name",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "_symbol",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "_imageUrl",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "_description",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "_websiteUrl",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "_twitterUrl",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "_telegramUrl",
+                        "type": "string"
+                    }
+                ],
+                "name": "deployMemeCoin",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "memeCoinAddress",
+                        "type": "address"
+                    }
+                ],
+                "name": "getMemeCoinMetadata",
+                "outputs": [
+                    {
+                        "internalType": "string",
+                        "name": "imageUrl",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "description",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "websiteUrl",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "twitterUrl",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "telegramUrl",
+                        "type": "string"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "creator",
+                        "type": "address"
+                    }
+                ],
+                "name": "getLatestTokensByCreator",
+                "outputs": [
+                    {
+                        "internalType": "address[]",
+                        "name": "tokens",
+                        "type": "address[]"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "getLatestTokens",
+                "outputs": [
+                    {
+                        "internalType": "address[]",
+                        "name": "tokens",
+                        "type": "address[]"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "user",
+                        "type": "address"
+                    }
+                ],
+                "name": "getUserInfo",
+                "outputs": [
+                    {
+                        "internalType": "address[]",
+                        "name": "memeCoins",
+                        "type": "address[]"
+                    },
+                    {
+                        "internalType": "address[]",
+                        "name": "pairs",
+                        "type": "address[]"
+                    },
+                    {
+                        "internalType": "uint256[]",
+                        "name": "liquidities",
+                        "type": "uint256[]"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "name": "isMemeCoin",
+                "outputs": [
+                    {
+                        "internalType": "bool",
+                        "name": "",
+                        "type": "bool"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "memeCoinAddress",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "_imageUrl",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "_description",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "_websiteUrl",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "_twitterUrl",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "_telegramUrl",
+                        "type": "string"
+                    }
+                ],
+                "name": "setMemeCoinMetadata",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            }
+        ];
+        let web3, account, shibClubContract, selectedMemeCoin;
+
+        const shibClubMessages = {
+            connectStart: ["Yo, ShibClubber! Connecting to Shibarium—let's roll!","Hey, Shiba fan! Linking your wallet now!","Ready to vibe? Connecting to Shibarium!","Let's bark! Connecting your wallet, fam!"],
+            IDirect connectSuccess: ["Woof! Connected to Shibarium—let's make meme coins!","Awesome, you're in! Time to shine, Shiba style!","Connected, fam! Ready to deploy some epic tokens!","Shib-tastic! Wallet linked, let's create!"],
+            connectFail: ["Ruff! Wallet didn't connect—try again, fam!","Oops, Shiba slipped! Retry connecting, please!","No vibe yet! Let's reconnect to Shibarium!","Bark! Wallet's shy—give it another shot!"],
+            deployStart: ["Deploying your meme coin—let's make it bark!","Creating your token, fam—hold tight!","Shiba's crafting your coin—stay hyped!","Launching your meme coin—woof woof!"],
+            deploySuccess: (symbol) => [`${symbol} is live—ShibClub's howling!`,`${symbol} deployed, fam! Let's make waves!`,`${symbol} is born—time to shine!`,`Woof! ${symbol} is here, Shiba style!`],
+            deployFail: ["Ruff! Deployment failed—try again, fam!","Oops, token didn't launch—retry, Shiba!","No bark! Let's try deploying again!","Yikes, coin slipped—give it another go!"],
+            liquidityStart: ["Adding liquidity—let's make it flow, Shiba!","Pooling tokens now—hold the leash!","Shiba's setting up liquidity—stay hyped!","Making waves with liquidity, fam!"],
+            liquiditySuccess: ["Liquidity added—ShibClub's ready to trade!","Pool's live, fam! You're a Shiba star!","Woof! Liquidity set—let's swap!","Shib-tastic! Liquidity added, fam!"],
+            liquidityFail: ["Ruff! Liquidity failed—try again, Shiba!","Oops, pool didn't set—retry, fam!","No flow yet! Let's add liquidity again!","Yikes, liquidity slipped—give it another shot!"],
+            metadataStart: ["Updating metadata—let's make it pop, Shiba!","Setting token details—hold tight, fam!","Shiba's tweaking metadata—stay hyped!","Making your coin shine with metadata!"],
+            metadataSuccess: ["Metadata updated—your coin's looking fresh!","Shib-tastic! Metadata set, fam!","Woof! Token details updated—let's roll!","Metadata's live—Shiba style!"],
+            metadataFail: ["Ruff! Metadata update failed—try again!","Oops, details didn't stick—retry, fam!","No shine yet! Let's update metadata again!","Yikes, metadata slipped—give it another go!"]
+        };
+
+        function getRandomMessage(type, param1) {
+            const messages = shibClubMessages[type];
+            if (typeof messages === 'function') {
+                const options = messages(param1);
+                return options[Math.floor(Math.random() * options.length)];
+            }
+            return messages[Math.floor(Math.random() * messages.length)];
+        }
+
+        function shortenAddress(address) {
+            if (!address || address === '0x0000000000000000000000000000000000000000') return 'N/A';
+            return `${address.slice(0, 6)}...${address.slice(-4)}`;
+        }
+
+        function copyToClipboard(elementId) {
+            const text = document.getElementById(elementId).getAttribute('data-full-address') || document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(text).then(() => alert('Copied to clipboard!')).catch(err => console.error('Failed to copy:', err));
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('connectWalletButton').addEventListener('click', connectWallet);
+            setupWalletListeners();
+            updateDeployButtonState();
+            document.getElementById('memeName').addEventListener('input', updateDeployButtonState);
+            document.getElementById('memeSymbol').addEventListener('input', updateDeployButtonState);
+        });
+
+        async function connectWallet() {
+            const status = document.getElementById('networkStatus');
+            const connectButton = document.getElementById('connectWalletButton');
+            const shibclubMessage = document.getElementById('shibclubMessage');
+            try {
+                if (!window.ethereum) throw new Error("No wallet detected. Please install MetaMask or another wallet.");
+                connectButton.disabled = true;
+                status.innerText = "Connecting...";
+                shibclubMessage.innerText = getRandomMessage('connectStart');
+                web3 = new Web3(window.ethereum);
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                if (!accounts.length) throw new Error("No accounts found. Please unlock your wallet.");
+                account = accounts[0];
+                await switchToShibarium();
+                shibClubContract = new web3.eth.Contract(shibClubAbi, shibClubAddress);
+                const chainId = await web3.eth.getChainId();
+                if (Number(chainId) !== 109) throw new Error("Failed to switch to Shibarium.");
+                updateUIAfterConnect();
+                await updateUserInfo();
+                await updateTokenList();
+            } catch (error) {
+                console.error("Connection failed:", error);
+                status.innerText = "Failed: " + error.message;
+                shibclubMessage.innerText = getRandomMessage('connectFail');
+                resetUI();
+            } finally {
+                connectButton.disabled = false;
+            }
+        }
+
+        async function switchToShibarium() {
+            try {
+                const chainId = await web3.eth.getChainId();
+                if (Number(chainId) !== 109) {
+                    await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: "0x6d" }] }).catch(async (switchError) => {
+                        if (switchError.code === 4902) await window.ethereum.request({ method: 'wallet_addEthereumChain', params: [shibarium] });
+                        else throw switchError;
+                    });
+                }
+            } catch (error) {
+                throw new Error("Network switch failed: " + error.message);
+            }
+        }
+
+        function updateUIAfterConnect() {
+            document.getElementById('connectWalletButton').textContent = `Connected: ${account.slice(0, 6)}...${account.slice(-4)}`;
+            document.getElementById('networkStatus').innerText = "Connected to Shibarium";
+            document.getElementById('shibclubMessage').innerText = getRandomMessage('connectSuccess');
+            updateDeployButtonState();
+        }
+
+        function resetUI() {
+            document.getElementById('connectWalletButton').textContent = "Connect Wallet";
+            document.getElementById('networkStatus').innerText = "Click to connect...";
+            document.getElementById('deployMemeButton').disabled = true;
+            document.getElementById('addLiquidityButton').disabled = true;
+            document.getElementById('updateMetadataButton').disabled = true;
+            document.getElementById('memeCoinAddress').textContent = 'Not deployed';
+            document.getElementById('pairAddress').textContent = 'Not created';
+            document.getElementById('liquidityStatus').textContent = 'Not added';
+            document.getElementById('copyMemeCoinButton').disabled = true;
+            document.getElementById('copyPairButton').disabled = true;
+            document.getElementById('tokenListContent').innerHTML = '';
+        }
+
+        function setupWalletListeners() {
+            if (!window.ethereum) return;
+            window.ethereum.on('accountsChanged', async (newAccounts) => {
+                if (newAccounts.length) {
+                    account = newAccounts[0];
+                    if (web3) {
+                        await switchToShibarium();
+                        shibClubContract = new web3.eth.Contract(shibClubAbi, shibClubAddress);
+                        updateUIAfterConnect();
+                        await updateUserInfo();
+                        await updateTokenList();
+                    } else {
+                        await connectWallet();
+                    }
+                } else {
+                    web3 = null;
+                    account = null;
+                    shibClubContract = null;
+                    resetUI();
+                    document.getElementById('shibclubMessage').innerText = getRandomMessage('connectFail');
+                }
+            });
+            window.ethereum.on('chainChanged', async (chainId) => {
+                if (parseInt(chainId, 16) !== 109) {
+                    web3 = null;
+                    account = null;
+                    shibClubContract = null;
+                    resetUI();
+                    document.getElementById('networkStatus').innerText = "Wrong network. Reconnect to Shibarium.";
+                    document.getElementById('shibclubMessage').innerText = "Ruff! Wrong chain, Shiba! Switch to Shibarium!";
+                } else if (account) {
+                    await connectWallet();
+                }
+            });
+        }
+
+        function updateDeployButtonState() {
+            const memeName = document.getElementById('memeName').value.trim();
+            const memeSymbol = document.getElementById('memeSymbol').value.trim();
+            document.getElementById('deployMemeButton').disabled = !web3 || !account || !memeName || !memeSymbol;
+            document.getElementById('updateMetadataButton').disabled = !web3 || !account || !selectedMemeCoin;
+        }
+
+        async function updateUserInfo() {
+            if (!web3 || !account || !shibClubContract) {
+                resetUI();
+                return;
+            }
+            try {
+                const userInfo = await shibClubContract.methods.getUserInfo(account).call();
+                const latestToken = userInfo.memeCoins.length > 0 ? userInfo.memeCoins[userInfo.memeCoins.length - 1] : '0x0000000000000000000000000000000000000000';
+                selectedMemeCoin = latestToken !== '0x0000000000000000000000000000000000000000' ? latestToken : null;
+                document.getElementById('memeCoinAddress').textContent = latestToken === '0x0000000000000000000000000000000000000000' ? 'Not deployed' : shortenAddress(latestToken);
+                document.getElementById('memeCoinAddress').setAttribute('data-full-address', latestToken);
+                document.getElementById('copyMemeCoinButton').disabled = latestToken === '0x0000000000000000000000000000000000000000';
+                const pair = userInfo.pairs.length > 0 ? userInfo.pairs[userInfo.pairs.length - 1] : '0x0000000000000000000000000000000000000000';
+                document.getElementById('pairAddress').textContent = pair === '0x0000000000000000000000000000000000000000' ? 'Not created' : shortenAddress(pair);
+                document.getElementById('pairAddress').setAttribute('data-full-address', pair);
+                document.getElementById('copyPairButton').disabled = pair === '0x0000000000000000000000000000000000000000';
+                const liquidity = userInfo.liquidities.length > 0 ? userInfo.liquidities[userInfo.liquidities.length - 1] : 0;
+                document.getElementById('liquidityStatus').textContent = liquidity > 0 ? 'Added' : 'Not added';
+                document.getElementById('addLiquidityButton').disabled = !selectedMemeCoin || liquidity > 0;
+                document.getElementById('updateMetadataButton').disabled = !selectedMemeCoin;
+            } catch (error) {
+                console.error("Error fetching user info:", error);
+                document.getElementById('networkStatus').innerText = "Error fetching user info: " + error.message;
+            }
+        }
+
+        async function updateTokenList() {
+            if (!web3 || !account || !shibClubContract) {
+                document.getElementById('tokenListContent').innerHTML = '';
+                return;
+            }
+            try {
+                const tokens = await shibClubContract.methods.getLatestTokensByCreator(account).call();
+                const tokenListContent = document.getElementById('tokenListContent');
+                tokenListContent.innerHTML = '';
+                if (tokens.length === 0) {
+                    tokenListContent.innerHTML = '<p>No meme coins deployed yet.</p>';
+                    return;
+                }
+                for (const token of tokens) {
+                    const tokenContract = new web3.eth.Contract([
+                        {
+                            "constant": true,
+                            "inputs": [],
+                            "name": "name",
+                            "outputs": [{"name": "", "type": "string"}],
+                            "stateMutability": "view",
+                            "type": "function"
+                        },
+                        {
+                            "constant": true,
+                            "inputs": [],
+                            "name": "symbol",
+                            "outputs": [{"name": "", "type": "string"}],
+                            "stateMutability": "view",
+                            "type": "function"
+                        }
+                    ], token);
+                    const name = await tokenContract.methods.name().call();
+                    const symbol = await tokenContract.methods.symbol().call();
+                    const tokenItem = document.createElement('div');
+                    tokenItem.className = 'token-item';
+                    tokenItem.innerHTML = `
+                        <span>${name} (${symbol}) - ${shortenAddress(token)}</span>
+                        <button class="copy-button" onclick="navigator.clipboard.writeText('${token}').then(() => alert('Copied to clipboard!'))">Copy</button>
+                        <button class="copy-button" onclick="selectMemeCoin('${token}')">Select</button>
+                    `;
+                    tokenListContent.appendChild(tokenItem);
+                }
+            } catch (error) {
+                console.error("Error fetching token list:", error);
+                document.getElementById('networkStatus').innerText = "Error fetching token list: " + error.message;
+            }
+        }
+
+        async function selectMemeCoin(tokenAddress) {
+            selectedMemeCoin = tokenAddress;
+            await updateUserInfo();
+            document.getElementById('shibclubMessage').innerText = `Selected meme coin: ${shortenAddress(tokenAddress)}`;
+            try {
+                const metadata = await shibClubContract.methods.getMemeCoinMetadata(tokenAddress).call();
+                document.getElementById('imageUrl').value = metadata.imageUrl;
+                document.getElementById('description').value = metadata.description;
+                document.getElementById('websiteUrl').value = metadata.websiteUrl;
+                document.getElementById('twitterUrl').value = metadata.twitterUrl;
+                document.getElementById('telegramUrl').value = metadata.telegramUrl;
+            } catch (error) {
+                console.error("Error fetching metadata:", error);
+                document.getElementById('networkStatus').innerText = "Error fetching metadata: " + error.message;
+            }
+        }
+
+        async function deployMemeCoin() {
+            if (!web3 || !account || !shibClubContract) {
+                document.getElementById('networkStatus').innerText = "Please connect wallet.";
+                return;
+            }
+            const status = document.getElementById('networkStatus');
+            const shibclubMessage = document.getElementById('shibclubMessage');
+            const deployButton = document.getElementById('deployMemeButton');
+            const name = document.getElementById('memeName').value.trim();
+            const symbol = document.getElementById('memeSymbol').value.trim();
+            const imageUrl = document.getElementById('imageUrl').value.trim();
+            const description = document.getElementById('description').value.trim();
+            const websiteUrl = document.getElementById('websiteUrl').value.trim();
+            const twitterUrl = document.getElementById('twitterUrl').value.trim();
+            const telegramUrl = document.getElementById('telegramUrl').value.trim();
+            if (!name || !symbol) {
+                status.innerText = "Please enter both name and symbol.";
+                shibclubMessage.innerText = "Ruff! Fill in name and symbol, Shiba!";
+                return;
+            }
+            try {
+                deployButton.disabled = true;
+                status.innerText = "Deploying...";
+                shibclubMessage.innerText = getRandomMessage('deployStart');
+                await shibClubContract.methods.deployMemeCoin(name, symbol, imageUrl, description, websiteUrl, twitterUrl, telegramUrl).send({ from: account });
+                status.innerText = "Meme coin deployed!";
+                shibclubMessage.innerText = getRandomMessage('deploySuccess', symbol);
+                await updateUserInfo();
+                await updateTokenList();
+            } catch (error) {
+                console.error("Deploy failed:", error);
+                status.innerText = "Deploy failed: " + (error.message || "Unknown error");
+                shibclubMessage.innerText = getRandomMessage('deployFail');
+                deployButton.disabled = false;
+            }
+        }
+
+        async function addLiquidity() {
+            if (!web3 || !account || !shibClubContract || !selectedMemeCoin) {
+                document.getElementById('networkStatus').innerText = "Please connect wallet and select a meme coin.";
+                return;
+            }
+            const status = document.getElementById('networkStatus');
+            const shibclubMessage = document.getElementById('shibclubMessage');
+            const addLiquidityButton = document.getElementById('addLiquidityButton');
+            try {
+                addLiquidityButton.disabled = true;
+                status.innerText = "Adding liquidity...";
+                shibclubMessage.innerText = getRandomMessage('liquidityStart');
+                await shibClubContract.methods.addLiquidity(selectedMemeCoin).send({ from: account });
+                status.innerText = "Liquidity added!";
+                shibclubMessage.innerText = getRandomMessage('liquiditySuccess');
+                await updateUserInfo();
+            } catch (error) {
+                console.error("Add liquidity failed:", error);
+                status.innerText = "Add liquidity failed: " + (error.message || "Unknown error");
+                shibclubMessage.innerText = getRandomMessage('liquidityFail');
+                addLiquidityButton.disabled = false;
+            }
+        }
+
+        async function updateMetadata() {
+            if (!web3 || !account || !shibClubContract || !selectedMemeCoin) {
+                document.getElementById('networkStatus').innerText = "Please connect wallet and select a meme coin.";
+                return;
+            }
+            const status = document.getElementById('networkStatus');
+            const shibclubMessage = document.getElementById('shibclubMessage');
+            const updateMetadataButton = document.getElementById('updateMetadataButton');
+            const imageUrl = document.getElementById('imageUrl').value.trim();
+            const description = document.getElementById('description').value.trim();
+            const websiteUrl = document.getElementById('websiteUrl').value.trim();
+            const twitterUrl = document.getElementById('twitterUrl').value.trim();
+            const telegramUrl = document.getElementById('telegramUrl').value.trim();
+            try {
+                updateMetadataButton.disabled = true;
+                status.innerText = "Updating metadata...";
+                shibclubMessage.innerText = getRandomMessage('metadataStart');
+                await shibClubContract.methods.setMemeCoinMetadata(selectedMemeCoin, imageUrl, description, websiteUrl, twitterUrl, telegramUrl).send({ from: account });
+                status.innerText = "Metadata updated!";
+                shibclubMessage.innerText = getRandomMessage('metadataSuccess');
+            } catch (error) {
+                console.error("Update metadata failed:", error);
+                status.innerText = "Update metadata failed: " + (error.message || "Unknown error");
+                shibclubMessage.innerText = getRandomMessage('metadataFail');
+                updateMetadataButton.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
