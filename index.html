@@ -302,15 +302,19 @@
             </div>
             <div class="action-row">
                 <span>Deploy Meme Coin</span>
+                <button id="depositWBONE" onclick="depositWBONE()" disabled>Deposit 1000 WBONE</button>
+            </div>
+            <div class="action-row">
+                <span>Deploy Meme Coin</span>
                 <button id="deployMemeButton" onclick="deployMemeCoin()" disabled>Deploy</button>
+            </div>
+            <div class="input-group">
+                <label for="liquidityAddress">Meme Coin Address for Liquidity *</label>
+                <input type="text" id="liquidityAddress" placeholder="Enter meme coin address" required>
             </div>
             <div class="action-row">
                 <span>Add Liquidity</span>
                 <button id="addLiquidityButton" onclick="addLiquidity()" disabled>Add</button>
-            </div>
-            <div class="action-row">
-                <span>Update Metadata</span>
-                <button id="updateMetadataButton" onclick="updateMetadata()" disabled>Update</button>
             </div>
         </div>
         <div class="info-box" id="userInfoBox">
@@ -359,7 +363,7 @@
             </a>
         </div>
         <div class="hint">
-            Note: Deploy your meme coin with 1,000 WBONE and 1,000,000,000,000,000 tokens!
+            Note: Deploy your meme coin with 1,000 WBONE and 1,000,000,000,000,000 tokens! Enter a valid meme coin address to add liquidity.
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
@@ -372,6 +376,7 @@
             blockExplorerUrls: ['https://shibariumscan.io']
         };
         const shibClubAddress = "0xD200958c47daa78498Ca8577f88F6CBaD1A87679";
+        const wboneAddress = "0x8481e2a755bd951F7335E2133D4beF4F0739Ec64";
         const shibClubAbi = [
             {
                 "inputs": [],
@@ -595,6 +600,35 @@
                 "inputs": [
                     {
                         "internalType": "address",
+                        "name": "user",
+                        "type": "address"
+                    }
+                ],
+                "name": "getUserInfo",
+                "outputs": [
+                    {
+                        "internalType": "address[]",
+                        "name": "memeCoins",
+                        "type": "address[]"
+                    },
+                    {
+                        "internalType": "address[]",
+                        "name": "pairs",
+                        "type": "address[]"
+                    },
+                    {
+                        "internalType": "uint256[]",
+                        "name": "liquidities",
+                        "type": "uint256[]"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
                         "name": "creator",
                         "type": "address"
                     }
@@ -618,35 +652,6 @@
                         "internalType": "address[]",
                         "name": "tokens",
                         "type": "address[]"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "user",
-                        "type": "address"
-                    }
-                ],
-                "name": "getUserInfo",
-                "outputs": [
-                    {
-                        "internalType": "address[]",
-                        "name": "memeCoins",
-                        "type": "address[]"
-                    },
-                    {
-                        "internalType": "address[]",
-                        "name": "pairs",
-                        "type": "address[]"
-                    },
-                    {
-                        "internalType": "uint256[]",
-                        "name": "liquidities",
-                        "type": "uint256[]"
                     }
                 ],
                 "stateMutability": "view",
@@ -710,21 +715,63 @@
                 "type": "function"
             }
         ];
-        let web3, account, shibClubContract, selectedMemeCoin;
+        const wboneAbi = [
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "name": "spender",
+                        "type": "address"
+                    },
+                    {
+                        "name": "value",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "approve",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "bool"
+                    }
+                ],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [
+                    {
+                        "name": "account",
+                        "type": "address"
+                    }
+                ],
+                "name": "balanceOf",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            }
+        ];
+        let web3, account, shibClubContract, wboneContract;
 
         const shibClubMessages = {
             connectStart: ["Yo, ShibClubber! Connecting to Shibarium—let's roll!","Hey, Shiba fan! Linking your wallet now!","Ready to vibe? Connecting to Shibarium!","Let's bark! Connecting your wallet, fam!"],
-            IDirect connectSuccess: ["Woof! Connected to Shibarium—let's make meme coins!","Awesome, you're in! Time to shine, Shiba style!","Connected, fam! Ready to deploy some epic tokens!","Shib-tastic! Wallet linked, let's create!"],
+            connectSuccess: ["Woof! Connected to Shibarium—let's make meme coins!","Awesome, you're in! Time to shine, Shiba style!","Connected, fam! Ready to deploy some epic tokens!","Shib-tastic! Wallet linked, let's create!"],
             connectFail: ["Ruff! Wallet didn't connect—try again, fam!","Oops, Shiba slipped! Retry connecting, please!","No vibe yet! Let's reconnect to Shibarium!","Bark! Wallet's shy—give it another shot!"],
+            depositStart: ["Depositing WBONE—let's fuel the Shiba rocket!","Sending WBONE to the contract, fam!","Getting those WBONE ready—woof woof!","Powering up with WBONE, ShibClubber!"],
+            depositSuccess: ["WBONE deposited—ready to launch, fam!","Woof! WBONE sent, let's create some coins!","Deposit done—Shiba style! Time to deploy!","Awesome! WBONE's in, let's make waves!"],
+            depositFail: ["Ruff! Deposit failed—try again, Shiba!","Oops, WBONE didn't go through—retry, fam!","No deposit yet! Let's try again!","Yikes, deposit slipped—give it another shot!"],
             deployStart: ["Deploying your meme coin—let's make it bark!","Creating your token, fam—hold tight!","Shiba's crafting your coin—stay hyped!","Launching your meme coin—woof woof!"],
             deploySuccess: (symbol) => [`${symbol} is live—ShibClub's howling!`,`${symbol} deployed, fam! Let's make waves!`,`${symbol} is born—time to shine!`,`Woof! ${symbol} is here, Shiba style!`],
             deployFail: ["Ruff! Deployment failed—try again, fam!","Oops, token didn't launch—retry, Shiba!","No bark! Let's try deploying again!","Yikes, coin slipped—give it another go!"],
             liquidityStart: ["Adding liquidity—let's make it flow, Shiba!","Pooling tokens now—hold the leash!","Shiba's setting up liquidity—stay hyped!","Making waves with liquidity, fam!"],
             liquiditySuccess: ["Liquidity added—ShibClub's ready to trade!","Pool's live, fam! You're a Shiba star!","Woof! Liquidity set—let's swap!","Shib-tastic! Liquidity added, fam!"],
-            liquidityFail: ["Ruff! Liquidity failed—try again, Shiba!","Oops, pool didn't set—retry, fam!","No flow yet! Let's add liquidity again!","Yikes, liquidity slipped—give it another shot!"],
-            metadataStart: ["Updating metadata—let's make it pop, Shiba!","Setting token details—hold tight, fam!","Shiba's tweaking metadata—stay hyped!","Making your coin shine with metadata!"],
-            metadataSuccess: ["Metadata updated—your coin's looking fresh!","Shib-tastic! Metadata set, fam!","Woof! Token details updated—let's roll!","Metadata's live—Shiba style!"],
-            metadataFail: ["Ruff! Metadata update failed—try again!","Oops, details didn't stick—retry, fam!","No shine yet! Let's update metadata again!","Yikes, metadata slipped—give it another go!"]
+            liquidityFail: ["Ruff! Liquidity failed—try again, Shiba!","Oops, pool didn't set—retry, fam!","No flow yet! Let's add liquidity again!","Yikes, liquidity slipped—give it another shot!"]
         };
 
         function getRandomMessage(type, param1) {
@@ -749,9 +796,10 @@
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('connectWalletButton').addEventListener('click', connectWallet);
             setupWalletListeners();
-            updateDeployButtonState();
-            document.getElementById('memeName').addEventListener('input', updateDeployButtonState);
-            document.getElementById('memeSymbol').addEventListener('input', updateDeployButtonState);
+            updateButtonStates();
+            document.getElementById('memeName').addEventListener('input', updateButtonStates);
+            document.getElementById('memeSymbol').addEventListener('input', updateButtonStates);
+            document.getElementById('liquidityAddress').addEventListener('input', updateButtonStates);
         });
 
         async function connectWallet() {
@@ -769,14 +817,15 @@
                 account = accounts[0];
                 await switchToShibarium();
                 shibClubContract = new web3.eth.Contract(shibClubAbi, shibClubAddress);
+                wboneContract = new web3.eth.Contract(wboneAbi, wboneAddress);
                 const chainId = await web3.eth.getChainId();
-                if (Number(chainId) !== 109) throw new Error("Failed to switch to Shibarium.");
+                if (Number(chainId) !== 109) throw new Error("Failed to switch to Shibarium. Please switch to Shibarium (chainId: 109).");
                 updateUIAfterConnect();
                 await updateUserInfo();
                 await updateTokenList();
             } catch (error) {
                 console.error("Connection failed:", error);
-                status.innerText = "Failed: " + error.message;
+                status.innerText = "Failed: " + (error.message || "Unknown error. Ensure MetaMask is installed and unlocked.");
                 shibclubMessage.innerText = getRandomMessage('connectFail');
                 resetUI();
             } finally {
@@ -788,13 +837,24 @@
             try {
                 const chainId = await web3.eth.getChainId();
                 if (Number(chainId) !== 109) {
-                    await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: "0x6d" }] }).catch(async (switchError) => {
-                        if (switchError.code === 4902) await window.ethereum.request({ method: 'wallet_addEthereumChain', params: [shibarium] });
-                        else throw switchError;
-                    });
+                    try {
+                        await window.ethereum.request({
+                            method: 'wallet_switchEthereumChain',
+                            params: [{ chainId: "0x6d" }]
+                        });
+                    } catch (switchError) {
+                        if (switchError.code === 4902) {
+                            await window.ethereum.request({
+                                method: 'wallet_addEthereumChain',
+                                params: [shibarium]
+                            });
+                        } else {
+                            throw switchError;
+                        }
+                    }
                 }
             } catch (error) {
-                throw new Error("Network switch failed: " + error.message);
+                throw new Error("Network switch failed: " + (error.message || "Unable to switch to Shibarium."));
             }
         }
 
@@ -802,15 +862,15 @@
             document.getElementById('connectWalletButton').textContent = `Connected: ${account.slice(0, 6)}...${account.slice(-4)}`;
             document.getElementById('networkStatus').innerText = "Connected to Shibarium";
             document.getElementById('shibclubMessage').innerText = getRandomMessage('connectSuccess');
-            updateDeployButtonState();
+            updateButtonStates();
         }
 
         function resetUI() {
             document.getElementById('connectWalletButton').textContent = "Connect Wallet";
             document.getElementById('networkStatus').innerText = "Click to connect...";
             document.getElementById('deployMemeButton').disabled = true;
+            document.getElementById('depositWBONE').disabled = true;
             document.getElementById('addLiquidityButton').disabled = true;
-            document.getElementById('updateMetadataButton').disabled = true;
             document.getElementById('memeCoinAddress').textContent = 'Not deployed';
             document.getElementById('pairAddress').textContent = 'Not created';
             document.getElementById('liquidityStatus').textContent = 'Not added';
@@ -827,6 +887,7 @@
                     if (web3) {
                         await switchToShibarium();
                         shibClubContract = new web3.eth.Contract(shibClubAbi, shibClubAddress);
+                        wboneContract = new web3.eth.Contract(wboneAbi, wboneAddress);
                         updateUIAfterConnect();
                         await updateUserInfo();
                         await updateTokenList();
@@ -837,6 +898,7 @@
                     web3 = null;
                     account = null;
                     shibClubContract = null;
+                    wboneContract = null;
                     resetUI();
                     document.getElementById('shibclubMessage').innerText = getRandomMessage('connectFail');
                 }
@@ -846,8 +908,9 @@
                     web3 = null;
                     account = null;
                     shibClubContract = null;
+                    wboneContract = null;
                     resetUI();
-                    document.getElementById('networkStatus').innerText = "Wrong network. Reconnect to Shibarium.";
+                    document.getElementById('networkStatus').innerText = "Wrong network. Please reconnect to Shibarium.";
                     document.getElementById('shibclubMessage').innerText = "Ruff! Wrong chain, Shiba! Switch to Shibarium!";
                 } else if (account) {
                     await connectWallet();
@@ -855,11 +918,41 @@
             });
         }
 
-        function updateDeployButtonState() {
+        async function updateButtonStates() {
             const memeName = document.getElementById('memeName').value.trim();
             const memeSymbol = document.getElementById('memeSymbol').value.trim();
+            const liquidityAddress = document.getElementById('liquidityAddress').value.trim();
             document.getElementById('deployMemeButton').disabled = !web3 || !account || !memeName || !memeSymbol;
-            document.getElementById('updateMetadataButton').disabled = !web3 || !account || !selectedMemeCoin;
+            document.getElementById('depositWBONE').disabled = !web3 || !account;
+            document.getElementById('addLiquidityButton').disabled = !web3 || !account || !liquidityAddress || !web3.utils.isAddress(liquidityAddress);
+        }
+
+        async function depositWBONE() {
+            if (!web3 || !account || !shibClubContract || !wboneContract) {
+                document.getElementById('networkStatus').innerText = "Please connect wallet.";
+                return;
+            }
+            const status = document.getElementById('networkStatus');
+            const shibclubMessage = document.getElementById('shibclubMessage');
+            const depositButton = document.getElementById('depositWBONE');
+            const wboneAmount = web3.utils.toWei("1000", "ether"); // 1000 WBONE
+            try {
+                depositButton.disabled = true;
+                status.innerText = "Approving WBONE...";
+                shibclubMessage.innerText = getRandomMessage('depositStart');
+                // Step 1: Approve WBONE transfer
+                await wboneContract.methods.approve(shibClubAddress, wboneAmount).send({ from: account });
+                status.innerText = "Depositing WBONE...";
+                // Step 2: Deposit WBONE to ShibClub contract
+                await shibClubContract.methods.depositWBONE(wboneAmount).send({ from: account });
+                status.innerText = "WBONE deposited!";
+                shibclubMessage.innerText = getRandomMessage('depositSuccess');
+            } catch (error) {
+                console.error("Deposit failed:", error);
+                status.innerText = "Deposit failed: " + (error.message || "Unknown error");
+                shibclubMessage.innerText = getRandomMessage('depositFail');
+                depositButton.disabled = false;
+            }
         }
 
         async function updateUserInfo() {
@@ -870,7 +963,6 @@
             try {
                 const userInfo = await shibClubContract.methods.getUserInfo(account).call();
                 const latestToken = userInfo.memeCoins.length > 0 ? userInfo.memeCoins[userInfo.memeCoins.length - 1] : '0x0000000000000000000000000000000000000000';
-                selectedMemeCoin = latestToken !== '0x0000000000000000000000000000000000000000' ? latestToken : null;
                 document.getElementById('memeCoinAddress').textContent = latestToken === '0x0000000000000000000000000000000000000000' ? 'Not deployed' : shortenAddress(latestToken);
                 document.getElementById('memeCoinAddress').setAttribute('data-full-address', latestToken);
                 document.getElementById('copyMemeCoinButton').disabled = latestToken === '0x0000000000000000000000000000000000000000';
@@ -880,11 +972,9 @@
                 document.getElementById('copyPairButton').disabled = pair === '0x0000000000000000000000000000000000000000';
                 const liquidity = userInfo.liquidities.length > 0 ? userInfo.liquidities[userInfo.liquidities.length - 1] : 0;
                 document.getElementById('liquidityStatus').textContent = liquidity > 0 ? 'Added' : 'Not added';
-                document.getElementById('addLiquidityButton').disabled = !selectedMemeCoin || liquidity > 0;
-                document.getElementById('updateMetadataButton').disabled = !selectedMemeCoin;
             } catch (error) {
                 console.error("Error fetching user info:", error);
-                document.getElementById('networkStatus').innerText = "Error fetching user info: " + error.message;
+                document.getElementById('networkStatus').innerText = "Error fetching user info: " + (error.message || "Unknown error");
             }
         }
 
@@ -927,30 +1017,12 @@
                     tokenItem.innerHTML = `
                         <span>${name} (${symbol}) - ${shortenAddress(token)}</span>
                         <button class="copy-button" onclick="navigator.clipboard.writeText('${token}').then(() => alert('Copied to clipboard!'))">Copy</button>
-                        <button class="copy-button" onclick="selectMemeCoin('${token}')">Select</button>
                     `;
                     tokenListContent.appendChild(tokenItem);
                 }
             } catch (error) {
                 console.error("Error fetching token list:", error);
-                document.getElementById('networkStatus').innerText = "Error fetching token list: " + error.message;
-            }
-        }
-
-        async function selectMemeCoin(tokenAddress) {
-            selectedMemeCoin = tokenAddress;
-            await updateUserInfo();
-            document.getElementById('shibclubMessage').innerText = `Selected meme coin: ${shortenAddress(tokenAddress)}`;
-            try {
-                const metadata = await shibClubContract.methods.getMemeCoinMetadata(tokenAddress).call();
-                document.getElementById('imageUrl').value = metadata.imageUrl;
-                document.getElementById('description').value = metadata.description;
-                document.getElementById('websiteUrl').value = metadata.websiteUrl;
-                document.getElementById('twitterUrl').value = metadata.twitterUrl;
-                document.getElementById('telegramUrl').value = metadata.telegramUrl;
-            } catch (error) {
-                console.error("Error fetching metadata:", error);
-                document.getElementById('networkStatus').innerText = "Error fetching metadata: " + error.message;
+                document.getElementById('networkStatus').innerText = "Error fetching token list: " + (error.message || "Unknown error");
             }
         }
 
@@ -992,18 +1064,43 @@
         }
 
         async function addLiquidity() {
-            if (!web3 || !account || !shibClubContract || !selectedMemeCoin) {
-                document.getElementById('networkStatus').innerText = "Please connect wallet and select a meme coin.";
+            if (!web3 || !account || !shibClubContract) {
+                document.getElementById('networkStatus').innerText = "Please connect wallet.";
                 return;
             }
             const status = document.getElementById('networkStatus');
             const shibclubMessage = document.getElementById('shibclubMessage');
             const addLiquidityButton = document.getElementById('addLiquidityButton');
+            const liquidityAddress = document.getElementById('liquidityAddress').value.trim();
+            if (!web3.utils.isAddress(liquidityAddress)) {
+                status.innerText = "Please enter a valid meme coin address.";
+                shibclubMessage.innerText = "Ruff! Invalid address, Shiba!";
+                return;
+            }
             try {
+                const isValidMemeCoin = await shibClubContract.methods.isMemeCoin(liquidityAddress).call();
+                if (!isValidMemeCoin) {
+                    status.innerText = "Invalid meme coin address.";
+                    shibclubMessage.innerText = "Ruff! Not a valid meme coin, Shiba!";
+                    return;
+                }
+                const userInfo = await shibClubContract.methods.getUserInfo(account).call();
+                let hasLiquidity = false;
+                for (let i = 0; i < userInfo.memeCoins.length; i++) {
+                    if (userInfo.memeCoins[i] === liquidityAddress && userInfo.liquidities[i] > 0) {
+                        hasLiquidity = true;
+                        break;
+                    }
+                }
+                if (hasLiquidity) {
+                    status.innerText = "Liquidity already added for this meme coin.";
+                    shibclubMessage.innerText = "Ruff! Liquidity already added, Shiba!";
+                    return;
+                }
                 addLiquidityButton.disabled = true;
                 status.innerText = "Adding liquidity...";
                 shibclubMessage.innerText = getRandomMessage('liquidityStart');
-                await shibClubContract.methods.addLiquidity(selectedMemeCoin).send({ from: account });
+                await shibClubContract.methods.addLiquidity(liquidityAddress).send({ from: account });
                 status.innerText = "Liquidity added!";
                 shibclubMessage.innerText = getRandomMessage('liquiditySuccess');
                 await updateUserInfo();
@@ -1012,34 +1109,6 @@
                 status.innerText = "Add liquidity failed: " + (error.message || "Unknown error");
                 shibclubMessage.innerText = getRandomMessage('liquidityFail');
                 addLiquidityButton.disabled = false;
-            }
-        }
-
-        async function updateMetadata() {
-            if (!web3 || !account || !shibClubContract || !selectedMemeCoin) {
-                document.getElementById('networkStatus').innerText = "Please connect wallet and select a meme coin.";
-                return;
-            }
-            const status = document.getElementById('networkStatus');
-            const shibclubMessage = document.getElementById('shibclubMessage');
-            const updateMetadataButton = document.getElementById('updateMetadataButton');
-            const imageUrl = document.getElementById('imageUrl').value.trim();
-            const description = document.getElementById('description').value.trim();
-            const websiteUrl = document.getElementById('websiteUrl').value.trim();
-            const twitterUrl = document.getElementById('twitterUrl').value.trim();
-            const telegramUrl = document.getElementById('telegramUrl').value.trim();
-            try {
-                updateMetadataButton.disabled = true;
-                status.innerText = "Updating metadata...";
-                shibclubMessage.innerText = getRandomMessage('metadataStart');
-                await shibClubContract.methods.setMemeCoinMetadata(selectedMemeCoin, imageUrl, description, websiteUrl, twitterUrl, telegramUrl).send({ from: account });
-                status.innerText = "Metadata updated!";
-                shibclubMessage.innerText = getRandomMessage('metadataSuccess');
-            } catch (error) {
-                console.error("Update metadata failed:", error);
-                status.innerText = "Update metadata failed: " + (error.message || "Unknown error");
-                shibclubMessage.innerText = getRandomMessage('metadataFail');
-                updateMetadataButton.disabled = false;
             }
         }
     </script>
