@@ -324,7 +324,7 @@
             color: #4A2C0B;
             text-align: center;
             margin-top: auto;
-            padding: 8px 0;
+            padding: 8px;
         }
         .footer a {
             color: #FF8C00;
@@ -367,6 +367,7 @@
         const shibClubAddress = "0xD200958c47daa78498Ca8577f88F6CBaD1A87679";
         const routerAddress = "0x4Ea7ac197eF268445dA3104Eab9418d5380c2C11";
         const factoryAddress = "0x306cae450bdd4A2805c1455ABa59c8988E1C8Cf3";
+        const wboneAddress = "0x8481e2a755bd951F7335E2133D4beF4F0739Ec64";
         const boneLogo = "https://www.woofswap.finance/image/tokens/BONE.png";
         const defaultImage = "https://pbs.twimg.com/media/GrjooHUboAMteD-?format=jpg";
         const shibarium = {
@@ -483,7 +484,7 @@
                 await updateBalances();
                 await loadLatestTokens();
             } catch (error) {
-                status.innerText = `Failed to connect: ${error.message}`;
+                status.innerText = `Connection failed: ${error.message}`;
                 resetUI();
             } finally {
                 document.getElementById("globalSpinner").style.display = "none";
@@ -714,9 +715,9 @@
                     if (isBuy) {
                         balanceRow.innerHTML = `<span>BONE</span><span>Balance: ${parseFloat(web3.utils.fromWei(boneBalance, "ether")).toFixed(2)}</span>`;
                         tokenInfo.innerHTML = `<img src="${boneLogo}" alt="BONE"><span>BONE</span>`;
-                        tradeButton.innerText = "Buy";
+                        tradeButton.innerHTML = "Buy <span class='spinner'></span>";
                         percentageButtons.forEach(btn => {
-                            btn.onclick = () => setAmount(tokenAddress, parseFloat(btn.dataset.percentage), "buy", card);
+                            btn.onclick = () => setAmount(btn.dataset.percentage, "buy");
                         });
                     } else {
                         const tokenContract = new web3.eth.Contract(memeCoinAbi, tokenAddress);
@@ -724,9 +725,9 @@
                         card.dataset.tokenBalance = tokenBalance;
                         balanceRow.innerHTML = `<span>${card.dataset.symbol}</span><span>Balance: ${parseFloat(web3.utils.fromWei(tokenBalance, "ether")).toFixed(2)}</span>`;
                         tokenInfo.innerHTML = `<img src="${card.querySelector(".post-image").src}" alt="${card.dataset.symbol}"><span>${card.dataset.symbol}</span>`;
-                        tradeButton.innerText = "Sell";
+                        tradeButton.innerHTML = "Sell <span class='spinner'></span>";
                         percentageButtons.forEach(btn => {
-                            btn.onclick = () => setAmount(tokenAddress, parseFloat(btn.dataset.percentage), "sell", card);
+                            btn.onclick = () => setAmount(btn.dataset.percentage, "sell");
                         });
                     }
                     input.value = "";
@@ -736,62 +737,66 @@
             card.querySelector(".trade-button").addEventListener("click", async () => {
                 const isBuy = card.querySelector(".swap-toggle .buy.active");
                 if (isBuy) {
-                    await buyToken(tokenAddress, card.querySelector(".trade-button"), card);
+                    await buyToken(card);
                 } else {
-                    await sellToken(tokenAddress, card.querySelector(".trade-button"), card);
+                    await sellToken(card);
                 }
             });
         }
 
-        async function setAmount(tokenAddress, percentage, type, card) {
+        async function setAmount(percentage, type) {
             if (!web3 || !account) {
                 document.getElementById("searchStatus").innerText = "Please connect wallet.";
                 return;
             }
-            const input = card.querySelector(".amount-input");
+            const input = document.querySelector(".amount-input");
             let amount;
             if (type === "buy") {
                 let balance = parseFloat(web3.utils.fromWei(boneBalance, "ether"));
                 amount = percentage === 100 ? Math.max(0, balance - 0.1) : balance * (percentage / 100);
             } else {
+                const card = document.querySelector(".post-card.active");
                 let balance = parseFloat(web3.utils.fromWei(card.dataset.tokenBalance, "ether"));
-                amount = percentage === 100 ? Math.max(0, balance - 1) : balance * (percentage / 100);
+                amount = percentage === 100 ? balance : balance * (percentage / 100);
             }
             input.value = amount.toFixed(2);
         }
 
-        async function buyToken(tokenAddress, button, card) {
+        async function buyToken(card) {
             const status = document.getElementById("searchStatus");
+            const button = card.querySelector(".trade-button");
+            const tokenAddress = card.dataset.tokenAddress;
             if (!web3 || !account) {
                 status.innerText = "Please connect wallet.";
                 return;
             }
             const amountIn = card.querySelector(".amount-input").value;
             if (!amountIn || amountIn <= 0) {
-                status.innerText = "Invalid amount.";
+                status.innerText = "Please enter a valid amount.";
                 return;
             }
             let amountInWei;
             try {
                 amountInWei = web3.utils.toBN(web3.utils.toWei(amountIn, "ether"));
             } catch (e) {
-                status.innerText = "Invalid amount.";
+                status.innerText = "Invalid amount entered.";
                 return;
             }
             if (web3.utils.toBN(boneBalance).lt(amountInWei)) {
-                status.innerText = "Insufficient BONE.";
+                status.innerText = "Insufficient BONE balance.";
                 return;
             }
             const deadline = Math.floor(Date.now() / 1000) + 60 * 20;
             try {
                 button.classList.add("loading");
                 button.disabled = true;
-                let bestOutput = web3.utils.toBN(0);
+                status.innerText = "Checking trading pair...";
+                let bestOutput = web3.utils.toBN("0");
                 let routes;
                 for (const stable of [true, false]) {
-                    const pairAddress = await factory.methods.getPair("0x0000000000000000000000000000000000000000", tokenAddress, stable).call();
+                    const pairAddress = await factory.methods.getPair(wboneAddress, tokenAddress, stable).call();
                     if (pairAddress !== "0x0000000000000000000000000000000000000000") {
-                        const tempRoutes = [{ from: "0x0000000000000000000000000000000000000000", to: tokenAddress, stable }];
+                        const tempRoutes = [{ from: wboneAddress, to: tokenAddress, stable }];
                         const amounts = await router.methods.getAmountsOut(amountInWei, tempRoutes).call();
                         const output = web3.utils.toBN(amounts[amounts.length - 1]);
                         if (output.gt(bestOutput)) {
@@ -800,16 +805,16 @@
                         }
                     }
                 }
-                if (!routes || bestOutput.eq(web3.utils.toBN(0))) {
-                    status.innerText = "No trading pair found.";
+                if (!routes || bestOutput.eq(web3.utils.toBN("0"))) {
+                    status.innerText = "No valid trading pair found.";
                     return;
                 }
-                const pairAddress = await factory.methods.getPair("0x0000000000000000000000000000000000000000", tokenAddress, routes[0].stable).call();
+                const pairAddress = await factory.methods.getPair(wboneAddress, tokenAddress, routes[0].stable).call();
                 const pairContract = new web3.eth.Contract(pairAbi, pairAddress);
                 const reserves = await pairContract.methods.getReserves().call();
                 const token0 = await pairContract.methods.token0().call();
-                const reserveFrom = token0 === "0x0000000000000000000000000000000000000000" ? reserves.reserve0 : reserves.reserve1;
-                const reserveTo = token0 === "0x0000000000000000000000000000000000000000" ? reserves.reserve1 : reserves.reserve0;
+                const reserveFrom = token0 === wboneAddress ? reserves.reserve0 : reserves.reserve1;
+                const reserveTo = token0 === wboneAddress ? reserves.reserve1 : reserves.reserve0;
                 const reserveFromBN = web3.utils.toBN(reserveFrom);
                 const reserveToBN = web3.utils.toBN(reserveTo);
                 const priceImpact = amountInWei.mul(web3.utils.toBN(100)).div(reserveFromBN.add(amountInWei));
@@ -832,30 +837,41 @@
                 ).send({ from: account, value: amountInWei });
                 status.innerText = "Buy successful!";
                 await updateBalances();
+                card.querySelector(".amount-input").value = "";
             } catch (error) {
-                status.innerText = error.code === 4001 ? "Transaction rejected." : `Buy failed: ${error.message}`;
+                let errorMessage = error.message || "Transaction failed.";
+                if (error.code === 4001) {
+                    errorMessage = "User rejected transaction.";
+                } else if (error.message.includes("INSUFFICIENT_OUTPUT_AMOUNT")) {
+                    errorMessage = "Slippage too high.";
+                } else if (error.message.includes("INSUFFICIENT_LIQUIDITY")) {
+                    errorMessage = "Insufficient liquidity.";
+                }
+                status.innerText = errorMessage;
             } finally {
                 button.classList.remove("loading");
                 button.disabled = false;
             }
         }
 
-        async function sellToken(tokenAddress, button, card) {
+        async function sellToken(card) {
             const status = document.getElementById("searchStatus");
+            const button = card.querySelector(".trade-button");
+            const tokenAddress = card.dataset.tokenAddress;
             if (!web3 || !account) {
                 status.innerText = "Please connect wallet.";
                 return;
             }
             const amountIn = card.querySelector(".amount-input").value;
             if (!amountIn || amountIn <= 0) {
-                status.innerText = "Invalid amount.";
+                status.innerText = "Please enter a valid amount.";
                 return;
             }
             let amountInWei;
             try {
                 amountInWei = web3.utils.toBN(web3.utils.toWei(amountIn, "ether"));
             } catch (e) {
-                status.innerText = "Invalid amount.";
+                status.innerText = "Invalid amount entered.";
                 return;
             }
             const tokenContract = new web3.eth.Contract(memeCoinAbi, tokenAddress);
@@ -868,25 +884,26 @@
             try {
                 button.classList.add("loading");
                 button.disabled = true;
-                let bestOutput = web3.utils.toBN(0);
+                status.innerText = "Checking trading pair...";
+                let bestOutput = web3.utils.toBN("0");
                 let routes;
                 for (const stable of [true, false]) {
-                    const pairAddress = await factory.methods.getPair(tokenAddress, "0x0000000000000000000000000000000000000000", stable).call();
+                    const pairAddress = await factory.methods.getPair(tokenAddress, wboneAddress, stable).call();
                     if (pairAddress !== "0x0000000000000000000000000000000000000000") {
-                        const tempRoutes = [{ from: tokenAddress, to: "0x0000000000000000000000000000000000000000", stable }];
-                        const amounts = await router.methods.getAmountsOut(amountInWei, tempRoutes).call();
-                        const output = web3.utils.toBN(amounts[amounts.length - 1]);
+                        const tempRoutes = [{ from: tokenAddress, to: wboneAddress, stable }];
+                        const amounts = await router.getAmountsOut(amountInWei, tempRoutes);
+                        const output = web3.utils.toBN(amounts[0][amounts[0].length - 1]);
                         if (output.gt(bestOutput)) {
                             bestOutput = output;
                             routes = tempRoutes;
                         }
                     }
                 }
-                if (!routes || bestOutput.eq(web3.utils.toBN(0))) {
-                    status.innerText = "No trading pair found.";
+                if (!routes || bestOutput.eq(web3.utils.toBN("0"))) {
+                    status.innerText = "No valid trading pair found.";
                     return;
                 }
-                const pairAddress = await factory.methods.getPair(tokenAddress, "0x0000000000000000000000000000000000000000", routes[0].stable).call();
+                const pairAddress = await factory.methods.getPair(tokenAddress, wboneAddress, routes[0].stable).call();
                 const pairContract = new web3.eth.Contract(pairAbi, pairAddress);
                 const reserves = await pairContract.methods.getReserves().call();
                 const token0 = await pairContract.methods.token0().call();
@@ -911,7 +928,7 @@
                     await tokenContract.methods.approve(routerAddress, amountInWei).send({ from: account });
                 }
                 status.innerText = "Processing sell...";
-                await routerMethods.swapExactTokensForETHSupportingFeeOnTransferTokens(
+                await router.methods.swapExactTokensForETHSupportingFeeOnTransferTokens(
                     amountInWei.toString(),
                     amountOutMin.toString(),
                     routes,
@@ -920,11 +937,20 @@
                 ).send({ from: account });
                 status.innerText = "Sell successful!";
                 await updateBalances();
+                card.querySelector(".amount-input").value = "";
             } catch (error) {
-                status.innerText = error.code === 4001 ? "Transaction rejected!" : `Sell failed: ${error.message}`;
+                let errorMessage = "Transaction failed.";
+                if (error.code === 4001) {
+                    errorMessage = "User rejected.";
+                } else if (error.message.includes("INSUFFICIENT_OUTPUT_AMOUNT")) {
+                    errorMessage = "Slippage too high.";
+                } else if (error.message.includes("INSUFFICIENT_LIQUIDITY")) {
+                    errorMessage = "Insufficient liquidity.";
+                }
+                status.innerText = errorMessage;
             } finally {
                 button.classList.remove("loading");
-                button.classList.disabled = false;
+                button.disabled = false;
             }
         }
 
@@ -938,7 +964,7 @@
             if (await tryInitializeWeb3()) {
                 loadLatestTokens();
             } else {
-                document.getElementById("searchStatus").innerText = "Failed to connect to Shibarium";
+                document.getElementById("searchStatus").innerText = "Failed to connect to Shibarium.";
             }
         });
     </script>
