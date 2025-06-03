@@ -16,111 +16,99 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 15px;
+            padding: 10px;
         }
         .header {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
         }
         .header h1 {
-            font-size: clamp(1.8em, 5vw, 2.5em);
+            font-size: clamp(1.5em, 4vw, 1.8em);
             font-weight: 700;
             color: #8B4513;
-            text-shadow: 0 2px 4px rgba(139, 69, 19, 0.2);
         }
         .connect-section {
-            margin-bottom: 20px;
-            text-align: center;
+            margin-bottom: 10px;
         }
         .connect-section button {
-            padding: 12px 24px;
+            padding: 8px 16px;
             background: linear-gradient(45deg, #FF8C00, #FFA500);
             color: #FFF;
             border: none;
-            border-radius: 25px;
+            border-radius: 20px;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            font-size: 0.9em;
         }
         .connect-section button:hover {
             transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(255, 140, 0, 0.3);
         }
         .search-container {
             width: 100%;
-            max-width: 600px;
-            margin-bottom: 20px;
+            max-width: 500px;
+            margin-bottom: 10px;
         }
         .search-box {
             display: flex;
-            gap: 10px;
+            gap: 6px;
             background: #FFF;
-            border-radius: 25px;
-            padding: 8px;
-            box-shadow: 0 4px 10px rgba(139, 69, 19, 0.1);
+            border-radius: 20px;
+            padding: 5px;
+            box-shadow: 0 2px 6px rgba(139, 69, 19, 0.1);
         }
         .search-box input {
             flex: 1;
-            padding: 12px 20px;
+            padding: 8px;
             border: none;
-            border-radius: 25px;
-            font-size: 1em;
-            outline: none;
+            border-radius: 20px;
+            font-size: 0.85em;
             background: #FFF5E1;
+            outline: none;
         }
         .search-box button {
-            padding: 12px 24px;
+            padding: 8px 16px;
             background: linear-gradient(45deg, #FF8C00, #FFA500);
             color: #FFF;
             border: none;
-            border-radius: 25px;
+            border-radius: 20px;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            font-size: 0.85em;
         }
         .search-box button:hover {
             transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(255, 140, 0, 0.3);
         }
         .waterfall {
             width: 100%;
-            max-width: 1200px;
+            max-width: 600px;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 15px;
-            padding: 15px 0;
+            grid-template-columns: 1fr;
+            gap: 10px;
         }
         .post-card {
             background: #FFF5E1;
             border: 1px solid #D2B48C;
-            border-radius: 15px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 6px 20px rgba(139, 69, 19, 0.1);
-            animation: fadeIn 0.5s ease-in;
+            box-shadow: 0 4px 12px rgba(139, 69, 19, 0.1);
             display: flex;
             flex-direction: column;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
         }
         .post-header {
             display: flex;
             align-items: center;
-            padding: 10px;
+            padding: 8px;
             border-bottom: 1px solid #D2B48C;
         }
         .post-header span {
-            font-size: 1em;
-            font-weight: 400;
+            font-size: 0.85em;
             color: #4A2C0B;
-            margin-right: 8px;
+            margin-right: 6px;
         }
         .post-header h3 {
-            font-size: 1em;
+            font-size: 0.85em;
             font-weight: 600;
             flex-grow: 1;
-            margin-right: 8px;
             color: #4A2C0B;
         }
         .post-header .copy-button {
@@ -128,30 +116,23 @@
             border: none;
             cursor: pointer;
             padding: 4px;
-            display: flex;
-            align-items: center;
             position: relative;
+            margin-left: 6px;
         }
         .post-header .copy-button img {
-            width: 16px;
-            height: 16px;
-            filter: sepia(50%) hue-rotate(20deg);
-        }
-        .post-header .copy-button:hover {
-            background: rgba(255, 140, 0, 0.1);
-            border-radius: 4px;
+            width: 14px;
+            height: 14px;
         }
         .post-header .copy-button .tooltip {
             visibility: hidden;
             background: #4A2C0B;
             color: #FFF;
-            font-size: 0.8em;
-            padding: 4px 8px;
+            font-size: 0.7em;
+            padding: 3px 6px;
             border-radius: 4px;
             position: absolute;
-            top: -30px;
+            top: -25px;
             right: 0;
-            white-space: nowrap;
             opacity: 0;
             transition: opacity 0.2s;
         }
@@ -163,44 +144,38 @@
             width: 100%;
             aspect-ratio: 1/1;
             object-fit: cover;
-            display: block;
         }
         .post-content {
-            padding: 12px;
+            padding: 10px;
             flex-grow: 1;
         }
         .post-content h4 {
-            font-size: 1.1em;
+            font-size: 1em;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             color: #4A2C0B;
         }
         .post-content p.description {
-            font-size: 0.9em;
+            font-size: 0.8em;
             color: #4A2C0B;
-            margin-bottom: 12px;
-            line-height: 1.5;
+            margin-bottom: 10px;
+            line-height: 1.4;
         }
         .post-content .info {
-            font-size: 0.85em;
+            font-size: 0.75em;
             color: #4A2C0B;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
         .post-content .info img {
-            width: 16px;
-            height: 16px;
-            filter: sepia(50%) hue-rotate(20deg);
+            width: 14px;
+            height: 14px;
         }
         .post-content .info a {
             color: #FF8C00;
             text-decoration: none;
-            font-weight: 600;
-        }
-        .post-content .info a:hover {
-            text-decoration: underline;
         }
         .trade-section {
             padding: 10px;
@@ -208,150 +183,149 @@
         }
         .swap-box {
             background: #FFF;
-            padding: 15px;
+            padding: 12px;
             border-radius: 10px;
-            margin-bottom: 15px;
+        }
+        .swap-toggle {
+            display: flex;
+            margin-bottom: 8px;
+        }
+        .swap-toggle button {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            background: #D2B48C;
+            color: #4A2C0B;
+            font-weight: 600;
+            font-size: 0.85em;
+            cursor: pointer;
+        }
+        .swap-toggle button.active {
+            background: linear-gradient(45deg, #FF8C00, #FFA500);
+            color: #FFF;
+        }
+        .swap-toggle button:first-child {
+            border-radius: 10px 0 0 10px;
+        }
+        .swap-toggle button:last-child {
+            border-radius: 0 10px 10px 0;
         }
         .balance-row {
             display: flex;
             justify-content: space-between;
-            font-size: 0.9em;
+            font-size: 0.8em;
             margin-bottom: 5px;
             color: #FF8C00;
         }
         .token-info {
             display: flex;
             align-items: center;
-            padding: 10px;
+            padding: 8px;
             background: #FFF5E1;
-            border-radius: 10px;
-            margin-bottom: 10px;
+            border-radius: 8px;
+            margin-bottom: 8px;
         }
         .token-info img {
-            width: 24px;
-            height: 24px;
-            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+        }
+        .token-info span {
+            font-size: 0.85em;
+            color: #4A2C0B;
         }
         .swap-box input {
             width: 100%;
-            padding: 10px;
+            padding: 8px;
             background: #FFF5E1;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             color: #4A2C0B;
-            font-size: 1em;
+            font-size: 0.9em;
             text-align: right;
         }
         .percentage-buttons {
             display: flex;
-            gap: 5px;
-            margin-top: 10px;
+            gap: 4px;
+            margin: 8px 0;
         }
         .percentage-buttons button {
-            padding: 5px 10px;
+            padding: 6px;
             background: #D2B48C;
             border: none;
-            border-radius: 5px;
+            border-radius: 50%;
             cursor: pointer;
             color: #4A2C0B;
-            flex: 1;
+            font-size: 0.75em;
             font-weight: 600;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .percentage-buttons button:hover {
             background: #FF8C00;
             color: #FFF;
         }
-        .swap-box button {
-            padding: 12px;
+        .swap-box .trade-button {
+            padding: 10px;
             background: linear-gradient(45deg, #FF8C00, #FFA500);
             color: #FFF;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
             width: 100%;
-            margin-top: 10px;
-            transition: transform 0.2s, box-shadow 0.2s;
+            font-size: 0.9em;
         }
-        .swap-box button:hover:not(:disabled) {
+        .swap-box .trade-button:hover:not(:disabled) {
             transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(255, 140, 0, 0.3);
         }
-        .swap-box button:disabled {
+        .swap-box .trade-button:disabled {
             background: #D2B48C;
             cursor: not-allowed;
         }
-        .action-buttons {
-            display: flex;
-            gap: 8px;
+        .spinner {
+            display: none;
+            border: 2px solid #FF8C00;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
         }
-        .action-buttons button {
-            padding: 8px 20px;
-            background: linear-gradient(45deg, #FF8C00, #FFA500);
-            color: #FFF;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            flex: 1;
-        }
-        .action-buttons button:hover:not(:disabled) {
-            transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(255, 140, 0, 0.3);
-        }
-        .action-buttons .copy-contract-button {
-            position: relative;
-        }
-        .action-buttons .copy-contract-button .tooltip {
-            visibility: hidden;
-            background: #4A2C0B;
-            color: #FFF;
-            font-size: 0.8em;
-            padding: 4px 8px;
-            border-radius: 4px;
-            position: absolute;
-            top: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            white-space: nowrap;
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-        .action-buttons .copy-contract-button.copied .tooltip {
-            visibility: visible;
-            opacity: 1;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         .status {
-            font-size: 0.85em;
+            font-size: 0.8em;
             color: #FF8C00;
             text-align: center;
-            margin: 10px 0;
+            margin: 8px 0;
         }
         .footer {
-            font-size: 0.85em;
+            font-size: 0.75em;
             color: #4A2C0B;
             text-align: center;
             margin-top: auto;
-            padding: 15px 0;
+            padding: 10px 0;
         }
         .footer a {
             color: #FF8C00;
             text-decoration: none;
         }
-        .footer a:hover {
-            text-decoration: underline;
-        }
         @media (max-width: 600px) {
-            body { padding: 10px; }
-            .search-box { flex-direction: column; }
+            body { padding: 8px; }
+            .search-box { flex-direction: column; gap: 8px; }
             .search-box input, .search-box button { width: 100%; }
-            .waterfall { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-            .post-header span, .post-header h3 { font-size: 0.9em; }
-            .post-content h4 { font-size: 1em; }
-            .post-content p.description { font-size: 0.85em; }
-            .swap-box button { font-size: 0.9em; }
-            .action-buttons button { padding: 6px 16px; font-size: 0.9em; }
+            .post-card { max-width: 100%; }
+            .post-header span, .post-header h3 { font-size: 0.8em; }
+            .post-content h4 { font-size: 0.95em; }
+            .post-content p.description { font-size: 0.75em; }
+            .swap-box button, .trade-button { font-size: 0.85em; }
         }
     </style>
 </head>
@@ -391,22 +365,18 @@
         const shibClubAbi = [
             {"inputs":[],"stateMutability":"nonpayable","type":"constructor"},
             {"inputs":[{"internalType":"address","name":"memeCoinAddress","type":"address"}],"name":"addLiquidity","outputs":[],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[{"internalType":"uint256","name":"_amount","type":"uint256"}],"name":"depositWBONE","outputs":[],"stateMutability":"nonpayable","type":"function"},
             {"inputs":[{"internalType":"string","name":"_name","type":"string"},{"internalType":"string","name":"_symbol","type":"string"},{"internalType":"string","name":"_imageUrl","type":"string"},{"internalType":"string","name":"_description","type":"string"},{"internalType":"string","name":"_websiteUrl","type":"string"},{"internalType":"string","name":"_twitterUrl","type":"string"},{"internalType":"string","name":"_telegramUrl","type":"string"}],"name":"deployMemeCoin","outputs":[],"stateMutability":"nonpayable","type":"function"},
             {"inputs":[{"internalType":"address","name":"memeCoinAddress","type":"address"}],"name":"getMemeCoinMetadata","outputs":[{"internalType":"string","name":"imageUrl","type":"string"},{"internalType":"string","name":"description","type":"string"},{"internalType":"string","name":"websiteUrl","type":"string"},{"internalType":"string","name":"twitterUrl","type":"string"},{"internalType":"string","name":"telegramUrl","type":"string"}],"stateMutability":"view","type":"function"},
             {"inputs":[],"name":"getLatestTokens","outputs":[{"internalType":"address[]","name":"tokens","type":"address[]"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"creator","type":"address"}],"name":"getLatestTokensByCreator","outputs":[{"internalType":"address[]","name":"tokens","type":"address[]"}],"stateMutability":"view","type":"function"},
             {"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getUserInfo","outputs":[{"internalType":"address[]","name":"memeCoins","type":"address[]"},{"internalType":"address[]","name":"pairs","type":"address[]"},{"internalType":"uint256[]","name":"liquidities","type":"uint256[]"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"isMemeCoin","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"memeCoinAddress","type":"address"},{"internalType":"string","name":"_imageUrl","type":"string"},{"internalType":"string","name":"_description","type":"string"},{"internalType":"string","name":"_websiteUrl","type":"string"},{"internalType":"string","name":"_twitterUrl","type":"string"},{"internalType":"string","name":"_telegramUrl","type":"string"}],"name":"setMemeCoinMetadata","outputs":[],"stateMutability":"nonpayable","type":"function"}
+            {"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"isMemeCoin","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"}
         ];
         const memeCoinAbi = [
             {"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"type":"function"},
             {"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"type":"function"},
             {"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"type":"function"},
             {"constant":true,"inputs":[{"name":"account","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"type":"function"},
-            {"constant":false,"inputs":[{"name":"spender","type":"address"},{"name":"amount","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"type":"function"},
-            {"constant":true,"inputs":[{"name":"owner","type":"address"},{"name":"spender","type":"address"}],"name":"allowance","outputs":[{"name":"","type":"uint256"}],"type":"function"}
+            {"constant":false,"inputs":[{"name":"spender","type":"address"},{"name":"amount","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"type":"function"}
         ];
         const routerAbi = [
             {"inputs":[{"internalType":"uint256","name":"amountOutMin","type":"uint256"},{"components":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"bool","name":"stable","type":"bool"}],"internalType":"struct Router.route[]","name":"routes","type":"tuple[]"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"}],"name":"swapExactETHForTokensSupportingFeeOnTransferTokens","outputs":[],"stateMutability":"payable","type":"function"},
@@ -419,8 +389,7 @@
         const pairAbi = [
             {"inputs":[],"name":"getReserves","outputs":[{"internalType":"uint256","name":"reserve0","type":"uint256"},{"internalType":"uint256","name":"reserve1","type":"uint256"},{"internalType":"uint32","name":"blockTimestampLast","type":"uint32"}],"stateMutability":"view","type":"function"},
             {"inputs":[],"name":"token0","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"token1","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"stable","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"}
+            {"inputs":[],"name":"token1","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}
         ];
         let boneBalance = "0";
         const defaultSlippage = 0.005;
@@ -442,7 +411,7 @@
         }
 
         function shortenAddress(address) {
-            return address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "0x0000...0000";
+            return `${address.slice(0, 6)}...${address.slice(-4)}`;
         }
 
         async function initializeWeb3() {
@@ -500,11 +469,14 @@
             boneBalance = await web3.eth.getBalance(account);
             const cards = document.querySelectorAll(".post-card");
             for (const card of cards) {
-                const address = card.querySelector(".buy-button").dataset.address;
+                const address = card.querySelector(".trade-button").dataset.address;
                 const tokenContract = new web3.eth.Contract(memeCoinAbi, address);
                 const balance = await tokenContract.methods.balanceOf(account).call();
-                card.querySelector(".bone-balance span").innerText = `Balance: ${parseFloat(web3.utils.fromWei(boneBalance, "ether")).toFixed(4)}`;
-                card.querySelector(".token-balance span").innerText = `Balance: ${parseFloat(web3.utils.fromWei(balance, "ether")).toFixed(4)}`;
+                const balanceRow = card.querySelector(".balance-row");
+                const isBuy = card.querySelector(".swap-toggle .buy.active");
+                balanceRow.innerHTML = isBuy
+                    ? `<span>BONE</span><span>Balance: ${parseFloat(web3.utils.fromWei(boneBalance, "ether")).toFixed(4)}</span>`
+                    : `<span>${card.dataset.symbol}</span><span>Balance: ${parseFloat(web3.utils.fromWei(balance, "ether")).toFixed(4)}</span>`;
             }
         }
 
@@ -537,14 +509,18 @@
                     const ensName = await fetchENSDomain(owner);
                     const displayName = ensName || shortenAddress(owner);
                     const boneBalanceDisplay = account ? parseFloat(web3.utils.fromWei(boneBalance, "ether")).toFixed(4) : "0";
-                    const tokenBalanceDisplay = parseFloat(web3.utils.fromWei(tokenBalance, "ether")).toFixed(4);
                     const card = document.createElement("div");
                     card.className = "post-card";
+                    card.dataset.symbol = symbol;
                     card.innerHTML = `
                         <div class="post-header">
                             <span>Created by</span>
                             <h3>${displayName}</h3>
                             <button class="copy-button" data-address="${owner}" title="Copy Owner Address">
+                                <img src="https://img.icons8.com/ios-filled/16/000000/copy.png" alt="Copy">
+                                <span class="tooltip">Copied!</span>
+                            </button>
+                            <button class="copy-button contract-copy" data-address="${token}" title="Copy Contract Address">
                                 <img src="https://img.icons8.com/ios-filled/16/000000/copy.png" alt="Copy">
                                 <span class="tooltip">Copied!</span>
                             </button>
@@ -568,7 +544,11 @@
                         </div>
                         <div class="trade-section">
                             <div class="swap-box">
-                                <div class="balance-row bone-balance">
+                                <div class="swap-toggle">
+                                    <button class="buy active">BUY</button>
+                                    <button class="sell">SELL</button>
+                                </div>
+                                <div class="balance-row">
                                     <span>BONE</span>
                                     <span>Balance: ${boneBalanceDisplay}</span>
                                 </div>
@@ -576,59 +556,69 @@
                                     <img src="${boneLogo}" alt="BONE">
                                     <span>BONE</span>
                                 </div>
-                                <input type="number" id="buy-amount-${token}" placeholder="0.0" step="0.01">
+                                <input type="number" id="amount-${token}" placeholder="0.0" step="0.01">
                                 <div class="percentage-buttons">
-                                    <button onclick="setPercentage('${token}', 25, 'buy')">25%</button>
-                                    <button onclick="setPercentage('${token}', 50, 'buy')">50%</button>
-                                    <button onclick="setPercentage('${token}', 75, 'buy')">75%</button>
-                                    <button onclick="setPercentage('${token}', 100, 'buy')">MAX</button>
+                                    <button onclick="setPercentage('${token}', 25)">25%</button>
+                                    <button onclick="setPercentage('${token}', 50)">50%</button>
+                                    <button onclick="setPercentage('${token}', 75)">75%</button>
+                                    <button onclick="setPercentage('${token}', 100)">MAX</button>
                                 </div>
-                                <button class="buy-button" data-address="${token}" ${!account ? "disabled" : ""}>Buy</button>
-                            </div>
-                            <div class="swap-box">
-                                <div class="balance-row token-balance">
-                                    <span>${symbol}</span>
-                                    <span>Balance: ${tokenBalanceDisplay}</span>
-                                </div>
-                                <div class="token-info">
-                                    <img src="${metadata[0] || defaultImage}" alt="${symbol}">
-                                    <span>${symbol}</span>
-                                </div>
-                                <input type="number" id="sell-amount-${token}" placeholder="0.0" step="0.01">
-                                <div class="percentage-buttons">
-                                    <button onclick="setPercentage('${token}', 25, 'sell')">25%</button>
-                                    <button onclick="setPercentage('${token}', 50, 'sell')">50%</button>
-                                    <button onclick="setPercentage('${token}', 75, 'sell')">75%</button>
-                                    <button onclick="setPercentage('${token}', 100, 'sell')">MAX</button>
-                                </div>
-                                <button class="sell-button" data-address="${token}" ${!account ? "disabled" : ""}>Sell</button>
-                            </div>
-                            <div class="action-buttons">
-                                <button class="copy-contract-button" data-address="${token}" title="Copy Contract Address">Copy Contract<span class="tooltip">Copied!</span></button>
+                                <button class="trade-button" data-address="${token}" ${!account ? "disabled" : ""}>Trade</button>
+                                <div class="spinner"></div>
                             </div>
                         </div>
                     `;
                     waterfall.appendChild(card);
                 }
                 status.innerText = "";
-                document.querySelectorAll(".copy-button, .copy-contract-button").forEach(button => {
-                    button.addEventListener("click", () => {
-                        const address = button.dataset.address;
-                        navigator.clipboard.writeText(address).then(() => {
-                            button.classList.add("copied");
-                            setTimeout(() => button.classList.remove("copied"), 2000);
-                        });
-                    });
-                });
-                document.querySelectorAll(".buy-button").forEach(button => {
-                    button.addEventListener("click", () => buyToken(button.dataset.address));
-                });
-                document.querySelectorAll(".sell-button").forEach(button => {
-                    button.addEventListener("click", () => sellToken(button.dataset.address));
-                });
+                setupEventListeners();
             } catch (error) {
                 status.innerText = "Failed to fetch MemeCoins: " + error.message;
             }
+        }
+
+        function setupEventListeners() {
+            document.getElementById("waterfall").addEventListener("click", async (e) => {
+                const target = e.target;
+                if (target.closest(".copy-button")) {
+                    const button = target.closest(".copy-button");
+                    const address = button.dataset.address;
+                    navigator.clipboard.writeText(address).then(() => {
+                        button.classList.add("copied");
+                        setTimeout(() => button.classList.remove("copied"), 2000);
+                    });
+                }
+                if (target.closest(".swap-toggle button")) {
+                    const button = target.closest(".swap-toggle button");
+                    const card = button.closest(".post-card");
+                    const toggleButtons = card.querySelectorAll(".swap-toggle button");
+                    toggleButtons.forEach(btn => btn.classList.remove("active"));
+                    button.classList.add("active");
+                    const isBuy = button.classList.contains("buy");
+                    const tokenAddress = card.querySelector(".trade-button").dataset.address;
+                    const tokenContract = new web3.eth.Contract(memeCoinAbi, tokenAddress);
+                    const balanceRow = card.querySelector(".balance-row");
+                    const tokenInfo = card.querySelector(".token-info");
+                    if (isBuy) {
+                        balanceRow.innerHTML = `<span>BONE</span><span>Balance: ${parseFloat(web3.utils.fromWei(boneBalance, "ether")).toFixed(4)}</span>`;
+                        tokenInfo.innerHTML = `<img src="${boneLogo}" alt="BONE"><span>BONE</span>`;
+                    } else {
+                        const tokenBalance = await tokenContract.methods.balanceOf(account).call();
+                        balanceRow.innerHTML = `<span>${card.dataset.symbol}</span><span>Balance: ${parseFloat(web3.utils.fromWei(tokenBalance, "ether")).toFixed(4)}</span>`;
+                        tokenInfo.innerHTML = `<img src="${card.querySelector(".post-image").src}" alt="${card.dataset.symbol}"><span>${card.dataset.symbol}</span>`;
+                    }
+                }
+                if (target.closest(".trade-button")) {
+                    const button = target.closest(".trade-button");
+                    const card = button.closest(".post-card");
+                    const isBuy = card.querySelector(".swap-toggle .buy").classList.contains("active");
+                    if (isBuy) {
+                        await buyToken(button.dataset.address, button, card);
+                    } else {
+                        await sellToken(button.dataset.address, button, card);
+                    }
+                }
+            });
         }
 
         async function searchToken() {
@@ -656,15 +646,19 @@
                 const ensName = await fetchENSDomain(owner);
                 const displayName = ensName || shortenAddress(owner);
                 const boneBalanceDisplay = account ? parseFloat(web3.utils.fromWei(boneBalance, "ether")).toFixed(4) : "0";
-                const tokenBalanceDisplay = parseFloat(web3.utils.fromWei(tokenBalance, "ether")).toFixed(4);
                 waterfall.innerHTML = "";
                 const card = document.createElement("div");
                 card.className = "post-card";
+                card.dataset.symbol = symbol;
                 card.innerHTML = `
                     <div class="post-header">
                         <span>Created by</span>
                         <h3>${displayName}</h3>
                         <button class="copy-button" data-address="${owner}" title="Copy Owner Address">
+                            <img src="https://img.icons8.com/ios-filled/16/000000/copy.png" alt="Copy">
+                            <span class="tooltip">Copied!</span>
+                        </button>
+                        <button class="copy-button contract-copy" data-address="${tokenAddress}" title="Copy Contract Address">
                             <img src="https://img.icons8.com/ios-filled/16/000000/copy.png" alt="Copy">
                             <span class="tooltip">Copied!</span>
                         </button>
@@ -688,7 +682,11 @@
                     </div>
                     <div class="trade-section">
                         <div class="swap-box">
-                            <div class="balance-row bone-balance">
+                            <div class="swap-toggle">
+                                <button class="buy active">BUY</button>
+                                <button class="sell">SELL</button>
+                            </div>
+                            <div class="balance-row">
                                 <span>BONE</span>
                                 <span>Balance: ${boneBalanceDisplay}</span>
                             </div>
@@ -696,73 +694,41 @@
                                 <img src="${boneLogo}" alt="BONE">
                                 <span>BONE</span>
                             </div>
-                            <input type="number" id="buy-amount-${tokenAddress}" placeholder="0.0" step="0.01">
+                            <input type="number" id="amount-${tokenAddress}" placeholder="0.0" step="0.01">
                             <div class="percentage-buttons">
-                                <button onclick="setPercentage('${tokenAddress}', 25, 'buy')">25%</button>
-                                <button onclick="setPercentage('${tokenAddress}', 50, 'buy')">50%</button>
-                                <button onclick="setPercentage('${tokenAddress}', 75, 'buy')">75%</button>
-                                <button onclick="setPercentage('${tokenAddress}', 100, 'buy')">MAX</button>
+                                <button onclick="setPercentage('${tokenAddress}', 25)">25%</button>
+                                <button onclick="setPercentage('${tokenAddress}', 50)">50%</button>
+                                <button onclick="setPercentage('${tokenAddress}', 75)">75%</button>
+                                <button onclick="setPercentage('${tokenAddress}', 100)">MAX</button>
                             </div>
-                            <button class="buy-button" data-address="${tokenAddress}" ${!account ? "disabled" : ""}>Buy</button>
-                        </div>
-                        <div class="swap-box">
-                            <div class="balance-row token-balance">
-                                <span>${symbol}</span>
-                                <span>Balance: ${tokenBalanceDisplay}</span>
-                            </div>
-                            <div class="token-info">
-                                <img src="${metadata[0] || defaultImage}" alt="${symbol}">
-                                <span>${symbol}</span>
-                            </div>
-                            <input type="number" id="sell-amount-${tokenAddress}" placeholder="0.0" step="0.01">
-                            <div class="percentage-buttons">
-                                <button onclick="setPercentage('${tokenAddress}', 25, 'sell')">25%</button>
-                                <button onclick="setPercentage('${tokenAddress}', 50, 'sell')">50%</button>
-                                <button onclick="setPercentage('${tokenAddress}', 75, 'sell')">75%</button>
-                                <button onclick="setPercentage('${tokenAddress}', 100, 'sell')">MAX</button>
-                            </div>
-                            <button class="sell-button" data-address="${tokenAddress}" ${!account ? "disabled" : ""}>Sell</button>
-                        </div>
-                        <div class="action-buttons">
-                            <button class="copy-contract-button" data-address="${tokenAddress}" title="Copy Contract Address">Copy Contract<span class="tooltip">Copied!</span></button>
+                            <button class="trade-button" data-address="${tokenAddress}" ${!account ? "disabled" : ""}>Trade</button>
+                            <div class="spinner"></div>
                         </div>
                     </div>
                 `;
                 waterfall.appendChild(card);
                 status.innerText = "";
-                document.querySelector(".copy-button").addEventListener("click", () => {
-                    navigator.clipboard.writeText(owner).then(() => {
-                        document.querySelector(".copy-button").classList.add("copied");
-                        setTimeout(() => document.querySelector(".copy-button").classList.remove("copied"), 2000);
-                    });
-                });
-                document.querySelector(".copy-contract-button").addEventListener("click", () => {
-                    navigator.clipboard.writeText(tokenAddress).then(() => {
-                        document.querySelector(".copy-contract-button").classList.add("copied");
-                        setTimeout(() => document.querySelector(".copy-contract-button").classList.remove("copied"), 2000);
-                    });
-                });
-                document.querySelector(".buy-button").addEventListener("click", () => buyToken(tokenAddress));
-                document.querySelector(".sell-button").addEventListener("click", () => sellToken(tokenAddress));
+                setupEventListeners();
             } catch (error) {
                 status.innerText = "Failed to fetch token: " + error.message;
             }
         }
 
-        async function setPercentage(tokenAddress, percentage, type) {
+        async function setPercentage(tokenAddress, percentage) {
             if (!web3 || !account) {
                 document.getElementById("searchStatus").innerText = "Please connect wallet first.";
                 return;
             }
+            const card = document.querySelector(`.trade-button[data-address="${tokenAddress}"]`).closest(".post-card");
+            const isBuy = card.querySelector(".swap-toggle .buy").classList.contains("active");
             let amount;
-            if (type === "buy") {
+            if (isBuy) {
                 let balance = web3.utils.fromWei(boneBalance, "ether");
                 if (percentage === 100) {
                     amount = Math.max(0, balance - 0.1);
                 } else {
                     amount = balance * (percentage / 100);
                 }
-                document.getElementById(`buy-amount-${tokenAddress}`).value = amount.toFixed(4);
             } else {
                 const tokenContract = new web3.eth.Contract(memeCoinAbi, tokenAddress);
                 let balance = await tokenContract.methods.balanceOf(account).call();
@@ -772,17 +738,17 @@
                 } else {
                     amount = balance * (percentage / 100);
                 }
-                document.getElementById(`sell-amount-${tokenAddress}`).value = amount.toFixed(4);
             }
+            document.getElementById(`amount-${tokenAddress}`).value = amount.toFixed(4);
         }
 
-        async function buyToken(tokenAddress) {
+        async function buyToken(tokenAddress, button, card) {
             const status = document.getElementById("searchStatus");
             if (!web3 || !account) {
                 status.innerText = "Please connect wallet first.";
                 return;
             }
-            const amountIn = document.getElementById(`buy-amount-${tokenAddress}`).value;
+            const amountIn = document.getElementById(`amount-${tokenAddress}`).value;
             if (!amountIn || amountIn <= 0) {
                 status.innerText = "Please enter a valid amount.";
                 return;
@@ -800,6 +766,8 @@
             }
             const deadline = Math.floor(Date.now() / 1000) + 60 * 20;
             try {
+                button.disabled = true;
+                card.querySelector(".spinner").style.display = "block";
                 let bestOutput = web3.utils.toBN(0);
                 let routes;
                 for (const stable of [true, false]) {
@@ -846,23 +814,25 @@
                 ).send({ from: account, value: amountInWei });
                 status.innerText = "Buy successful!";
                 await updateBalances();
-                await loadLatestTokens();
             } catch (error) {
                 let errorMessage = "Buy failed.";
                 if (error.code === 4001) errorMessage = "User denied transaction.";
                 else if (error.message.includes("INSUFFICIENT_OUTPUT_AMOUNT") || error.message.includes("EXCESSIVE_INPUT_AMOUNT")) errorMessage = "Price impact or slippage too high.";
                 else if (error.message.includes("INSUFFICIENT_LIQUIDITY")) errorMessage = "Insufficient liquidity.";
                 status.innerText = errorMessage;
+            } finally {
+                button.disabled = false;
+                card.querySelector(".spinner").style.display = "none";
             }
         }
 
-        async function sellToken(tokenAddress) {
+        async function sellToken(tokenAddress, button, card) {
             const status = document.getElementById("searchStatus");
             if (!web3 || !account) {
                 status.innerText = "Please connect wallet first.";
                 return;
             }
-            const amountIn = document.getElementById(`sell-amount-${tokenAddress}`).value;
+            const amountIn = document.getElementById(`amount-${tokenAddress}`).value;
             if (!amountIn || amountIn <= 0) {
                 status.innerText = "Please enter a valid amount.";
                 return;
@@ -882,6 +852,8 @@
             }
             const deadline = Math.floor(Date.now() / 1000) + 60 * 20;
             try {
+                button.disabled = true;
+                card.querySelector(".spinner").style.display = "block";
                 let bestOutput = web3.utils.toBN(0);
                 let routes;
                 for (const stable of [true, false]) {
@@ -934,19 +906,21 @@
                 ).send({ from: account });
                 status.innerText = "Sell successful!";
                 await updateBalances();
-                await loadLatestTokens();
             } catch (error) {
-                let errorMessage = "Sell failed.";
+                let errorMessage = "Sell failed!";
                 if (error.code === 4001) errorMessage = "User denied transaction.";
-                else if (error.message.includes("INSUFFICIENT_OUTPUT_AMOUNT") || error.message.includes("EXCESSIVE_INPUT_AMOUNT")) errorMessage = "Price impact or slippage too high.";
+                else if (error.message.includes("INSUFFICIENT_OUTPUT_AMOUNT") || errorMessage = "Price impact or slippage too high.";
                 else if (error.message.includes("INSUFFICIENT_LIQUIDITY")) errorMessage = "Insufficient liquidity.";
                 status.innerText = errorMessage;
+            } finally {
+                button.disabled = false;
+                card.querySelector(".spinner").style.display = "none";
             }
         }
 
         function setupWalletListeners() {
             if (!window.ethereum) return;
-            window.ethereum.on("accountsChanged", async accounts => {
+            window.web3.eth.accounts.on("accountsChanged", async accounts => {
                 if (accounts.length) {
                     account = accounts[0];
                     await connectWallet();
