@@ -340,26 +340,53 @@
         const wboneAddress = "0x8481e2a755bd951F7335E2133D4beF4F0739Ec64";
         const routerAddress = "0x4Ea7ac197eF268445dA3104Eab9418d5380c2C11";
         const factoryAddress = "0x306cae450bdd4A2805c1455ABa59c8988E1C8Cf3";
+        const wboneLogo = "https://www.woofswap.finance/image/tokens/BONE.png";
         const shibarium = {
-            chainId: 109,
-            chainName: 'Shibarium',
-            nativeCurrency: { name: 'BONE', symbol: 'BONE', decimals: 18 },
-            rpcUrls: ['https://rpc.shibrpc.com'],
-            blockExplorerUrls: ['https://shibariumscan.io']
+            chainId: "0x6d",
+            chainName: "Shibarium",
+            nativeCurrency: { name: "BONE", symbol: "BONE", decimals: 18 },
+            rpcUrls: ["https://rpc.shibrpc.com"],
+            blockExplorerUrls: ["https://shibariumscan.io"]
         };
-        const shibClubAbi = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":true,"internalType":"address","name":"memeCoin","type":"address"},{"indexed":false,"internalType":"string","name":"name","type":"string"},{"indexed":false,"internalType":"string","name":"symbol","type":"string"}],"name":"MemeCoinDeployed","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":true,"internalType":"address","name":"pair","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"LiquidityAdded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"memeCoin","type":"address"},{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"string","name":"imageUrl","type":"string"},{"indexed":false,"internalType":"string","name":"description","type":"string"},{"indexed":false,"internalType":"string","name":"websiteUrl","type":"string"},{"indexed":false,"internalType":"string","name":"twitterUrl","type":"string"},{"indexed":false,"internalType":"string","name":"telegramUrl","type":"string"}],"name":"MetadataUpdated","type":"event"},{"inputs":[{"internalType":"address","name":"memeCoinAddress","type":"address"}],"name":"addLiquidity","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_amount","type":"uint256"}],"name":"depositWBONE","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"_name","type":"string"},{"internalType":"string","name":"_symbol","type":"string"},{"internalType":"string","name":"_imageUrl","type":"string"},{"internalType":"string","name":"_description","type":"string"},{"internalType":"string","name":"_websiteUrl","type":"string"},{"internalType":"string","name":"_twitterUrl","type":"string"},{"internalType":"string","name":"_telegramUrl","type":"string"}],"name":"deployMemeCoin","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"memeCoinAddress","type":"address"}],"name":"getMemeCoinMetadata","outputs":[{"internalType":"string","name":"imageUrl","type":"string"},{"internalType":"string","name":"description","type":"string"},{"internalType":"string","name":"websiteUrl","type":"string"},{"internalType":"string","name":"twitterUrl","type":"string"},{"internalType":"string","name":"telegramUrl","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatestTokens","outputs":[{"internalType":"address[]","name":"tokens","type":"address[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"creator","type":"address"}],"name":"getLatestTokensByCreator","outputs":[{"internalType":"address[]","name":"tokens","type":"address[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getUserInfo","outputs":[{"internalType":"address[]","name":"memeCoins","type":"address[]"},{"internalType":"address[]","name":"pairs","type":"address[]"},{"internalType":"uint256[]","name":"liquidities","type":"uint256[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"isMemeCoin","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"memeCoinAddress","type":"address"},{"internalType":"string","name":"_imageUrl","type":"string"},{"internalType":"string","name":"_description","type":"string"},{"internalType":"string","name":"_websiteUrl","type":"string"},{"internalType":"string","name":"_twitterUrl","type":"string"},{"internalType":"string","name":"_telegramUrl","type":"string"}],"name":"setMemeCoinMetadata","outputs":[],"stateMutability":"nonpayable","type":"function"}];
-        const erc20Abi = [{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[{"name":"success","type":"bool"}],"type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"remaining","type":"uint256"}],"type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"type":"function"},{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"type":"function"}];
-        const routerAbi = [{"inputs":[{"internalType":"uint256","name":"amountIn","type":"uint256"},{"internalType":"uint256","name":"amountOutMin","type":"uint256"},{"internalType":"address","name":"tokenFrom","type":"address"},{"internalType":"address","name":"tokenTo","type":"address"},{"internalType":"bool","name":"stable","type":"bool"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"}],"name":"swapExactTokensForTokensSimple","outputs":[{"internalType":"uint256[]","name":"amounts","type":"uint256[]"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amountIn","type":"uint256"},{"internalType":"uint256","name":"amountOutMin","type":"uint256"},{"components":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"bool","name":"stable","type":"bool"}],"internalType":"struct Router.route[]","name":"routes","type":"tuple[]"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"}],"name":"swapExactTokensForTokensSupportingFeeOnTransferTokens","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amountOutMin","type":"uint256"},{"components":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"bool","name":"stable","type":"bool"}],"internalType":"struct Router.route[]","name":"routes","type":"tuple[]"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"}],"name":"swapExactETHForTokensSupportingFeeOnTransferTokens","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amountIn","type":"uint256"},{"internalType":"uint256","name":"amountOutMin","type":"uint256"},{"components":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"bool","name":"stable","type":"bool"}],"internalType":"struct Router.route[]","name":"routes","type":"tuple[]"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"}],"name":"swapExactTokensForETHSupportingFeeOnTransferTokens","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amountIn","type":"uint256"},{"components":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"bool","name":"stable","type":"bool"}],"internalType":"struct Router.route[]","name":"routes","type":"tuple[]"}],"name":"getAmountsOut","outputs":[{"internalType":"uint256[]","name":"amounts","type":"uint256[]"}],"stateMutability":"view","type":"function"}];
-        const factoryAbi = [{"inputs":[{"internalType":"address","name":"tokenA","type":"address"},{"internalType":"address","name":"tokenB","type":"address"},{"internalType":"bool","name":"stable","type":"bool"}],"name":"getPair","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}];
-        const pairAbi = [{"inputs":[],"name":"getReserves","outputs":[{"internalType":"uint256","name":"reserve0","type":"uint256"},{"internalType":"uint256","name":"reserve1","type":"uint256"},{"internalType":"uint32","name":"blockTimestampLast","type":"uint32"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"token0","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"token1","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"stable","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"}];
-        let wboneBalance = '0';
+        const shibClubAbi = [
+            {"inputs":[],"stateMutability":"nonpayable","type":"constructor"},
+            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":true,"internalType":"address","name":"memeCoin","type":"address"},{"indexed":false,"internalType":"string","name":"name","type":"string"},{"indexed":false,"internalType":"string","name":"symbol","type":"string"}],"name":"MemeCoinDeployed","type":"event"},
+            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":true,"internalType":"address","name":"pair","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"LiquidityAdded","type":"event"},
+            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"memeCoin","type":"address"},{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"string","name":"imageUrl","type":"string"},{"indexed":false,"internalType":"string","name":"description","type":"string"},{"indexed":false,"internalType":"string","name":"websiteUrl","type":"string"},{"indexed":false,"internalType":"string","name":"twitterUrl","type":"string"},{"indexed":false,"internalType":"string","name":"telegramUrl","type":"string"}],"name":"MetadataUpdated","type":"event"},
+            {"inputs":[{"internalType":"address","name":"memeCoinAddress","type":"address"}],"name":"addLiquidity","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"_amount","type":"uint256"}],"name":"depositWBONE","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"string","name":"_name","type":"string"},{"internalType":"string","name":"_symbol","type":"string"},{"internalType":"string","name":"_imageUrl","type":"string"},{"internalType":"string","name":"_description","type":"string"},{"internalType":"string","name":"_websiteUrl","type":"string"},{"internalType":"string","name":"_twitterUrl","type":"string"},{"internalType":"string","name":"_telegramUrl","type":"string"}],"name":"deployMemeCoin","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"address","name":"memeCoinAddress","type":"address"}],"name":"getMemeCoinMetadata","outputs":[{"internalType":"string","name":"imageUrl","type":"string"},{"internalType":"string","name":"description","type":"string"},{"internalType":"string","name":"websiteUrl","type":"string"},{"internalType":"string","name":"twitterUrl","type":"string"},{"internalType":"string","name":"telegramUrl","type":"string"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"getLatestTokens","outputs":[{"internalType":"address[]","name":"tokens","type":"address[]"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"address","name":"creator","type":"address"}],"name":"getLatestTokensByCreator","outputs":[{"internalType":"address[]","name":"tokens","type":"address[]"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getUserInfo","outputs":[{"internalType":"address[]","name":"memeCoins","type":"address[]"},{"internalType":"address[]","name":"pairs","type":"address[]"},{"internalType":"uint256[]","name":"liquidities","type":"uint256[]"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"isMemeCoin","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"address","name":"memeCoinAddress","type":"address"},{"internalType":"string","name":"_imageUrl","type":"string"},{"internalType":"string","name":"_description","type":"string"},{"internalType":"string","name":"_websiteUrl","type":"string"},{"internalType":"string","name":"_twitterUrl","type":"string"},{"internalType":"string","name":"_telegramUrl","type":"string"}],"name":"setMemeCoinMetadata","outputs":[],"stateMutability":"nonpayable","type":"function"}
+        ];
+        const erc20Abi = [
+            {"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"type":"function"},
+            {"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"type":"function"},
+            {"constant":true,"inputs":[{"name":"account","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"type":"function"},
+            {"constant":false,"inputs":[{"name":"spender","type":"address"},{"name":"amount","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"type":"function"},
+            {"constant":true,"inputs":[{"name":"owner","type":"address"},{"name":"spender","type":"address"}],"name":"allowance","outputs":[{"name":"","type":"uint256"}],"type":"function"}
+        ];
+        const routerAbi = [
+            {"inputs":[{"internalType":"uint256","name":"amountIn","type":"uint256"},{"internalType":"uint256","name":"amountOutMin","type":"uint256"},{"components":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"bool","name":"stable","type":"bool"}],"internalType":"struct Router.route[]","name":"routes","type":"tuple[]"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"}],"name":"swapExactTokensForTokensSupportingFeeOnTransferTokens","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"amountIn","type":"uint256"},{"components":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"bool","name":"stable","type":"bool"}],"internalType":"struct Router.route[]","name":"routes","type":"tuple[]"}],"name":"getAmountsOut","outputs":[{"internalType":"uint256[]","name":"amounts","type":"uint256[]"}],"stateMutability":"view","type":"function"}
+        ];
+        const factoryAbi = [
+            {"inputs":[{"internalType":"address","name":"tokenA","type":"address"},{"internalType":"address","name":"tokenB","type":"address"},{"internalType":"bool","name":"stable","type":"bool"}],"name":"getPair","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}
+        ];
+        const pairAbi = [
+            {"inputs":[],"name":"getReserves","outputs":[{"internalType":"uint256","name":"reserve0","type":"uint256"},{"internalType":"uint256","name":"reserve1","type":"uint256"},{"internalType":"uint32","name":"blockTimestampLast","type":"uint32"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"token0","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"token1","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"stable","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"}
+        ];
+        let wboneBalance = "0";
         const defaultSlippage = 0.005;
         const maxPriceImpact = 0.5;
         const ensCache = new Map();
-
-        function shortenAddress(address) {
-            return address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "0x0000...0000";
-        }
 
         async function fetchENSDomain(address) {
             if (ensCache.has(address)) return ensCache.get(address);
@@ -371,10 +398,13 @@
                 ensCache.set(address, ensName);
                 return ensName;
             } catch (error) {
-                console.warn(`Failed to fetch ENS for ${address}: ${error.message}`);
                 ensCache.set(address, null);
                 return null;
             }
+        }
+
+        function shortenAddress(address) {
+            return address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "0x0000...0000";
         }
 
         async function initializeWeb3() {
@@ -386,24 +416,24 @@
         }
 
         async function connectWallet() {
-            const status = document.getElementById('searchStatus');
+            const status = document.getElementById("searchStatus");
             try {
                 if (!window.ethereum) {
-                    status.innerText = 'Please install MetaMask.';
-                    throw new Error("No wallet detected");
+                    status.innerText = "Please install MetaMask.";
+                    throw new Error("MetaMask not detected");
                 }
                 status.innerText = "Connecting...";
                 web3 = new Web3(window.ethereum);
-                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-                if (!accounts.length) throw new Error("Please unlock wallet.");
+                const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+                if (!accounts.length) throw new Error("Please unlock wallet");
                 account = accounts[0];
                 const chainId = await web3.eth.getChainId();
                 if (Number(chainId) !== 109) {
                     try {
-                        await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: "0x6d" }] });
+                        await window.ethereum.request({ method: "wallet_switchEthereumChain", params: [{ chainId: shibarium.chainId }] });
                     } catch (switchError) {
                         if (switchError.code === 4902) {
-                            await window.ethereum.request({ method: 'wallet_addEthereumChain', params: [shibarium] });
+                            await window.ethereum.request({ method: "wallet_addEthereumChain", params: [shibarium] });
                         } else {
                             throw switchError;
                         }
@@ -412,7 +442,7 @@
                 shibClub = new web3.eth.Contract(shibClubAbi, shibClubAddress);
                 router = new web3.eth.Contract(routerAbi, routerAddress);
                 factory = new web3.eth.Contract(factoryAbi, factoryAddress);
-                document.getElementById('connectWalletButton').innerText = `Connected: ${account.slice(0, 6)}...${account.slice(-4)}`;
+                document.getElementById("connectWalletButton").innerText = `Connected: ${shortenAddress(account)}`;
                 status.innerText = "Connected to Shibarium";
                 await updateWBONEBalance();
                 await loadLatestTokens();
@@ -423,8 +453,8 @@
         }
 
         function resetUI() {
-            document.getElementById('connectWalletButton').innerText = "Connect Wallet";
-            document.getElementById('searchStatus').innerText = "";
+            document.getElementById("connectWalletButton").innerText = "Connect Wallet";
+            document.getElementById("searchStatus").innerText = "";
         }
 
         async function updateWBONEBalance() {
@@ -434,13 +464,13 @@
         }
 
         async function loadLatestTokens() {
-            const status = document.getElementById('searchStatus');
-            const waterfall = document.getElementById('waterfall');
+            const status = document.getElementById("searchStatus");
+            const waterfall = document.getElementById("waterfall");
             try {
                 status.innerText = "Fetching latest MemeCoins...";
                 if (!web3) await initializeWeb3();
                 const tokens = await shibClub.methods.getLatestTokens().call();
-                waterfall.innerHTML = '';
+                waterfall.innerHTML = "";
                 if (!tokens.length) {
                     waterfall.innerHTML = '<div class="status">No MemeCoins found.</div>';
                     status.innerText = "";
@@ -448,23 +478,27 @@
                 }
                 for (const token of tokens.slice(0, 100)) {
                     const tokenContract = new web3.eth.Contract(erc20Abi, token);
-                    let name = 'Unknown', symbol = 'Unknown', metadata = ['', '', '', '', ''], balance = '0';
+                    let name = "Unknown", symbol = "Unknown", metadata = ["", "", "", "", ""], balance = "0", creator = "0x0000000000000000000000000000000000000000";
                     try {
                         name = await tokenContract.methods.name().call();
                         symbol = await tokenContract.methods.symbol().call();
                         metadata = await shibClub.methods.getMemeCoinMetadata(token).call();
                         if (account) balance = await tokenContract.methods.balanceOf(account).call();
+                        const userInfo = await shibClub.methods.getUserInfo(token).call();
+                        if (userInfo.memeCoins.length) creator = userInfo.memeCoins[0].creator || creator;
                     } catch (error) {
                         console.warn(`Failed to fetch token ${token}: ${error.message}`);
                         continue;
                     }
-                    const card = document.createElement('div');
-                    card.className = 'post-card';
+                    const ensName = await fetchENSDomain(creator);
+                    const displayName = ensName || shortenAddress(creator);
+                    const card = document.createElement("div");
+                    card.className = "post-card";
                     card.innerHTML = `
                         <div class="post-header">
-                            <span>Token</span>
-                            <h3>${symbol}</h3>
-                            <button class="copy-button" data-address="${token}" title="Copy Token Address">
+                            <span>Created by</span>
+                            <h3>${displayName}</h3>
+                            <button class="copy-button" data-address="${creator}" title="Copy Creator Address">
                                 <img src="https://img.icons8.com/ios-filled/16/000000/copy.png" alt="Copy">
                                 <span class="tooltip">Copied!</span>
                             </button>
@@ -472,22 +506,22 @@
                         <img class="post-image" src="${metadata[0] || 'https://pbs.twimg.com/media/GrjooHUboAMteD-?format=jpg'}" alt="${symbol}">
                         <div class="post-content">
                             <h4>${name}</h4>
-                            <p class="description">${metadata[1] || 'No description.'}</p>
+                            <p class="description">${metadata[1] || "No description."}</p>
                             <div class="info">
                                 <img src="https://img.icons8.com/ios-filled/16/000000/link.png" alt="Website">
-                                <a href="${metadata[2] || '#'}" target="_blank">${metadata[2] ? new URL(metadata[2]).hostname : 'No website'}</a>
+                                <a href="${metadata[2] || '#'}" target="_blank">${metadata[2] ? new URL(metadata[2]).hostname : "No website"}</a>
                             </div>
                             <div class="info">
                                 <img src="https://img.icons8.com/ios-filled/16/000000/twitter.png" alt="Twitter">
-                                <a href="${metadata[3] || '#'}" target="_blank">${metadata[3] ? '@' + metadata[3].split('/').pop() : 'No Twitter'}</a>
+                                <a href="${metadata[3] || '#'}" target="_blank">${metadata[3] ? "@" + metadata[3].split("/").pop() : "No Twitter"}</a>
                             </div>
                             <div class="info">
                                 <img src="https://img.icons8.com/ios-filled/16/000000/telegram-app.png" alt="Telegram">
-                                <a href="${metadata[4] || '#'}" target="_blank">${metadata[4] ? metadata[4].split('/').pop() : 'No Telegram'}</a>
+                                <a href="${metadata[4] || '#'}" target="_blank">${metadata[4] ? metadata[4].split("/").pop() : "No Telegram"}</a>
                             </div>
-                            <div class="info">
-                                <img src="https://img.icons8.com/ios-filled/16/000000/wallet.png" alt="Balance">
-                                <span>Balance: ${web3.utils.fromWei(balance, 'ether')}</span>
+                            <div class="info balance">
+                                <img src="${wboneLogo}" alt="WBONE">
+                                <span>Balance: ${web3.utils.fromWei(balance, "ether")}</span>
                             </div>
                         </div>
                         <div class="trade-section">
@@ -499,8 +533,8 @@
                                 <button onclick="setPercentage('${token}', 100)">MAX</button>
                             </div>
                             <div class="action-buttons">
-                                <button class="buy-button" data-address="${token}" ${!account ? 'disabled' : ''}>Buy</button>
-                                <button class="sell-button" data-address="${token}" ${!account ? 'disabled' : ''}>Sell</button>
+                                <button class="buy-button" data-address="${token}" ${!account ? "disabled" : ""}>Buy</button>
+                                <button class="sell-button" data-address="${token}" ${!account ? "disabled" : ""}>Sell</button>
                                 <button class="copy-contract-button" data-address="${token}" title="Copy Contract Address">Copy Contract<span class="tooltip">Copied!</span></button>
                             </div>
                         </div>
@@ -508,33 +542,32 @@
                     waterfall.appendChild(card);
                 }
                 status.innerText = "";
-                document.querySelectorAll('.copy-button, .copy-contract-button').forEach(button => {
-                    button.addEventListener('click', () => {
+                document.querySelectorAll(".copy-button, .copy-contract-button").forEach(button => {
+                    button.addEventListener("click", () => {
                         const address = button.dataset.address;
                         if (address) {
                             navigator.clipboard.writeText(address).then(() => {
-                                button.classList.add('copied');
-                                setTimeout(() => button.classList.remove('copied'), 2000);
+                                button.classList.add("copied");
+                                setTimeout(() => button.classList.remove("copied"), 2000);
                             });
                         }
                     });
                 });
-                document.querySelectorAll('.buy-button').forEach(button => {
-                    button.addEventListener('click', () => buyToken(button.dataset.address));
+                document.querySelectorAll(".buy-button").forEach(button => {
+                    button.addEventListener("click", () => buyToken(button.dataset.address));
                 });
-                document.querySelectorAll('.sell-button').forEach(button => {
-                    button.addEventListener('click', () => sellToken(button.dataset.address));
+                document.querySelectorAll(".sell-button").forEach(button => {
+                    button.addEventListener("click", () => sellToken(button.dataset.address));
                 });
             } catch (error) {
                 status.innerText = "Failed to fetch MemeCoins: " + error.message;
-                console.error(error);
             }
         }
 
         async function searchToken() {
-            const status = document.getElementById('searchStatus');
-            const waterfall = document.getElementById('waterfall');
-            const tokenAddress = document.getElementById('tokenAddress').value.trim();
+            const status = document.getElementById("searchStatus");
+            const waterfall = document.getElementById("waterfall");
+            const tokenAddress = document.getElementById("tokenAddress").value.trim();
             if (!web3.utils.isAddress(tokenAddress)) {
                 status.innerText = "Invalid contract address!";
                 return;
@@ -551,15 +584,19 @@
                 const name = await tokenContract.methods.name().call();
                 const symbol = await tokenContract.methods.symbol().call();
                 const metadata = await shibClub.methods.getMemeCoinMetadata(tokenAddress).call();
-                const balance = account ? await tokenContract.methods.balanceOf(account).call() : '0';
-                waterfall.innerHTML = '';
-                const card = document.createElement('div');
-                card.className = 'post-card';
+                const balance = account ? await tokenContract.methods.balanceOf(account).call() : "0";
+                const userInfo = await shibClub.methods.getUserInfo(tokenAddress).call();
+                let creator = userInfo.memeCoins.length ? userInfo.memeCoins[0].creator || "0x0000000000000000000000000000000000000000" : "0x0000000000000000000000000000000000000000";
+                const ensName = await fetchENSDomain(creator);
+                const displayName = ensName || shortenAddress(creator);
+                waterfall.innerHTML = "";
+                const card = document.createElement("div");
+                card.className = "post-card";
                 card.innerHTML = `
                     <div class="post-header">
-                        <span>Token</span>
-                        <h3>${symbol}</h3>
-                        <button class="copy-button" data-address="${tokenAddress}" title="Copy Token Address">
+                        <span>Created by</span>
+                        <h3>${displayName}</h3>
+                        <button class="copy-button" data-address="${creator}" title="Copy Creator Address">
                             <img src="https://img.icons8.com/ios-filled/16/000000/copy.png" alt="Copy">
                             <span class="tooltip">Copied!</span>
                         </button>
@@ -567,22 +604,22 @@
                     <img class="post-image" src="${metadata[0] || 'https://pbs.twimg.com/media/GrjooHUboAMteD-?format=jpg'}" alt="${symbol}">
                     <div class="post-content">
                         <h4>${name}</h4>
-                        <p class="description">${metadata[1] || 'No description.'}</p>
+                        <p class="description">${metadata[1] || "No description."}</p>
                         <div class="info">
                             <img src="https://img.icons8.com/ios-filled/16/000000/link.png" alt="Website">
-                            <a href="${metadata[2] || '#'}" target="_blank">${metadata[2] ? new URL(metadata[2]).hostname : 'No website'}</a>
+                            <a href="${metadata[2] || '#'}" target="_blank">${metadata[2] ? new URL(metadata[2]).hostname : "No website"}</a>
                         </div>
                         <div class="info">
                             <img src="https://img.icons8.com/ios-filled/16/000000/twitter.png" alt="Twitter">
-                            <a href="${metadata[3] || '#'}" target="_blank">${metadata[3] ? '@' + metadata[3].split('/').pop() : 'No Twitter'}</a>
+                            <a href="${metadata[3] || '#'}" target="_blank">${metadata[3] ? "@" + metadata[3].split("/").pop() : "No Twitter"}</a>
                         </div>
                         <div class="info">
                             <img src="https://img.icons8.com/ios-filled/16/000000/telegram-app.png" alt="Telegram">
-                            <a href="${metadata[4] || '#'}" target="_blank">${metadata[4] ? metadata[4].split('/').pop() : 'No Telegram'}</a>
+                            <a href="${metadata[4] || '#'}" target="_blank">${metadata[4] ? metadata[4].split("/").pop() : "No Telegram"}</a>
                         </div>
-                        <div class="info">
-                            <img src="https://img.icons8.com/ios-filled/16/000000/wallet.png" alt="Balance">
-                            <span>Balance: ${web3.utils.fromWei(balance, 'ether')}</span>
+                        <div class="info balance">
+                            <img src="${wboneLogo}" alt="WBONE">
+                            <span>Balance: ${web3.utils.fromWei(balance, "ether")}</span>
                         </div>
                     </div>
                     <div class="trade-section">
@@ -594,50 +631,49 @@
                             <button onclick="setPercentage('${tokenAddress}', 100)">MAX</button>
                         </div>
                         <div class="action-buttons">
-                            <button class="buy-button" data-address="${tokenAddress}" ${!account ? 'disabled' : ''}>Buy</button>
-                            <button class="sell-button" data-address="${tokenAddress}" ${!account ? 'disabled' : ''}>Sell</button>
+                            <button class="buy-button" data-address="${tokenAddress}" ${!account ? "disabled" : ""}>Buy</button>
+                            <button class="sell-button" data-address="${tokenAddress}" ${!account ? "disabled" : ""}>Sell</button>
                             <button class="copy-contract-button" data-address="${tokenAddress}" title="Copy Contract Address">Copy Contract<span class="tooltip">Copied!</span></button>
                         </div>
                     </div>
                 `;
                 waterfall.appendChild(card);
                 status.innerText = "";
-                document.querySelector('.copy-button').addEventListener('click', () => {
-                    navigator.clipboard.writeText(tokenAddress).then(() => {
-                        document.querySelector('.copy-button').classList.add('copied');
-                        setTimeout(() => document.querySelector('.copy-button').classList.remove('copied'), 2000);
+                document.querySelector(".copy-button").addEventListener("click", () => {
+                    navigator.clipboard.writeText(creator).then(() => {
+                        document.querySelector(".copy-button").classList.add("copied");
+                        setTimeout(() => document.querySelector(".copy-button").classList.remove("copied"), 2000);
                     });
                 });
-                document.querySelector('.copy-contract-button').addEventListener('click', () => {
+                document.querySelector(".copy-contract-button").addEventListener("click", () => {
                     navigator.clipboard.writeText(tokenAddress).then(() => {
-                        document.querySelector('.copy-contract-button').classList.add('copied');
-                        setTimeout(() => document.querySelector('.copy-contract-button').classList.remove('copied'), 2000);
+                        document.querySelector(".copy-contract-button").classList.add("copied");
+                        setTimeout(() => document.querySelector(".copy-contract-button").classList.remove("copied"), 2000);
                     });
                 });
-                document.querySelector('.buy-button').addEventListener('click', () => buyToken(tokenAddress));
-                document.querySelector('.sell-button').addEventListener('click', () => sellToken(tokenAddress));
+                document.querySelector(".buy-button").addEventListener("click", () => buyToken(tokenAddress));
+                document.querySelector(".sell-button").addEventListener("click", () => sellToken(tokenAddress));
             } catch (error) {
                 status.innerText = "Failed to fetch token: " + error.message;
-                console.error(error);
             }
         }
 
         async function setPercentage(tokenAddress, percentage) {
             if (!web3 || !account) {
-                document.getElementById('searchStatus').innerText = "Please connect wallet first.";
+                document.getElementById("searchStatus").innerText = "Please connect wallet first.";
                 return;
             }
             let amount;
             if (percentage === 100) {
-                amount = web3.utils.fromWei(wboneBalance, 'ether');
+                amount = web3.utils.fromWei(wboneBalance, "ether");
             } else {
-                amount = web3.utils.fromWei(wboneBalance, 'ether') * (percentage / 100);
+                amount = web3.utils.fromWei(wboneBalance, "ether") * (percentage / 100);
             }
             document.getElementById(`amount-${tokenAddress}`).value = amount.toFixed(2);
         }
 
         async function buyToken(tokenAddress) {
-            const status = document.getElementById('searchStatus');
+            const status = document.getElementById("searchStatus");
             if (!web3 || !account) {
                 status.innerText = "Please connect wallet first.";
                 return;
@@ -649,7 +685,7 @@
             }
             let amountInWei;
             try {
-                amountInWei = web3.utils.toBN(web3.utils.toWei(amountIn, 'ether'));
+                amountInWei = web3.utils.toBN(web3.utils.toWei(amountIn, "ether"));
             } catch (error) {
                 status.innerText = "Invalid amount entered.";
                 return;
@@ -661,12 +697,12 @@
                 return;
             }
             const deadline = Math.floor(Date.now() / 1000) + 60 * 20;
-            let bestOutput = web3.utils.toBN('0');
+            let bestOutput = web3.utils.toBN("0");
             let routes;
             try {
                 for (const stable of [true, false]) {
                     const pairAddress = await factory.methods.getPair(wboneAddress, tokenAddress, stable).call();
-                    if (pairAddress !== '0x0000000000000000000000000000000000000000') {
+                    if (pairAddress !== "0x0000000000000000000000000000000000000000") {
                         const tempRoutes = [{ from: wboneAddress, to: tokenAddress, stable }];
                         const amounts = await router.methods.getAmountsOut(amountInWei, tempRoutes).call();
                         const output = web3.utils.toBN(amounts[amounts.length - 1]);
@@ -676,7 +712,7 @@
                         }
                     }
                 }
-                if (bestOutput.eq(web3.utils.toBN('0')) || !routes) {
+                if (bestOutput.eq(web3.utils.toBN("0")) || !routes) {
                     status.innerText = "No valid trading pair found.";
                     return;
                 }
@@ -685,7 +721,7 @@
                 const reserves = await pairContract.methods.getReserves().call();
                 const token0 = await pairContract.methods.token0().call();
                 const reserveFrom = token0 === wboneAddress ? reserves.reserve0 : reserves.reserve1;
-                const reserveTo = token0 === wboneAddress ? reserves.reserve1 : reserves0;
+                const reserveTo = token0 === wboneAddress ? reserves.reserve1 : reserves.reserve0;
                 const reserveFromBN = web3.utils.toBN(reserveFrom);
                 const reserveToBN = web3.utils.toBN(reserveTo);
                 const priceImpact = amountInWei.mul(web3.utils.toBN(100)).div(reserveFromBN.add(amountInWei));
@@ -713,19 +749,15 @@
                 await loadLatestTokens();
             } catch (error) {
                 let errorMessage = error.message || "Unknown error";
-                if (error.code === 4001) {
-                    errorMessage = "User denied transaction signature.";
-                } else if (error.message.includes("INSUFFICIENT_OUTPUT_AMOUNT") || error.message.includes("EXCESSIVE_INPUT_AMOUNT")) {
-                    errorMessage = "Buy failed: Price impact or slippage too high.";
-                } else {
-                    errorMessage = "Buy failed.";
-                }
+                if (error.code === 4001) errorMessage = "User denied transaction signature.";
+                else if (error.message.includes("INSUFFICIENT_OUTPUT_AMOUNT") || error.message.includes("EXCESSIVE_INPUT_AMOUNT")) errorMessage = "Buy failed: Price impact or slippage too high.";
+                else errorMessage = "Buy failed.";
                 status.innerText = errorMessage;
             }
         }
 
         async function sellToken(tokenAddress) {
-            const status = document.getElementById('searchStatus');
+            const status = document.getElementById("searchStatus");
             if (!web3 || !account) {
                 status.innerText = "Please connect wallet first.";
                 return;
@@ -737,7 +769,7 @@
             }
             let amountInWei;
             try {
-                amountInWei = web3.utils.toBN(web3.utils.toWei(amountIn, 'ether'));
+                amountInWei = web3.utils.toBN(web3.utils.toWei(amountIn, "ether"));
             } catch (error) {
                 status.innerText = "Invalid amount entered.";
                 return;
@@ -749,29 +781,29 @@
                 return;
             }
             const deadline = Math.floor(Date.now() / 1000) + 60 * 20;
-            let bestOutput = web3.utils.toBN('0');
+            let bestOutput = web3.utils.toBN("0");
             let routes;
             try {
                 for (const stable of [true, false]) {
-                    const pairAddress = await factory.methods.getPair(tokenAddress).call();
-                    if (pairAddress !== '0x0000000000000000000000000000000000000000') {
+                    const pairAddress = await factory.methods.getPair(tokenAddress, wboneAddress, stable).call();
+                    if (pairAddress !== "0x0000000000000000000000000000000000000000") {
                         const tempRoutes = [{ from: tokenAddress, to: wboneAddress, stable }];
-                        const amounts = await router(tempRoutes).call();
-                        const output = amounts[amounts.length - 1]);
+                        const amounts = await router.methods.getAmountsOut(amountInWei, tempRoutes).call();
+                        const output = web3.utils.toBN(amounts[amounts.length - 1]);
                         if (output.gt(bestOutput)) {
                             bestOutput = output;
                             routes = tempRoutes;
                         }
                     }
                 }
-                if (bestOutput.eq(web3.utils.toBN('0')) || !routes) {
+                if (bestOutput.eq(web3.utils.toBN("0")) || !routes) {
                     status.innerText = "No valid trading pair found.";
                     return;
                 }
-                const pairAddress = await factory.methods.getPair(tokenAddress, wboneAddress, routes[0].stable)).call();
-                const pairContract = new web3.eth.Contract(pairAbi, pairAddress));
-                const reserves = await pairContract.methods.getReserves().call().call();
-                const token0 = await pairContract.methods.token0().call().call();
+                const pairAddress = await factory.methods.getPair(tokenAddress, wboneAddress, routes[0].stable).call();
+                const pairContract = new web3.eth.Contract(pairAbi, pairAddress);
+                const reserves = await pairContract.methods.getReserves().call();
+                const token0 = await pairContract.methods.token0().call();
                 const reserveFrom = token0 === tokenAddress ? reserves.reserve0 : reserves.reserve1;
                 const reserveTo = token0 === tokenAddress ? reserves.reserve1 : reserves.reserve0;
                 const reserveFromBN = web3.utils.toBN(reserveFrom);
@@ -801,13 +833,9 @@
                 await loadLatestTokens();
             } catch (error) {
                 let errorMessage = error.message || "Unknown error";
-                if (error.code === 4001) {
-                    errorMessage = "User denied transaction signature.";
-                } else if (error.message.includes("INSUFFICIENT_OUTPUT_AMOUNT") || error.message.includes("EXCESSIVE_INPUT_AMOUNT")) {
-                    errorMessage = "Sell failed: Price impact or slippage too high.";
-                } else {
-                    errorMessage = "Sell failed.";
-                }
+                if (error.code === 4001) errorMessage = "User denied transaction signature.";
+                else if (error.message.includes("INSUFFICIENT_OUTPUT_AMOUNT") || error.message.includes("EXCESSIVE_INPUT_AMOUNT")) errorMessage = "Sell failed: Price impact or slippage too high.";
+                else errorMessage = "Sell failed.";
                 status.innerText = errorMessage;
             }
         }
@@ -816,7 +844,7 @@
             const tokenContract = new web3.eth.Contract(erc20Abi, tokenAddress);
             const allowance = await tokenContract.methods.allowance(account, routerAddress).call();
             if (web3.utils.toBN(allowance).lt(web3.utils.toBN(amount))) {
-                const status = document.getElementById('searchStatus');
+                const status = document.getElementById("searchStatus");
                 status.innerText = "Authorizing...";
                 await tokenContract.methods.approve(routerAddress, amount).send({ from: account });
                 status.innerText = "Token approved";
@@ -825,20 +853,20 @@
 
         async function updateBalances() {
             await updateWBONEBalance();
-            const tokens = document.querySelectorAll('.post-card');
-            for (const token of tokens) {
-                const address = token.querySelector('.buy-button').dataset.address;
+            const cards = document.querySelectorAll(".post-card");
+            for (const card of cards) {
+                const address = card.querySelector(".buy-button").dataset.address;
                 const tokenContract = new web3.eth.Contract(erc20Abi, address);
                 const balance = await tokenContract.methods.balanceOf(account).call();
-                token.querySelector('.info .balance').innerText = `Balance: ${web3.utils.fromWei(balance, 'ether')}`;
+                card.querySelector(".balance span").innerText = `Balance: ${web3.utils.fromWei(balance, "ether")}`;
             }
         }
 
         function setupWalletListeners() {
             if (!window.ethereum) return;
-            window.ethereum.on('accountsChanged', async (newAccounts) => {
-                if (newAccounts.length) {
-                    account = newAccounts[0];
+            window.ethereum.on("accountsChanged", async accounts => {
+                if (accounts.length) {
+                    account = accounts[0];
                     await connectWallet();
                 } else {
                     web3 = null;
@@ -850,30 +878,30 @@
                     await loadLatestTokens();
                 }
             });
-            window.ethereum.on('chainChanged', async (chainId) => {
-                if (parseInt(chainId, 16)) {
+            window.ethereum.on("chainChanged", async chainId => {
+                if (parseInt(chainId, 16) !== 109) {
                     web3 = null;
                     account = null;
                     shibClub = null;
                     router = null;
                     factory = null;
                     resetUI();
-                    document.getElementById('searchStatus').value = 'Wrong network. Please switch to Shibarium.';
+                    document.getElementById("searchStatus").innerText = "Wrong network. Please switch to Shibarium.";
                     await loadLatestTokens();
                 } else if (account) {
-                    loadLatestTokens();
+                    await connectWallet();
                 }
             });
         }
 
-        document.getElementById('connectWalletButton').addEventListener('click', connectWallet);
-        document.getElementById('search').addEventListener('click', searchToken));
-        window.addEventListener('load', () => {
-            if (!window.location.hrefprotocol.includes('http')) {
-                document.getElementById('searchStatus').value = 'Please run via a local server (e.g., "npx serve").';
+        document.getElementById("connectWalletButton").addEventListener("click", connectWallet);
+        document.getElementById("searchButton").addEventListener("click", searchToken);
+        window.addEventListener("load", () => {
+            if (!window.location.protocol.includes("http")) {
+                document.getElementById("searchStatus").innerText = 'Please run via a local server (e.g., "npx serve").';
             } else {
                 initializeWeb3();
-                setupWallet();
+                setupWalletListeners();
             }
         });
     </script>
