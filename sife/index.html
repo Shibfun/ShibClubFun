@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shibarium is for everyone</title>
+    <link rel="icon" type="image/png" href="https://shibarium.fun/images/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #121212;
+            color: #E0E0E0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .header h1 {
+            font-size: clamp(2em, 5vw, 2.5em);
+            font-weight: 700;
+            color: #FF8C00;
+            letter-spacing: 1px;
+        }
+        .connect-section {
+            margin-bottom: 16px;
+        }
+        .connect-section button {
+            padding: 10px 24px;
+            background: linear-gradient(45deg, #FF8C00, #FFA500);
+            color: #FFF;
+            border: none;
+            border-radius: 24px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1em;
+            transition: transform 0.2s, background 0.3s;
+        }
+        .connect-section button:hover {
+            transform: scale(1.05);
+            background: linear-gradient(45deg, #FFA500, #FF8C00);
+        }
+        .token-container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            justify-content: center;
+        }
+        .token-card {
+            background: #1E1E1E;
+            border: 1px solid #333;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+        }
+        .token-header {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            background: #252525;
+            border-bottom: 1px solid #333;
+        }
+        .token-header h3 {
+            font-size: 1.1em;
+            font-weight: 600;
+            flex-grow: 1;
+            color: #E0E0E0;
+        }
+        .token-header .copy-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            position: relative;
+        }
+        .token-header .copy-button img {
+            width: 18px;
+            height: 18px;
+            filter: invert(1);
+        }
+        .token-header .copy-button .tooltip {
+            visibility: hidden;
+            background: #FF8C00;
+            color: #FFF;
+            font-size: 0.8em;
+            padding: 4px 8px;
+            border-radius: 4px;
+            position: absolute;
+            top: -30px;
+            right: 0;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .token-header .copy-button.copied .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        .token-image {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            border-bottom: 1px solid #333;
+        }
+        .token-content {
+            padding: 16px;
+            flex-grow: 1;
+        }
+        .token-content h4 {
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #FF8C00;
+        }
+        .token-content p.description {
+            font-size: 0.9em;
+            color: #B0B0B0;
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+        .token-content .info {
+            font-size: 0.85em;
+            color: #E0E0E0;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .token-content .info img {
+            width: 16px;
+            height: 16px;
+            filter: invert(1);
+        }
+        .token-content .info a {
+            color: #FF8C00;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .token-content .info a:hover {
+            color: #FFA500;
+        }
+        .trade-section {
+            padding: 16px;
+            border-top: 1px solid #333;
+        }
+        .swap-box {
+            background: #252525;
+            padding: 16px;
+            border-radius: 12px;
+        }
+        .swap-toggle {
+            display: flex;
+            margin-bottom: 12px;
+        }
+        .swap-toggle button {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            background: #333;
+            color: #E0E0E0;
+            font-weight: 600;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+        .swap-toggle button.active {
+            background: linear-gradient(45deg, #FF8C00, #FFA500);
+            color: #FFF;
+        }
+        .swap-toggle button:first-child {
+            border-radius: 12px 0 0 12px;
+        }
+        .swap-toggle button:last-child {
+            border-radius: 0 12px 12px 0;
+        }
+        .balance-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85em;
+            margin-bottom: 8px;
+            color: #FF8C00;
+        }
+        .token-info {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            background: #1E1E1E;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+        .token-info img {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+        }
+        .token-info span {
+            font-size: 0.9em;
+            color: #E0E0E0;
+        }
+        .swap-box input {
+            width: 100%;
+            padding: 10px;
+            background: #1E1E1E;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: #E0E0E0;
+            font-size: 0.9em;
+            text-align: right;
+            outline: none;
+        }
+        .percentage-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin: 8px 0;
+        }
+        .percentage-buttons button {
+            padding: 0;
+            background: #333;
+            border: 1px solid #444;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #E0E0E0;
+            font-size: 0.85em;
+            font-weight: 600;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .percentage-buttons button:hover {
+            background: #FF8C00;
+            color: #FFF;
+            transform: scale(1.05);
+        }
+        .percentage-buttons button.active {
+            background: linear-gradient(45deg, #FF8C00, #FFA500);
+            color: #FFF;
+            border-color: #FF8C00;
+        }
+        .swap-box .trade-button {
+            padding: 10px;
+            background: linear-gradient(45deg, #FF8C00, #FFA500);
+            color: #FFF;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            font-size: 0.9em;
+            position: relative;
+            transition: background 0.3s;
+        }
+        .swap-box .trade-button:disabled {
+            background: #555;
+            cursor: not-allowed;
+        }
+        .swap-box .trade-button:hover:not(:disabled) {
+            background: linear-gradient(45deg, #FFA500, #FF8C00);
+        }
+        .swap-box .trade-button .spinner {
+            display: none;
+            border: 2px solid #FFF;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .swap-box .trade-button.loading .spinner {
+            display: block;
+        }
+        #dexscreener-embed {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            padding-bottom: 125%;
+        }
+        @media (min-width: 1400px) {
+            #dexscreener-embed {
+                padding-bottom: 65%;
+            }
+        }
+        #dexscreener-embed iframe {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            border: 0;
+        }
+        .global-spinner {
+            border: 4px solid #FF8C00;
+            border-top: 4px solid transparent;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 24px auto;
+            display: none;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .status {
+            font-size: 0.9em;
+            color: #FF8C00;
+            text-align: center;
+            margin: 12px 0;
+        }
+        .footer {
+            font-size: 0.8em;
+            color: #B0B0B0;
+            text-align: center;
+            margin-top: auto;
+            padding: 16px;
+        }
+        .footer a {
+            color: #FF8C00;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer a:hover {
+            color: #FFA500;
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 12px;
+            }
+            .header h1 {
+                font-size: 1.8em;
+            }
+            .token-card {
+                max-width: 100%;
+            }
+            .token-header h3 {
+                font-size: 1em;
+            }
+            .token-content h4 {
+                font-size: 1.2em;
+            }
+            .token-content p.description {
+                font-size: 0.85em;
+            }
+            .percentage-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Shibarium is for everyone</h1>
+    </div>
+    <div class="connect-section">
+        <button id="connectWalletButton">Connect Wallet</button>
+    </div>
+    <div id="searchStatus" class="status"></div>
+    <div class="global-spinner" id="globalSpinner"></div>
+    <div class="token-container">
+        <div class="token-card" id="tokenCard"></div>
+        <div id="dexscreener-embed">
+            <iframe src="https://dexscreener.com/shibarium/0xB1297B74e95002bd3a6C0C721AaEb31e0D7770e5?embed=1&loadChartSettings=0&tabs=0&info=0&chartLeftToolbar=0&chartTheme=dark&theme=dark&chartStyle=0&chartType=usd&interval=15"></iframe>
+        </div>
+    </div>
+    <div class="footer">
+        Powered by <a href="https://shibarium.shib.io/" target="_blank">Shibarium</a> | ShibClub © 2025
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
+    <script>
+        let web3, account, router, factory;
+        const routerAddress = "0x4Ea7ac197eF268445dA3104Eab9418d5380c2C11";
+        const factoryAddress = "0x306cae450bdd4A2805c1455ABa59c8988E1C8Cf3";
+        const wboneAddress = "0x8481e2a755bd951F7335E2133D4beF4F0739Ec64";
+        const tokenAddress = "0x4DFAfaE0a2BEfA606C7Cbc8cf99792C42fd2Aa72";
+        const boneLogo = "https://www.woofswap.finance/image/tokens/BONE.png";
+        const tokenImage = "https://woofswap.finance/image/tokens/sife.png";
+        const shibarium = {
+            chainId: "0x6d",
+            chainName: "Shibarium",
+            nativeCurrency: { name: "BONE", symbol: "BONE", decimals: 18 },
+            rpcUrls: ["https://rpc.shibrpc.com", "https://www.shibrpc.com"],
+            blockExplorerUrls: ["https://shibariumscan.io"]
+        };
+        const memeCoinAbi = [
+            {"constant":true,"inputs":[{"name":"account","type":"address"}],"name":"balanceOf","outputs":[{"name":"amount","type":"uint256"}],"type":"function"},
+            {"constant":false,"inputs":[{"name":"spender","type":"address"},{"name":"amount","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"type":"function"}
+        ];
+        const routerAbi = [
+            {"inputs":[{"internalType":"uint256","name":"amountOutMin","type":"uint256"},{"components":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"bool","name":"stable","type":"bool"}],"internalType":"struct Router.route[]","name":"routes","type":"tuple[]"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"}],"name":"swapExactETHForTokensSupportingFeeOnTransferTokens","outputs":[],"stateMutability":"payable","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"amountIn","type":"uint256"},{"internalType":"uint256","name":"amountOutMin","type":"uint256"},{"components":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"bool","name":"stable","type":"bool"}],"internalType":"struct Router.route[]","name":"routes","type":"tuple[]"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"}],"name":"swapExactTokensForETHSupportingFeeOnTransferTokens","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"amountIn","type":"uint256"},{"components":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"bool","name":"stable","type":"bool"}],"internalType":"struct Router.route[]","name":"routes","type":"tuple[]"}],"name":"getAmountsOut","outputs":[{"internalType":"uint256[]","name":"amounts","type":"uint256[]"}],"stateMutability":"view","type":"function"}
+        ];
+        const factoryAbi = [
+            {"inputs":[{"internalType":"address","name":"tokenA","type":"address"},{"internalType":"address","name":"tokenB","type":"address"},{"internalType":"bool","name":"stable","type":"bool"}],"name":"getPair","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}
+        ];
+        const pairAbi = [
+            {"inputs":[],"name":"getReserves","outputs":[{"internalType":"uint256","name":"reserve0","type":"uint256"},{"internalType":"uint256","name":"reserve1","type":"uint256"},{"internalType":"uint32","name":"blockTimestampLast","type":"uint32"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"token0","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"token1","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}
+        ];
+        let boneBalance = "0";
+        const defaultSlippage = 0.005;
+        const maxPriceImpact = 50;
+        const maxAllowance = "115792089237316195423570985008687907853269984665640564039457584007913129639935";
+
+        function shortenAddress(address) {
+            return address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "0x...";
+        }
+
+        function showStatus(message) {
+            const status = document.getElementById("searchStatus");
+            status.innerText = message;
+            setTimeout(() => { status.innerText = ""; }, 5000);
+        }
+
+        async function tryInitializeWeb3() {
+            for (const rpc of shibarium.rpcUrls) {
+                try {
+                    web3 = new Web3(rpc);
+                    await web3.eth.getBlockNumber();
+                    router = new web3.eth.Contract(routerAbi, routerAddress);
+                    factory = new web3.eth.Contract(factoryAbi, factoryAddress);
+                    return true;
+                } catch (e) {
+                    console.warn(`RPC ${rpc} failed: ${e.message}`);
+                }
+            }
+            return false;
+        }
+
+        async function connectWallet() {
+            const status = document.getElementById("searchStatus");
+            try {
+                if (!window.ethereum) {
+                    showStatus("Please install MetaMask.");
+                    return;
+                }
+                status.innerText = "Connecting...";
+                document.getElementById("globalSpinner").style.display = "block";
+                web3 = new Web3(window.ethereum);
+                const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+                if (!accounts.length) {
+                    showStatus("Please unlock wallet.");
+                    return;
+                }
+                account = accounts[0];
+                const chainId = await web3.eth.getChainId();
+                if (Number(chainId) !== 109) {
+                    try {
+                        await window.ethereum.request({ method: "wallet_switchEthereumChain", params: [{ chainId: shibarium.chainId }] });
+                    } catch (switchError) {
+                        if (switchError.code === 4902) {
+                            await window.ethereum.request({ method: "wallet_addEthereumChain", params: [shibarium] });
+                        } else {
+                            throw switchError;
+                        }
+                    }
+                }
+                router = new web3.eth.Contract(routerAbi, routerAddress);
+                factory = new web3.eth.Contract(factoryAbi, factoryAddress);
+                document.getElementById("connectWalletButton").innerText = shortenAddress(account);
+                showStatus("Connected to Shibarium");
+                await updateBalances();
+                updateTradeButtonState();
+                await loadToken();
+            } catch (error) {
+                showStatus(`Connection failed: ${error.message}`);
+                resetUI();
+            } finally {
+                document.getElementById("globalSpinner").style.display = "none";
+            }
+        }
+
+       function resetUI() {
+    document.getElementById("connectWalletButton").innerText = "Connect Wallet";
+    document.getElementById("searchStatus").innerText = "";
+    const tradeButton = document.querySelector(".trade-button");
+    if (tradeButton) tradeButton.disabled = true;
+}
+
+async function updateBalances() {
+    if (!web3 || !account) return;
+    boneBalance = await web3.eth.getBalance(account);
+    const card = document.getElementById("tokenCard");
+    const tokenContract = new web3.eth.Contract(memeCoinAbi, tokenAddress);
+    const balance = await tokenContract.methods.balanceOf(account).call();
+    card.dataset.tokenBalance = balance;
+    const balanceRow = card.querySelector(".balance-row");
+    const isBuy = card.querySelector(".swap-toggle .buy.active");
+    balanceRow.innerHTML = isBuy
+        ? `<span>BONE</span><span>Balance: ${parseFloat(web3.utils.fromWei(boneBalance, "ether")).toFixed(2)}</span>`
+        : `<span>SIFE</span><span>Balance: ${parseFloat(web3.utils.fromWei(balance, "ether")).toFixed(2)}</span>`;
+}
+
+function updateTradeButtonState() {
+    const card = document.getElementById("tokenCard");
+    const tradeButton = card.querySelector(".trade-button");
+    const amountInput = card.querySelector(".amount-input");
+    const amount = parseFloat(amountInput.value);
+    tradeButton.disabled = !account || !amount || amount <= 0;
+}
+
+async function loadToken() {
+    const status = document.getElementById("searchStatus");
+    const card = document.getElementById("tokenCard");
+    const spinner = document.getElementById("globalSpinner");
+    try {
+        status.innerText = "Loading token...";
+        spinner.style.display = "block";
+        if (!web3 && !await tryInitializeWeb3()) {
+            showStatus("Failed to connect to Shibarium. Please try again.");
+            return;
+        }
+        const tokenContract = new web3.eth.Contract(memeCoinAbi, tokenAddress);
+        let tokenBalance = "0";
+        if (account) tokenBalance = await tokenContract.methods.balanceOf(account).call();
+        const boneBalanceDisplay = account ? parseFloat(web3.utils.fromWei(boneBalance, "ether")).toFixed(2) : "0";
+        card.dataset.tokenAddress = tokenAddress;
+        card.dataset.symbol = "SIFE";
+        card.dataset.tokenBalance = tokenBalance;
+        card.innerHTML = `
+            <div class="token-header">
+                <h3>Created by: shibariumfun.shib</h3>
+                <button class="copy-button" data-address="0xED0470C1175DF472eB379265A8536344Ca0784D7">
+                    <img src="https://img.icons8.com/ios-filled/16/000000/copy.png" alt="Copy">
+                    <span class="tooltip">Copied!</span>
+                </button>
+                <button class="copy-button" data-address="${tokenAddress}">
+                    <img src="https://img.icons8.com/ios-filled/16/000000/contract.png" alt="Copy Contract">
+                    <span class="tooltip">Copied Contract!</span>
+                </button>
+            </div>
+            <img class="token-image" src="${tokenImage}" alt="SIFE">
+            <div class="token-content">
+                <h4>Shibarium is for everyone (SIFE)</h4>
+                <p class="description">Shibarium is for everyone meme coin.</p>
+                <div class="info">
+                    <img src="https://img.icons8.com/ios-filled/16/000000/link.png" alt="Website">
+                    <a href="https://shib.club/" target="_blank">shib.club</a>
+                </div>
+                <div class="info">
+                    <img src="https://img.icons8.com/ios-filled/16/000000/twitter.png" alt="Twitter">
+                    <a href="https://x.com/woofswap" target="_blank">@woofswap</a>
+                </div>
+                <div class="info">
+                    <img src="https://img.icons8.com/ios-filled/16/000000/telegram-app.png" alt="Telegram">
+                    <a href="https://t.me/ShibariumSRC20" target="_blank">ShibariumSRC20</a>
+                </div>
+            </div>
+            <div class="trade-section">
+                <div class="swap-box">
+                    <div class="swap-toggle">
+                        <button class="buy active">Buy</button>
+                        <button class="sell">Sell</button>
+                    </div>
+                    <div class="balance-row">
+                        <span>BONE</span>
+                        <span>Balance: ${boneBalanceDisplay}</span>
+                    </div>
+                    <div class="token-info">
+                        <img src="${boneLogo}" alt="BONE">
+                        <span>BONE</span>
+                    </div>
+                    <input type="number" class="amount-input" placeholder="0.0" step="0.01">
+                    <div class="percentage-buttons">
+                        <button data-percentage="25">25%</button>
+                        <button data-percentage="50">50%</button>
+                        <button data-percentage="75">75%</button>
+                        <button data-percentage="100">MAX</button>
+                    </div>
+                    <button class="trade-button" data-address="${tokenAddress}" disabled>
+                        Buy
+                        <span class="spinner"></span>
+                    </button>
+                </div>
+            </div>
+        `;
+        setupCardListeners(card);
+        showStatus("");
+    } catch (error) {
+        showStatus(`Failed to load token: ${error.message}`);
+    } finally {
+        spinner.style.display = "none";
+    }
+}
+
+function setupCardListeners(card) {
+    const tokenAddress = card.dataset.tokenAddress;
+    card.querySelectorAll(".copy-button").forEach(button => {
+        button.addEventListener("click", () => {
+            const address = button.dataset.address;
+            navigator.clipboard.writeText(address).then(() => {
+                button.classList.add("copied");
+                setTimeout(() => button.classList.remove("copied"), 1000);
+            }).catch(() => {
+                showStatus("Failed to copy address.");
+            });
+        });
+    });
+    card.querySelectorAll(".swap-toggle button").forEach(button => {
+        button.addEventListener("click", async () => {
+            const toggleButtons = card.querySelectorAll(".swap-toggle button");
+            toggleButtons.forEach(btn => btn.classList.remove("active"));
+            button.classList.add("active");
+            const isBuy = button.classList.contains("buy");
+            const balanceRow = card.querySelector(".balance-row");
+            const tokenInfo = card.querySelector(".token-info");
+            const tradeButton = card.querySelector(".trade-button");
+            const input = card.querySelector(".amount-input");
+            const percentageButtons = card.querySelectorAll(".percentage-buttons button");
+            if (isBuy) {
+                balanceRow.innerHTML = `<span>BONE</span><span>Balance: ${parseFloat(web3.utils.fromWei(boneBalance, "ether")).toFixed(2)}</span>`;
+                tokenInfo.innerHTML = `<img src="${boneLogo}" alt="BONE"><span>BONE</span>`;
+                tradeButton.innerHTML = "Buy <span class='spinner'></span>";
+                percentageButtons.forEach(btn => {
+                    btn.onclick = () => setAmount(card, btn.dataset.percentage, "buy");
+                });
+            } else {
+                const tokenContract = new web3.eth.Contract(memeCoinAbi, tokenAddress);
+                const tokenBalance = await tokenContract.methods.balanceOf(account).call();
+                card.dataset.tokenBalance = tokenBalance;
+                balanceRow.innerHTML = `<span>SIFE</span><span>Balance: ${parseFloat(web3.utils.fromWei(tokenBalance, "ether")).toFixed(2)}</span>`;
+                tokenInfo.innerHTML = `<img src="${tokenImage}" alt="SIFE"><span>SIFE</span>`;
+                tradeButton.innerHTML = "Sell <span class='spinner'></span>";
+                percentageButtons.forEach(btn => {
+                    btn.onclick = () => setAmount(card, btn.dataset.percentage, "sell");
+                });
+            }
+            input.value = "";
+            updateTradeButtonState();
+        });
+    });
+    card.querySelector(".trade-button").addEventListener("click", async () => {
+        const isBuy = card.querySelector(".swap-toggle .buy.active");
+        if (isBuy) {
+            await buyToken(tokenAddress, card.querySelector(".trade-button"), card);
+        } else {
+            await sellToken(tokenAddress, card.querySelector(".trade-button"), card);
+        }
+    });
+    card.querySelector(".amount-input").addEventListener("input", updateTradeButtonState);
+    card.querySelectorAll(".percentage-buttons button").forEach(button => {
+        button.addEventListener("click", () => {
+            const percentageButtons = card.querySelectorAll(".percentage-buttons button");
+            percentageButtons.forEach(btn => btn.classList.remove("active"));
+            button.classList.add("active");
+            const isBuy = card.querySelector(".swap-toggle .buy.active");
+            setAmount(card, button.dataset.percentage, isBuy ? "buy" : "sell");
+        });
+    });
+}
+
+async function setAmount(card, percentage, type) {
+    if (!web3 || !account) {
+        showStatus("Please connect wallet.");
+        return;
+    }
+    const input = card.querySelector(".amount-input");
+    let amount;
+    if (type === "buy") {
+        let balance = parseFloat(web3.utils.fromWei(boneBalance, "ether"));
+        amount = percentage === "100" ? Math.max(0, balance - 0.01) : balance * (percentage / 100);
+    } else {
+        let balance = parseFloat(web3.utils.fromWei(card.dataset.tokenBalance, "ether"));
+        amount = percentage === "100" ? Math.max(0, balance - 0.0001) : balance * (percentage / 100);
+    }
+    input.value = amount.toFixed(4);
+    updateTradeButtonState();
+}
+
+async function buyToken(tokenAddress, button, card) {
+    if (!web3 || !account) {
+        showStatus("Please connect wallet.");
+        return;
+    }
+    const amountIn = card.querySelector(".amount-input").value;
+    if (!amountIn || amountIn <= 0) {
+        showStatus("Please enter a valid amount.");
+        return;
+    }
+    let amountInWei;
+    try {
+        amountInWei = web3.utils.toBN(web3.utils.toWei(amountIn, "ether"));
+    } catch (e) {
+        showStatus("Invalid amount entered.");
+        return;
+    }
+    if (web3.utils.toBN(boneBalance).lt(amountInWei)) {
+        showStatus("Insufficient BONE balance.");
+        return;
+    }
+    const deadline = Math.floor(Date.now() / 1000) + 60 * 20;
+    try {
+        button.classList.add("loading");
+        button.disabled = true;
+        showStatus("Checking trading pair...");
+        let bestOutput = web3.utils.toBN("0");
+        let routes;
+        for (const stable of [true, false]) {
+            const pairAddress = await factory.methods.getPair(wboneAddress, tokenAddress, stable).call();
+            if (pairAddress !== "0x0000000000000000000000000000000000000000") {
+                const tempRoutes = [{ from: wboneAddress, to: tokenAddress, stable }];
+                const amounts = await router.methods.getAmountsOut(amountInWei, tempRoutes).call();
+                const output = web3.utils.toBN(amounts[amounts.length - 1]);
+                if (output.gt(bestOutput)) {
+                    bestOutput = output;
+                    routes = tempRoutes;
+                }
+            }
+        }
+        if (!routes || bestOutput.eq(web3.utils.toBN("0"))) {
+            showStatus("No valid trading pair found.");
+            return;
+        }
+        const pairAddress = await factory.methods.getPair(wboneAddress, tokenAddress, routes[0].stable).call();
+        const pairContract = new web3.eth.Contract(pairAbi, pairAddress);
+        const reserves = await pairContract.methods.getReserves().call();
+        const token0 = await pairContract.methods.token0().call();
+        const reserveFrom = token0 === wboneAddress ? reserves.reserve0 : reserves.reserve1;
+        const reserveTo = token0 === wboneAddress ? reserves.reserve1 : reserves.reserve0;
+        const reserveFromBN = web3.utils.toBN(reserveFrom);
+        const reserveToBN = web3.utils.toBN(reserveTo);
+        const priceImpact = amountInWei.mul(web3.utils.toBN(100)).div(reserveFromBN.add(amountInWei));
+        if (priceImpact.gt(web3.utils.toBN(maxPriceImpact))) {
+            showStatus(`Price impact too high (${priceImpact.toString()}%).`);
+            return;
+        }
+        if (bestOutput.gt(reserveToBN)) {
+            showStatus("Insufficient liquidity.");
+            return;
+        }
+        const slippageFactor = web3.utils.toBN(1000 - defaultSlippage * 1000);
+        const amountOutMin = bestOutput.mul(slippageFactor).div(web3.utils.toBN(1000));
+        showStatus("Processing buy...");
+        await router.methods.swapExactETHForTokensSupportingFeeOnTransferTokens(
+            amountOutMin.toString(),
+            routes,
+            account,
+            deadline
+        ).send({ from: account, value: amountInWei });
+        showStatus("Buy successful!");
+        await updateBalances();
+        card.querySelector(".amount-input").value = "";
+        updateTradeButtonState();
+    } catch (error) {
+        let errorMessage = error.message || "Transaction failed.";
+        if (error.code === 4001) {
+            errorMessage = "User rejected transaction.";
+        } else if (error.message.includes("INSUFFICIENT_OUTPUT_AMOUNT")) {
+            errorMessage = "Slippage too high.";
+        } else if (error.message.includes("INSUFFICIENT_LIQUIDITY")) {
+            errorMessage = "Insufficient liquidity.";
+        }
+        showStatus(errorMessage);
+    } finally {
+        button.classList.remove("loading");
+        button.disabled = false;
+    }
+}
+
+async function sellToken(tokenAddress, button, card) {
+    if (!web3 || !account) {
+        showStatus("Please connect wallet.");
+        return;
+    }
+    const amountIn = card.querySelector(".amount-input").value;
+    if (!amountIn || amountIn <= 0) {
+        showStatus("Please enter a valid amount.");
+        return;
+    }
+    let amountInWei;
+    try {
+        amountInWei = web3.utils.toBN(web3.utils.toWei(amountIn, "ether"));
+    } catch (e) {
+        showStatus("Invalid amount entered.");
+        return;
+    }
+    const tokenContract = new web3.eth.Contract(memeCoinAbi, tokenAddress);
+    const tokenBalance = await tokenContract.methods.balanceOf(account).call();
+    if (web3.utils.toBN(tokenBalance).lt(amountInWei)) {
+        showStatus("Insufficient token balance.");
+        return;
+    }
+    const deadline = Math.floor(Date.now() / 1000) + 60 * 20;
+    try {
+        button.classList.add("loading");
+        button.disabled = true;
+        showStatus("Checking trading pair...");
+        let bestOutput = web3.utils.toBN("0");
+        let routes;
+        for (const stable of [true, false]) {
+            const pairAddress = await factory.methods.getPair(tokenAddress, wboneAddress, stable).call();
+            if (pairAddress !== "0x0000000000000000000000000000000000000000") {
+                const tempRoutes = [{ from: tokenAddress, to: wboneAddress, stable }];
+                const amounts = await router.methods.getAmountsOut(amountInWei, tempRoutes).call();
+                const output = web3.utils.toBN(amounts[amounts.length - 1]);
+                if (output.gt(bestOutput)) {
+                    bestOutput = output;
+                    routes = tempRoutes;
+                }
+            }
+        }
+        if (!routes || bestOutput.eq(web3.utils.toBN("0"))) {
+            showStatus("No valid trading pair found.");
+            return;
+        }
+        const pairAddress = await factory.methods.getPair(tokenAddress, wboneAddress, routes[0].stable).call();
+        const pairContract = new web3.eth.Contract(pairAbi, pairAddress);
+        const reserves = await pairContract.methods.getReserves().call();
+        const token0 = await pairContract.methods.token0().call();
+        const reserveFrom = token0 === tokenAddress ? reserves.reserve0 : reserves.reserve1;
+        const reserveTo = token0 === tokenAddress ? reserves.reserve1 : reserves.reserve0;
+        const reserveFromBN = web3.utils.toBN(reserveFrom);
+        const reserveToBN = web3.utils.toBN(reserveTo);
+        const priceImpact = amountInWei.mul(web3.utils.toBN(100)).div(reserveFromBN.add(amountInWei));
+        if (priceImpact.gt(web3.utils.toBN(maxPriceImpact))) {
+            showStatus(`Price impact too high (${priceImpact.toString()}%).`);
+            return;
+        }
+        if (bestOutput.gt(reserveToBN)) {
+            showStatus("Insufficient liquidity.");
+            return;
+        }
+        const slippageFactor = web3.utils.toBN(1000 - defaultSlippage * 1000);
+        const amountOutMin = bestOutput.mul(slippageFactor).div(web3.utils.toBN(1000));
+        showStatus("Checking approval...");
+        const allowance = await tokenContract.methods.allowance(account, routerAddress).call();
+        if (web3.utils.toBN(allowance).lt(amountInWei)) {
+            showStatus("Approving token...");
+            await tokenContract.methods.approve(routerAddress, maxAllowance).send({ from: account });
+        }
+        showStatus("Processing sell...");
+        await router.methods.swapExactTokensForETHSupportingFeeOnTransferTokens(
+            amountInWei.toString(),
+            amountOutMin.toString(),
+            routes,
+            account,
+            deadline
+        ).send({ from: account });
+        showStatus("Sell successful!");
+        await updateBalances();
+        card.querySelector(".amount-input").value = "";
+        updateTradeButtonState();
+    } catch (error) {
+        let errorMessage = error.message || "Transaction failed.";
+        if (error.code === 4001) {
+            errorMessage = "User rejected transaction.";
+        } else if (error.message.includes("INSUFFICIENT_OUTPUT_AMOUNT")) {
+            errorMessage = "Slippage too high.";
+        } else if (error.message.includes("INSUFFICIENT_LIQUIDITY")) {
+            errorMessage = "Insufficient liquidity.";
+        }
+        showStatus(errorMessage);
+    } finally {
+        button.classList.remove("loading");
+        button.disabled = false;
+    }
+}
+
+document.getElementById("connectWalletButton").addEventListener("click", connectWallet);
+window.addEventListener("load", async () => {
+    if (!window.location.protocol.includes("http")) {
+        showStatus('Please run via server (e.g., "npx serve").');
+        return;
+    }
+    if (await tryInitializeWeb3()) {
+        loadToken();
+    } else {
+        showStatus("Failed to connect to Shibarium.");
+    }
+});
+</script>
+</body>
+</html>
