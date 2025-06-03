@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ShibClub Meme Coins</title>
     <link rel="icon" type="image/png" href="https://shibarium.fun/images/favicon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -16,19 +16,19 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 10px;
+            padding: 8px;
         }
         .header {
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
         .header h1 {
-            font-size: clamp(1.5em, 4vw, 1.8em);
-            font-weight: 700;
+            font-size: clamp(1.4em, 3.5vw, 1.6em);
+            font-weight: 600;
             color: #8B4513;
         }
         .connect-section {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
         .connect-section button {
             padding: 8px 16px;
@@ -36,17 +36,17 @@
             color: #FFF;
             border: none;
             border-radius: 20px;
-            font-weight: 600;
+            font-weight: 500;
             cursor: pointer;
-            font-size: 0.9em;
+            font-size: 0.85em;
         }
         .connect-section button:hover {
             transform: scale(1.05);
         }
         .search-container {
             width: 100%;
-            max-width: 500px;
-            margin-bottom: 10px;
+            max-width: 480px;
+            margin-bottom: 8px;
         }
         .search-box {
             display: flex;
@@ -71,7 +71,7 @@
             color: #FFF;
             border: none;
             border-radius: 20px;
-            font-weight: 600;
+            font-weight: 500;
             cursor: pointer;
             font-size: 0.85em;
         }
@@ -80,17 +80,17 @@
         }
         .waterfall {
             width: 100%;
-            max-width: 600px;
+            max-width: 480px;
             display: grid;
             grid-template-columns: 1fr;
-            gap: 10px;
+            gap: 8px;
         }
         .post-card {
             background: #FFF5E1;
             border: 1px solid #D2B48C;
-            border-radius: 12px;
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(139, 69, 19, 0.1);
+            box-shadow: 0 3px 10px rgba(139, 69, 19, 0.1);
             display: flex;
             flex-direction: column;
         }
@@ -101,13 +101,13 @@
             border-bottom: 1px solid #D2B48C;
         }
         .post-header span {
-            font-size: 0.85em;
+            font-size: 0.8em;
             color: #4A2C0B;
             margin-right: 6px;
         }
         .post-header h3 {
-            font-size: 0.85em;
-            font-weight: 600;
+            font-size: 0.8em;
+            font-weight: 500;
             flex-grow: 1;
             color: #4A2C0B;
         }
@@ -117,7 +117,6 @@
             cursor: pointer;
             padding: 4px;
             position: relative;
-            margin-left: 6px;
         }
         .post-header .copy-button img {
             width: 14px;
@@ -146,23 +145,23 @@
             object-fit: cover;
         }
         .post-content {
-            padding: 10px;
+            padding: 8px;
             flex-grow: 1;
         }
         .post-content h4 {
-            font-size: 1em;
-            font-weight: 600;
+            font-size: 0.95em;
+            font-weight: 500;
             margin-bottom: 6px;
             color: #4A2C0B;
         }
         .post-content p.description {
-            font-size: 0.8em;
+            font-size: 0.75em;
             color: #4A2C0B;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             line-height: 1.4;
         }
         .post-content .info {
-            font-size: 0.75em;
+            font-size: 0.7em;
             color: #4A2C0B;
             margin-bottom: 6px;
             display: flex;
@@ -178,26 +177,26 @@
             text-decoration: none;
         }
         .trade-section {
-            padding: 10px;
+            padding: 8px;
             border-top: 1px solid #D2B48C;
         }
         .swap-box {
             background: #FFF;
-            padding: 12px;
-            border-radius: 10px;
+            padding: 10px;
+            border-radius: 8px;
         }
         .swap-toggle {
             display: flex;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
         .swap-toggle button {
             flex: 1;
-            padding: 8px;
+            padding: 6px;
             border: none;
             background: #D2B48C;
             color: #4A2C0B;
-            font-weight: 600;
-            font-size: 0.85em;
+            font-weight: 500;
+            font-size: 0.8em;
             cursor: pointer;
         }
         .swap-toggle button.active {
@@ -205,33 +204,33 @@
             color: #FFF;
         }
         .swap-toggle button:first-child {
-            border-radius: 10px 0 0 10px;
+            border-radius: 8px 0 0 8px;
         }
         .swap-toggle button:last-child {
-            border-radius: 0 10px 10px 0;
+            border-radius: 0 8px 8px 0;
         }
         .balance-row {
             display: flex;
             justify-content: space-between;
-            font-size: 0.8em;
-            margin-bottom: 5px;
+            font-size: 0.75em;
+            margin-bottom: 4px;
             color: #FF8C00;
         }
         .token-info {
             display: flex;
             align-items: center;
-            padding: 8px;
+            padding: 6px;
             background: #FFF5E1;
-            border-radius: 8px;
-            margin-bottom: 8px;
+            border-radius: 6px;
+            margin-bottom: 6px;
         }
         .token-info img {
-            width: 20px;
-            height: 20px;
-            margin-right: 8px;
+            width: 18px;
+            height: 18px;
+            margin-right: 6px;
         }
         .token-info span {
-            font-size: 0.85em;
+            font-size: 0.8em;
             color: #4A2C0B;
         }
         .swap-box input {
@@ -239,27 +238,27 @@
             padding: 8px;
             background: #FFF5E1;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             color: #4A2C0B;
-            font-size: 0.9em;
+            font-size: 0.85em;
             text-align: right;
         }
         .percentage-buttons {
             display: flex;
             gap: 4px;
-            margin: 8px 0;
+            margin: 6px 0;
         }
         .percentage-buttons button {
-            padding: 6px;
+            padding: 0;
             background: #D2B48C;
             border: none;
             border-radius: 50%;
             cursor: pointer;
             color: #4A2C0B;
-            font-size: 0.75em;
-            font-weight: 600;
-            width: 32px;
-            height: 32px;
+            font-size: 0.7em;
+            font-weight: 500;
+            width: 28px;
+            height: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -269,63 +268,77 @@
             color: #FFF;
         }
         .swap-box .trade-button {
-            padding: 10px;
+            padding: 8px;
             background: linear-gradient(45deg, #FF8C00, #FFA500);
             color: #FFF;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 500;
             width: 100%;
-            font-size: 0.9em;
-        }
-        .swap-box .trade-button:hover:not(:disabled) {
-            transform: scale(1.05);
+            font-size: 0.85em;
+            position: relative;
         }
         .swap-box .trade-button:disabled {
             background: #D2B48C;
             cursor: not-allowed;
         }
-        .spinner {
+        .swap-box .trade-button .spinner {
             display: none;
-            border: 2px solid #FF8C00;
+            border: 2px solid #FFF;
             border-top: 2px solid transparent;
             border-radius: 50%;
-            width: 16px;
-            height: 16px;
+            width: 14px;
+            height: 14px;
             animation: spin 1s linear infinite;
-            margin: 0 auto;
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .swap-box .trade-button.loading .spinner {
+            display: block;
+        }
+        .global-spinner {
+            border: 4px solid #FF8C00;
+            border-top: 4px solid transparent;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+            display: none;
         }
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
         .status {
-            font-size: 0.8em;
+            font-size: 0.75em;
             color: #FF8C00;
             text-align: center;
-            margin: 8px 0;
+            margin: 6px 0;
         }
         .footer {
-            font-size: 0.75em;
+            font-size: 0.7em;
             color: #4A2C0B;
             text-align: center;
             margin-top: auto;
-            padding: 10px 0;
+            padding: 8px 0;
         }
         .footer a {
             color: #FF8C00;
             text-decoration: none;
         }
         @media (max-width: 600px) {
-            body { padding: 8px; }
-            .search-box { flex-direction: column; gap: 8px; }
+            body { padding: 6px; }
+            .search-box { flex-direction: column; gap: 6px; }
             .search-box input, .search-box button { width: 100%; }
             .post-card { max-width: 100%; }
-            .post-header span, .post-header h3 { font-size: 0.8em; }
-            .post-content h4 { font-size: 0.95em; }
-            .post-content p.description { font-size: 0.75em; }
-            .swap-box button, .trade-button { font-size: 0.85em; }
+            .post-header span, .post-header h3 { font-size: 0.75em; }
+            .post-content h4 { font-size: 0.9em; }
+            .post-content p.description { font-size: 0.7em; }
+            .swap-box button, .trade-button { font-size: 0.8em; }
         }
     </style>
 </head>
@@ -343,6 +356,7 @@
         </div>
         <div id="searchStatus" class="status"></div>
     </div>
+    <div class="global-spinner" id="globalSpinner"></div>
     <div class="waterfall" id="waterfall"></div>
     <div class="footer">
         Powered by <a href="https://shibarium.shib.io/" target="_blank">Shibarium</a> | ShibClub © 2025
@@ -359,7 +373,7 @@
             chainId: "0x6d",
             chainName: "Shibarium",
             nativeCurrency: { name: "BONE", symbol: "BONE", decimals: 18 },
-            rpcUrls: ["https://rpc.shibrpc.com"],
+            rpcUrls: ["https://rpc.shibrpc.com", "https://www.shibrpc.com"],
             blockExplorerUrls: ["https://shibariumscan.io"]
         };
         const shibClubAbi = [
@@ -395,6 +409,9 @@
         const defaultSlippage = 0.005;
         const maxPriceImpact = 50;
         const ensCache = new Map();
+        const tokensCache = new Map();
+        const PAGE_SIZE = 10;
+        let currentPage = 0;
 
         async function fetchENSDomain(address) {
             if (ensCache.has(address)) return ensCache.get(address);
@@ -411,15 +428,23 @@
         }
 
         function shortenAddress(address) {
-            return `${address.slice(0, 6)}...${address.slice(-4)}`;
+            return address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "0x...";
         }
 
-        async function initializeWeb3() {
-            web3 = new Web3(shibarium.rpcUrls[0]);
-            shibClub = new web3.eth.Contract(shibClubAbi, shibClubAddress);
-            router = new web3.eth.Contract(routerAbi, routerAddress);
-            factory = new web3.eth.Contract(factoryAbi, factoryAddress);
-            await loadLatestTokens();
+        async function tryInitializeWeb3() {
+            for (const rpc of shibarium.rpcUrls) {
+                try {
+                    web3 = new Web3(rpc);
+                    await web3.eth.getBlockNumber();
+                    shibClub = new web3.eth.Contract(shibClubAbi, shibClubAddress);
+                    router = new web3.eth.Contract(routerAbi, routerAddress);
+                    factory = new web3.eth.Contract(factoryAbi, factoryAddress);
+                    return true;
+                } catch (e) {
+                    console.warn(`RPC ${rpc} failed: ${e.message}`);
+                }
+            }
+            return false;
         }
 
         async function connectWallet() {
@@ -427,12 +452,16 @@
             try {
                 if (!window.ethereum) {
                     status.innerText = "Please install MetaMask.";
-                    throw new Error("MetaMask not detected");
+                    return;
                 }
                 status.innerText = "Connecting...";
+                document.getElementById("globalSpinner").style.display = "block";
                 web3 = new Web3(window.ethereum);
                 const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
-                if (!accounts.length) throw new Error("Please unlock wallet");
+                if (!accounts.length) {
+                    status.innerText = "Please unlock wallet.";
+                    return;
+                }
                 account = accounts[0];
                 const chainId = await web3.eth.getChainId();
                 if (Number(chainId) !== 109) {
@@ -449,13 +478,15 @@
                 shibClub = new web3.eth.Contract(shibClubAbi, shibClubAddress);
                 router = new web3.eth.Contract(routerAbi, routerAddress);
                 factory = new web3.eth.Contract(factoryAbi, factoryAddress);
-                document.getElementById("connectWalletButton").innerText = `Connected: ${shortenAddress(account)}`;
+                document.getElementById("connectWalletButton").innerText = shortenAddress(account);
                 status.innerText = "Connected to Shibarium";
                 await updateBalances();
                 await loadLatestTokens();
             } catch (error) {
-                status.innerText = "Failed to connect: " + error.message;
+                status.innerText = `Failed to connect: ${error.message}`;
                 resetUI();
+            } finally {
+                document.getElementById("globalSpinner").style.display = "none";
             }
         }
 
@@ -469,33 +500,48 @@
             boneBalance = await web3.eth.getBalance(account);
             const cards = document.querySelectorAll(".post-card");
             for (const card of cards) {
-                const address = card.querySelector(".trade-button").dataset.address;
+                const address = card.dataset.tokenAddress;
                 const tokenContract = new web3.eth.Contract(memeCoinAbi, address);
                 const balance = await tokenContract.methods.balanceOf(account).call();
                 const balanceRow = card.querySelector(".balance-row");
                 const isBuy = card.querySelector(".swap-toggle .buy.active");
                 balanceRow.innerHTML = isBuy
-                    ? `<span>BONE</span><span>Balance: ${parseFloat(web3.utils.fromWei(boneBalance, "ether")).toFixed(4)}</span>`
-                    : `<span>${card.dataset.symbol}</span><span>Balance: ${parseFloat(web3.utils.fromWei(balance, "ether")).toFixed(4)}</span>`;
+                    ? `<span>BONE</span><span>Balance: ${parseFloat(web3.utils.fromWei(boneBalance, "ether")).toFixed(2)}</span>`
+                    : `<span>${card.dataset.symbol}</span><span>Balance: ${parseFloat(web3.utils.fromWei(balance, "ether")).toFixed(2)}</span>`;
             }
         }
 
-        async function loadLatestTokens() {
+        async function loadLatestTokens(append = false) {
             const status = document.getElementById("searchStatus");
             const waterfall = document.getElementById("waterfall");
+            const spinner = document.getElementById("globalSpinner");
             try {
-                status.innerText = "Fetching latest MemeCoins...";
-                if (!web3) await initializeWeb3();
-                const tokens = await shibClub.methods.getLatestTokens().call();
-                waterfall.innerHTML = "";
+                status.innerText = "Loading tokens...";
+                spinner.style.display = "block";
+                if (!web3 && !await tryInitializeWeb3()) {
+                    status.innerText = "Failed to connect to Shibarium. Please try again.";
+                    return;
+                }
+                let tokens = tokensCache.get("latest") || [];
                 if (!tokens.length) {
-                    waterfall.innerHTML = '<div class="status">No MemeCoins found.</div>';
+                    tokens = await shibClub.methods.getLatestTokens().call();
+                    tokensCache.set("latest", tokens);
+                }
+                if (!tokens.length) {
+                    waterfall.innerHTML = '<div class="status">No Meme Coins found. Try searching by address.</div>';
                     status.innerText = "";
                     return;
                 }
-                for (const token of tokens.slice(0, 100)) {
+                if (!append) waterfall.innerHTML = "";
+                const start = currentPage * PAGE_SIZE;
+                const end = Math.min(start + PAGE_SIZE, tokens.length);
+                for (const token of tokens.slice(start, end)) {
+                    if (tokensCache.has(token)) {
+                        renderTokenCard(tokensCache.get(token));
+                        continue;
+                    }
                     const tokenContract = new web3.eth.Contract(memeCoinAbi, token);
-                    let name = "Unknown", symbol = "Unknown", metadata = ["", "", "", "", ""], owner = "0x0000000000000000000000000000000000000000", tokenBalance = "0";
+                    let name = "Unknown", symbol = "Unknown", owner = "0x0", metadata = ["", "", "", "", ""], tokenBalance = "0";
                     try {
                         name = await tokenContract.methods.name().call();
                         symbol = await tokenContract.methods.symbol().call();
@@ -508,117 +554,94 @@
                     }
                     const ensName = await fetchENSDomain(owner);
                     const displayName = ensName || shortenAddress(owner);
-                    const boneBalanceDisplay = account ? parseFloat(web3.utils.fromWei(boneBalance, "ether")).toFixed(4) : "0";
-                    const card = document.createElement("div");
-                    card.className = "post-card";
-                    card.dataset.symbol = symbol;
-                    card.innerHTML = `
-                        <div class="post-header">
-                            <span>Created by</span>
-                            <h3>${displayName}</h3>
-                            <button class="copy-button" data-address="${owner}" title="Copy Owner Address">
-                                <img src="https://img.icons8.com/ios-filled/16/000000/copy.png" alt="Copy">
-                                <span class="tooltip">Copied!</span>
-                            </button>
-                            <button class="copy-button contract-copy" data-address="${token}" title="Copy Contract Address">
-                                <img src="https://img.icons8.com/ios-filled/16/000000/copy.png" alt="Copy">
-                                <span class="tooltip">Copied!</span>
-                            </button>
-                        </div>
-                        <img class="post-image" src="${metadata[0] || defaultImage}" alt="${symbol}">
-                        <div class="post-content">
-                            <h4>${name}</h4>
-                            <p class="description">${metadata[1] || "No description."}</p>
-                            <div class="info">
-                                <img src="https://img.icons8.com/ios-filled/16/000000/link.png" alt="Website">
-                                <a href="${metadata[2] || '#'}" target="_blank">${metadata[2] ? new URL(metadata[2]).hostname : "No website"}</a>
-                            </div>
-                            <div class="info">
-                                <img src="https://img.icons8.com/ios-filled/16/000000/twitter.png" alt="Twitter">
-                                <a href="${metadata[3] || '#'}" target="_blank">${metadata[3] ? "@" + metadata[3].split("/").pop() : "No Twitter"}</a>
-                            </div>
-                            <div class="info">
-                                <img src="https://img.icons8.com/ios-filled/16/000000/telegram-app.png" alt="Telegram">
-                                <a href="${metadata[4] || '#'}" target="_blank">${metadata[4] ? metadata[4].split("/").pop() : "No Telegram"}</a>
-                            </div>
-                        </div>
-                        <div class="trade-section">
-                            <div class="swap-box">
-                                <div class="swap-toggle">
-                                    <button class="buy active">BUY</button>
-                                    <button class="sell">SELL</button>
-                                </div>
-                                <div class="balance-row">
-                                    <span>BONE</span>
-                                    <span>Balance: ${boneBalanceDisplay}</span>
-                                </div>
-                                <div class="token-info">
-                                    <img src="${boneLogo}" alt="BONE">
-                                    <span>BONE</span>
-                                </div>
-                                <input type="number" id="amount-${token}" placeholder="0.0" step="0.01">
-                                <div class="percentage-buttons">
-                                    <button onclick="setPercentage('${token}', 25)">25%</button>
-                                    <button onclick="setPercentage('${token}', 50)">50%</button>
-                                    <button onclick="setPercentage('${token}', 75)">75%</button>
-                                    <button onclick="setPercentage('${token}', 100)">MAX</button>
-                                </div>
-                                <button class="trade-button" data-address="${token}" ${!account ? "disabled" : ""}>Trade</button>
-                                <div class="spinner"></div>
-                            </div>
-                        </div>
-                    `;
-                    waterfall.appendChild(card);
+                    const tokenData = { token, name, symbol, owner, displayName, metadata, tokenBalance };
+                    tokensCache.set(token, tokenData);
+                    renderTokenCard(tokenData);
                 }
-                status.innerText = "";
-                setupEventListeners();
+                status.innerText = end < tokens.length ? "Load more..." : "";
+                if (end < tokens.length) {
+                    const loadMore = document.createElement("button");
+                    loadMore.innerText = "Load More";
+                    loadMore.style = "margin: 10px auto; padding: 8px 16px; background: linear-gradient(45deg, #FF8C00, #FFA500); color: #FFF; border: none; border-radius: 20px; cursor: pointer;";
+                    loadMore.onclick = () => {
+                        currentPage++;
+                        loadLatestTokens(true);
+                    };
+                    waterfall.appendChild(loadMore);
+                }
             } catch (error) {
-                status.innerText = "Failed to fetch MemeCoins: " + error.message;
+                status.innerText = `Failed to load tokens: ${error.message}`;
+            } finally {
+                spinner.style.display = "none";
             }
         }
 
-        function setupEventListeners() {
-            document.getElementById("waterfall").addEventListener("click", async (e) => {
-                const target = e.target;
-                if (target.closest(".copy-button")) {
-                    const button = target.closest(".copy-button");
-                    const address = button.dataset.address;
-                    navigator.clipboard.writeText(address).then(() => {
-                        button.classList.add("copied");
-                        setTimeout(() => button.classList.remove("copied"), 2000);
-                    });
-                }
-                if (target.closest(".swap-toggle button")) {
-                    const button = target.closest(".swap-toggle button");
-                    const card = button.closest(".post-card");
-                    const toggleButtons = card.querySelectorAll(".swap-toggle button");
-                    toggleButtons.forEach(btn => btn.classList.remove("active"));
-                    button.classList.add("active");
-                    const isBuy = button.classList.contains("buy");
-                    const tokenAddress = card.querySelector(".trade-button").dataset.address;
-                    const tokenContract = new web3.eth.Contract(memeCoinAbi, tokenAddress);
-                    const balanceRow = card.querySelector(".balance-row");
-                    const tokenInfo = card.querySelector(".token-info");
-                    if (isBuy) {
-                        balanceRow.innerHTML = `<span>BONE</span><span>Balance: ${parseFloat(web3.utils.fromWei(boneBalance, "ether")).toFixed(4)}</span>`;
-                        tokenInfo.innerHTML = `<img src="${boneLogo}" alt="BONE"><span>BONE</span>`;
-                    } else {
-                        const tokenBalance = await tokenContract.methods.balanceOf(account).call();
-                        balanceRow.innerHTML = `<span>${card.dataset.symbol}</span><span>Balance: ${parseFloat(web3.utils.fromWei(tokenBalance, "ether")).toFixed(4)}</span>`;
-                        tokenInfo.innerHTML = `<img src="${card.querySelector(".post-image").src}" alt="${card.dataset.symbol}"><span>${card.dataset.symbol}</span>`;
-                    }
-                }
-                if (target.closest(".trade-button")) {
-                    const button = target.closest(".trade-button");
-                    const card = button.closest(".post-card");
-                    const isBuy = card.querySelector(".swap-toggle .buy").classList.contains("active");
-                    if (isBuy) {
-                        await buyToken(button.dataset.address, button, card);
-                    } else {
-                        await sellToken(button.dataset.address, button, card);
-                    }
-                }
-            });
+        function renderTokenCard({ token, name, symbol, owner, displayName, metadata, tokenBalance }) {
+            const waterfall = document.getElementById("waterfall");
+            const boneBalanceDisplay = account ? parseFloat(web3.utils.fromWei(boneBalance, "ether")).toFixed(2) : "0";
+            const card = document.createElement("div");
+            card.className = "post-card";
+            card.dataset.tokenAddress = token;
+            card.dataset.symbol = symbol;
+            card.innerHTML = `
+                <div class="post-header">
+                    <span>Created by</span>
+                    <h3>${displayName}</h3>
+                    <button class="copy-button" data-address="${owner}">
+                        <img src="https://img.icons8.com/ios-filled/16/000000/copy.png" alt="Copy">
+                        <span class="tooltip">Copied!</span>
+                    </button>
+                    <button class="copy-button" data-address="${token}">
+                        <img src="https://img.icons8.com/ios-filled/16/000000/contract.png" alt="Copy Contract">
+                        <span class="tooltip">Copied Contract!</span>
+                    </button>
+                </div>
+                <img class="post-image" src="${metadata[0] || defaultImage}" alt="${symbol}">
+                <div class="post-content">
+                    <h4>${name}</h4>
+                    <p class="description">${metadata[1] || "No description."}</p>
+                    <div class="info">
+                        <img src="https://img.icons8.com/ios-filled/16/000000/link.png" alt="Website">
+                        <a href="${metadata[2] || '#'}" target="_blank">${metadata[2] ? new URL(metadata[2]).hostname : "No website"}</a>
+                    </div>
+                    <div class="info">
+                        <img src="https://img.icons8.com/ios-filled/16/000000/twitter.png" alt="Twitter">
+                        <a href="${metadata[3] || '#'}" target="_blank">${metadata[3] ? "@" + metadata[3].split("/").pop() : "No Twitter"}</a>
+                    </div>
+                    <div class="info">
+                        <img src="https://img.icons8.com/ios-filled/16/000000/telegram-app.png" alt="Telegram">
+                        <a href="${metadata[4] || '#'}" target="_blank">${metadata[4] ? metadata[4].split("/").pop() : "No Telegram"}</a>
+                    </div>
+                </div>
+                <div class="trade-section">
+                    <div class="swap-box">
+                        <div class="swap-toggle">
+                            <button class="buy active">BUY</button>
+                            <button class="sell">SELL</button>
+                        </div>
+                        <div class="balance-row">
+                            <span>BONE</span>
+                            <span>Balance: ${boneBalanceDisplay}</span>
+                        </div>
+                        <div class="token-info">
+                            <img src="${boneLogo}" alt="BONE">
+                            <span>BONE</span>
+                        </div>
+                        <input type="number" class="amount-input" placeholder="0.0" step="0.01">
+                        <div class="percentage-buttons">
+                            <button data-percentage="25">25%</button>
+                            <button data-percentage="50">50%</button>
+                            <button data-percentage="75">75%</button>
+                            <button data-percentage="100">MAX</button>
+                        </div>
+                        <button class="trade-button" data-address="${token}" ${!account ? "disabled" : ""}>
+                            Trade
+                            <span class="spinner"></span>
+                        </button>
+                    </div>
+                </div>
+            `;
+            waterfall.appendChild(card);
         }
 
         async function searchToken() {
@@ -626,12 +649,16 @@
             const waterfall = document.getElementById("waterfall");
             const tokenAddress = document.getElementById("tokenAddress").value.trim();
             if (!web3.utils.isAddress(tokenAddress)) {
-                status.innerText = "Invalid contract address!";
+                status.innerText = "Invalid address.";
                 return;
             }
             try {
-                status.innerText = "Searching token...";
-                if (!web3) await initializeWeb3();
+                status.innerText = "Searching...";
+                document.getElementById("globalSpinner").style.display = "block";
+                if (!web3 && !await tryInitializeWeb3()) {
+                    status.innerText = "Failed to connect to Shibarium.";
+                    return;
+                }
                 const isValid = await shibClub.methods.isMemeCoin(tokenAddress).call();
                 if (!isValid) {
                     status.innerText = "Not a valid MemeCoin.";
@@ -645,129 +672,61 @@
                 const tokenBalance = account ? await tokenContract.methods.balanceOf(account).call() : "0";
                 const ensName = await fetchENSDomain(owner);
                 const displayName = ensName || shortenAddress(owner);
-                const boneBalanceDisplay = account ? parseFloat(web3.utils.fromWei(boneBalance, "ether")).toFixed(4) : "0";
+                const tokenData = { token: tokenAddress, name, symbol, owner, displayName, metadata, tokenBalance };
+                tokensCache.set(tokenAddress, tokenData);
                 waterfall.innerHTML = "";
-                const card = document.createElement("div");
-                card.className = "post-card";
-                card.dataset.symbol = symbol;
-                card.innerHTML = `
-                    <div class="post-header">
-                        <span>Created by</span>
-                        <h3>${displayName}</h3>
-                        <button class="copy-button" data-address="${owner}" title="Copy Owner Address">
-                            <img src="https://img.icons8.com/ios-filled/16/000000/copy.png" alt="Copy">
-                            <span class="tooltip">Copied!</span>
-                        </button>
-                        <button class="copy-button contract-copy" data-address="${tokenAddress}" title="Copy Contract Address">
-                            <img src="https://img.icons8.com/ios-filled/16/000000/copy.png" alt="Copy">
-                            <span class="tooltip">Copied!</span>
-                        </button>
-                    </div>
-                    <img class="post-image" src="${metadata[0] || defaultImage}" alt="${symbol}">
-                    <div class="post-content">
-                        <h4>${name}</h4>
-                        <p class="description">${metadata[1] || "No description."}</p>
-                        <div class="info">
-                            <img src="https://img.icons8.com/ios-filled/16/000000/link.png" alt="Website">
-                            <a href="${metadata[2] || '#'}" target="_blank">${metadata[2] ? new URL(metadata[2]).hostname : "No website"}</a>
-                        </div>
-                        <div class="info">
-                            <img src="https://img.icons8.com/ios-filled/16/000000/twitter.png" alt="Twitter">
-                            <a href="${metadata[3] || '#'}" target="_blank">${metadata[3] ? "@" + metadata[3].split("/").pop() : "No Twitter"}</a>
-                        </div>
-                        <div class="info">
-                            <img src="https://img.icons8.com/ios-filled/16/000000/telegram-app.png" alt="Telegram">
-                            <a href="${metadata[4] || '#'}" target="_blank">${metadata[4] ? metadata[4].split("/").pop() : "No Telegram"}</a>
-                        </div>
-                    </div>
-                    <div class="trade-section">
-                        <div class="swap-box">
-                            <div class="swap-toggle">
-                                <button class="buy active">BUY</button>
-                                <button class="sell">SELL</button>
-                            </div>
-                            <div class="balance-row">
-                                <span>BONE</span>
-                                <span>Balance: ${boneBalanceDisplay}</span>
-                            </div>
-                            <div class="token-info">
-                                <img src="${boneLogo}" alt="BONE">
-                                <span>BONE</span>
-                            </div>
-                            <input type="number" id="amount-${tokenAddress}" placeholder="0.0" step="0.01">
-                            <div class="percentage-buttons">
-                                <button onclick="setPercentage('${tokenAddress}', 25)">25%</button>
-                                <button onclick="setPercentage('${tokenAddress}', 50)">50%</button>
-                                <button onclick="setPercentage('${tokenAddress}', 75)">75%</button>
-                                <button onclick="setPercentage('${tokenAddress}', 100)">MAX</button>
-                            </div>
-                            <button class="trade-button" data-address="${tokenAddress}" ${!account ? "disabled" : ""}>Trade</button>
-                            <div class="spinner"></div>
-                        </div>
-                    </div>
-                `;
-                waterfall.appendChild(card);
+                renderTokenCard(tokenData);
                 status.innerText = "";
-                setupEventListeners();
             } catch (error) {
-                status.innerText = "Failed to fetch token: " + error.message;
+                status.innerText = `Failed to load token: ${error.message}`;
+            } finally {
+                document.getElementById("globalSpinner").style.display = "none";
             }
         }
 
-        async function setPercentage(tokenAddress, percentage) {
-            if (!web3 || !account) {
-                document.getElementById("searchStatus").innerText = "Please connect wallet first.";
-                return;
-            }
-            const card = document.querySelector(`.trade-button[data-address="${tokenAddress}"]`).closest(".post-card");
-            const isBuy = card.querySelector(".swap-toggle .buy").classList.contains("active");
+        async function setAmount(tokenAddress, percentage, type) {
+            if (!web3 || !account) return;
+            const card = document.querySelector(`.post-card[data-token-address="${tokenAddress}"]`);
+            const input = card.querySelector(".amount-input");
             let amount;
-            if (isBuy) {
-                let balance = web3.utils.fromWei(boneBalance, "ether");
-                if (percentage === 100) {
-                    amount = Math.max(0, balance - 0.1);
-                } else {
-                    amount = balance * (percentage / 100);
-                }
+            if (type === "buy") {
+                let balance = parseFloat(web3.utils.fromWei(boneBalance, "ether"));
+                amount = percentage === 100 ? Math.max(0, balance - 0.1) : balance * (percentage / 100);
             } else {
                 const tokenContract = new web3.eth.Contract(memeCoinAbi, tokenAddress);
                 let balance = await tokenContract.methods.balanceOf(account).call();
-                balance = web3.utils.fromWei(balance, "ether");
-                if (percentage === 100) {
-                    amount = Math.max(0, balance - 1);
-                } else {
-                    amount = balance * (percentage / 100);
-                }
+                balance = parseFloat(web3.utils.fromWei(balance, "ether"));
+                amount = percentage === 100 ? Math.max(0, balance - 1) : balance * (percentage / 100);
             }
-            document.getElementById(`amount-${tokenAddress}`).value = amount.toFixed(4);
+            input.value = amount.toFixed(2);
         }
 
         async function buyToken(tokenAddress, button, card) {
             const status = document.getElementById("searchStatus");
             if (!web3 || !account) {
-                status.innerText = "Please connect wallet first.";
+                status.innerText = "Please connect wallet.";
                 return;
             }
-            const amountIn = document.getElementById(`amount-${tokenAddress}`).value;
+            const amountIn = card.querySelector(".amount-input").value;
             if (!amountIn || amountIn <= 0) {
-                status.innerText = "Please enter a valid amount.";
+                status.innerText = "Invalid amount.";
                 return;
             }
             let amountInWei;
             try {
                 amountInWei = web3.utils.toBN(web3.utils.toWei(amountIn, "ether"));
-            } catch (error) {
-                status.innerText = "Invalid amount entered.";
+            } catch (e) {
+                status.innerText = "Invalid amount.";
                 return;
             }
             if (web3.utils.toBN(boneBalance).lt(amountInWei)) {
-                status.innerText = "Insufficient BONE balance.";
+                status.innerText = "Insufficient BONE.";
                 return;
             }
             const deadline = Math.floor(Date.now() / 1000) + 60 * 20;
             try {
+                button.classList.add("loading");
                 button.disabled = true;
-                card.querySelector(".spinner").style.display = "block";
                 let bestOutput = web3.utils.toBN(0);
                 let routes;
                 for (const stable of [true, false]) {
@@ -783,7 +742,7 @@
                     }
                 }
                 if (!routes || bestOutput.eq(web3.utils.toBN(0))) {
-                    status.innerText = "No valid trading pair found.";
+                    status.innerText = "No trading pair found.";
                     return;
                 }
                 const pairAddress = await factory.methods.getPair("0x0000000000000000000000000000000000000000", tokenAddress, routes[0].stable).call();
@@ -800,7 +759,7 @@
                     return;
                 }
                 if (bestOutput.gt(reserveToBN)) {
-                    status.innerText = "Insufficient liquidity in pool.";
+                    status.innerText = "Insufficient liquidity.";
                     return;
                 }
                 const slippageFactor = web3.utils.toBN(1000 - defaultSlippage * 1000);
@@ -815,33 +774,29 @@
                 status.innerText = "Buy successful!";
                 await updateBalances();
             } catch (error) {
-                let errorMessage = "Buy failed.";
-                if (error.code === 4001) errorMessage = "User denied transaction.";
-                else if (error.message.includes("INSUFFICIENT_OUTPUT_AMOUNT") || error.message.includes("EXCESSIVE_INPUT_AMOUNT")) errorMessage = "Price impact or slippage too high.";
-                else if (error.message.includes("INSUFFICIENT_LIQUIDITY")) errorMessage = "Insufficient liquidity.";
-                status.innerText = errorMessage;
+                status.innerText = error.code === 4001 ? "Transaction rejected." : `Buy failed: ${error.message}`;
             } finally {
+                button.classList.remove("loading");
                 button.disabled = false;
-                card.querySelector(".spinner").style.display = "none";
             }
         }
 
         async function sellToken(tokenAddress, button, card) {
             const status = document.getElementById("searchStatus");
             if (!web3 || !account) {
-                status.innerText = "Please connect wallet first.";
+                status.innerText = "Please connect wallet.";
                 return;
             }
-            const amountIn = document.getElementById(`amount-${tokenAddress}`).value;
+            const amountIn = card.querySelector(".amount-input").value;
             if (!amountIn || amountIn <= 0) {
-                status.innerText = "Please enter a valid amount.";
+                status.innerText = "Invalid amount.";
                 return;
             }
             let amountInWei;
             try {
                 amountInWei = web3.utils.toBN(web3.utils.toWei(amountIn, "ether"));
-            } catch (error) {
-                status.innerText = "Invalid amount entered.";
+            } catch (e) {
+                status.innerText = "Invalid amount.";
                 return;
             }
             const tokenContract = new web3.eth.Contract(memeCoinAbi, tokenAddress);
@@ -852,8 +807,8 @@
             }
             const deadline = Math.floor(Date.now() / 1000) + 60 * 20;
             try {
+                button.classList.add("loading");
                 button.disabled = true;
-                card.querySelector(".spinner").style.display = "block";
                 let bestOutput = web3.utils.toBN(0);
                 let routes;
                 for (const stable of [true, false]) {
@@ -869,7 +824,7 @@
                     }
                 }
                 if (!routes || bestOutput.eq(web3.utils.toBN(0))) {
-                    status.innerText = "No valid trading pair found.";
+                    status.innerText = "No trading pair found.";
                     return;
                 }
                 const pairAddress = await factory.methods.getPair(tokenAddress, "0x0000000000000000000000000000000000000000", routes[0].stable).call();
@@ -886,12 +841,12 @@
                     return;
                 }
                 if (bestOutput.gt(reserveToBN)) {
-                    status.innerText = "Insufficient liquidity in pool.";
+                    status.innerText = "Insufficient liquidity.";
                     return;
                 }
                 const slippageFactor = web3.utils.toBN(1000 - defaultSlippage * 1000);
                 const amountOutMin = bestOutput.mul(slippageFactor).div(web3.utils.toBN(1000));
-                status.innerText = "Approving token...";
+                status.innerText = "Approving...";
                 const allowance = await tokenContract.methods.allowance(account, routerAddress).call();
                 if (web3.utils.toBN(allowance).lt(amountInWei)) {
                     await tokenContract.methods.approve(routerAddress, amountInWei).send({ from: account });
@@ -907,57 +862,76 @@
                 status.innerText = "Sell successful!";
                 await updateBalances();
             } catch (error) {
-                let errorMessage = "Sell failed!";
-                if (error.code === 4001) errorMessage = "User denied transaction.";
-                else if (error.message.includes("INSUFFICIENT_OUTPUT_AMOUNT") || errorMessage = "Price impact or slippage too high.";
-                else if (error.message.includes("INSUFFICIENT_LIQUIDITY")) errorMessage = "Insufficient liquidity.";
-                status.innerText = errorMessage;
+                status.innerText = error.code === 4001 ? "Transaction rejected." : `Sell failed: ${error.message}`;
             } finally {
+                button.classList.remove("loading");
                 button.disabled = false;
-                card.querySelector(".spinner").style.display = "none";
             }
         }
 
-        function setupWalletListeners() {
-            if (!window.ethereum) return;
-            window.web3.eth.accounts.on("accountsChanged", async accounts => {
-                if (accounts.length) {
-                    account = accounts[0];
-                    await connectWallet();
-                } else {
-                    web3 = null;
-                    account = null;
-                    shibClub = null;
-                    router = null;
-                    factory = null;
-                    resetUI();
-                    await loadLatestTokens();
+        function setupEventListeners() {
+            document.getElementById("waterfall").addEventListener("click", async (e) => {
+                const target = e.target;
+                if (target.closest(".copy-button")) {
+                    const button = target.closest(".copy-button");
+                    navigator.clipboard.writeText(button.dataset.address).then(() => {
+                        button.classList.add("copied");
+                        setTimeout(() => button.classList.remove("copied"), 1000);
+                    });
                 }
-            });
-            window.ethereum.on("chainChanged", async chainId => {
-                if (parseInt(chainId, 16) !== 109) {
-                    web3 = null;
-                    account = null;
-                    shibClub = null;
-                    router = null;
-                    factory = null;
-                    resetUI();
-                    document.getElementById("searchStatus").innerText = "Wrong network. Please switch to Shibarium.";
-                    await loadLatestTokens();
-                } else if (account) {
-                    await connectWallet();
+                if (target.closest(".swap-toggle button")) {
+                    const button = target.closest(".swap-toggle button");
+                    const card = button.closest(".post-card");
+                    const toggleButtons = card.querySelectorAll(".swap-toggle button");
+                    toggleButtons.forEach(btn => btn.classList.remove("active"));
+                    button.classList.add("active");
+                    const isBuy = button.classList.contains("buy");
+                    const tokenAddress = card.dataset.tokenAddress;
+                    const balanceRow = card.querySelector(".balance-row");
+                    const tokenInfo = card.querySelector(".token-info");
+                    const input = card.querySelector(".amount-input");
+                    const percentageButtons = card.querySelectorAll(".percentage-buttons button");
+                    if (isBuy) {
+                        balanceRow.innerHTML = `<span>BONE</span><span>Balance: ${parseFloat(web3.utils.fromWei(boneBalance, "ether")).toFixed(2)}</span>`;
+                        tokenInfo.innerHTML = `<img src="${boneLogo}" alt="BONE"><span>BONE</span>`;
+                        percentageButtons.forEach(btn => {
+                            btn.onclick = () => setAmount(tokenAddress, parseFloat(btn.dataset.percentage), "buy");
+                        });
+                    } else {
+                        const tokenContract = new web3.eth.Contract(memeCoinAbi, tokenAddress);
+                        const tokenBalance = await tokenContract.methods.balanceOf(account).call();
+                        balanceRow.innerHTML = `<span>${card.dataset.symbol}</span><span>Balance: ${parseFloat(web3.utils.fromWei(tokenBalance, "ether")).toFixed(2)}</span>`;
+                        tokenInfo.innerHTML = `<img src="${card.querySelector(".post-image").src}" alt="${card.dataset.symbol}"><span>${card.dataset.symbol}</span>`;
+                        percentageButtons.forEach(btn => {
+                            btn.onclick = () => setAmount(tokenAddress, parseFloat(btn.dataset.percentage), "sell");
+                        });
+                    }
+                    input.value = "";
+                }
+                if (target.closest(".trade-button")) {
+                    const button = target.closest(".trade-button");
+                    const card = button.closest(".post-card");
+                    const isBuy = card.querySelector(".swap-toggle .buy.active");
+                    if (isBuy) {
+                        await buyToken(button.dataset.address, button, card);
+                    } else {
+                        await sellToken(button.dataset.address, button, card);
+                    }
                 }
             });
         }
 
         document.getElementById("connectWalletButton").addEventListener("click", connectWallet);
         document.getElementById("searchButton").addEventListener("click", searchToken);
-        window.addEventListener("load", () => {
+        window.addEventListener("load", async () => {
             if (!window.location.protocol.includes("http")) {
-                document.getElementById("searchStatus").innerText = 'Please run via a local server (e.g., "npx serve").';
+                document.getElementById("searchStatus").innerText = 'Please run via a server (e.g., "npx serve").';
+                return;
+            }
+            if (await tryInitializeWeb3()) {
+                loadLatestTokens();
             } else {
-                initializeWeb3();
-                setupWalletListeners();
+                document.getElementById("searchStatus").innerText = "Failed to connect to Shibarium. Please try again.";
             }
         });
     </script>
