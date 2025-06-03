@@ -391,7 +391,8 @@
             {"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"type":"function"},
             {"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"type":"function"},
             {"constant":true,"inputs":[{"name":"account","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"type":"function"},
-            {"constant":false,"inputs":[{"name":"spender","type":"address"},{"name":"amount","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"type":"function"}
+            {"constant":false,"inputs":[{"name":"spender","type":"address"},{"name":"amount","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"type":"function"},
+            {"constant":true,"inputs":[{"name":"owner","type":"address"},{"name":"spender","type":"address"}],"name":"allowance","outputs":[{"name":"","type":"uint256"}],"type":"function"}
         ];
         const routerAbi = [
             {"inputs":[{"internalType":"uint256","name":"amountOutMin","type":"uint256"},{"components":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"bool","name":"stable","type":"bool"}],"internalType":"struct Router.route[]","name":"routes","type":"tuple[]"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"}],"name":"swapExactETHForTokensSupportingFeeOnTransferTokens","outputs":[],"stateMutability":"payable","type":"function"},
@@ -409,9 +410,10 @@
         let boneBalance = "0";
         const defaultSlippage = 0.005;
         const maxPriceImpact = 50;
+        const maxAllowance = "115792089237316195423570985008687907853269984665640564039457584007913129639935";
         const ensCache = new Map();
         const tokensCache = new Map();
-        const PAGE_SIZE = 10;
+        const PAGE_SIZE = 60;
         let currentPage = 0;
 
         async function fetchENSDomain(address) {
@@ -452,16 +454,14 @@
             const status = document.getElementById("searchStatus");
             try {
                 if (!window.ethereum) {
-                    status.innerText = "Please install MetaMask.";
-                    return;
+                    throw new Error("Please install MetaMask.");
                 }
                 status.innerText = "Connecting...";
-                document.getElementById("globalSpinner").style.display = "block";
+                document.getElementById("globalSpinner").style.display = "block';
                 web3 = new Web3(window.ethereum);
                 const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
                 if (!accounts.length) {
-                    status.innerText = "Please unlock wallet.";
-                    return;
+                    throw new Error("Please unlock wallet.");
                 }
                 account = accounts[0];
                 const chainId = await web3.eth.getChainId();
@@ -717,7 +717,7 @@
                         tokenInfo.innerHTML = `<img src="${boneLogo}" alt="BONE"><span>BONE</span>`;
                         tradeButton.innerHTML = "Buy <span class='spinner'></span>";
                         percentageButtons.forEach(btn => {
-                            btn.onclick = () => setAmount(btn.dataset.percentage, "buy");
+                            btn.onclick = () => setAmount(card, btn.dataset.percentage, "buy");
                         });
                     } else {
                         const tokenContract = new web3.eth.Contract(memeCoinAbi, tokenAddress);
@@ -727,7 +727,7 @@
                         tokenInfo.innerHTML = `<img src="${card.querySelector(".post-image").src}" alt="${card.dataset.symbol}"><span>${card.dataset.symbol}</span>`;
                         tradeButton.innerHTML = "Sell <span class='spinner'></span>";
                         percentageButtons.forEach(btn => {
-                            btn.onclick = () => setAmount(btn.dataset.percentage, "sell");
+                            btn.onclick = () => setAmount(card, btn.dataset.percentage, "sell");
                         });
                     }
                     input.value = "";
@@ -744,20 +744,19 @@
             });
         }
 
-        async function setAmount(percentage, type) {
+        async function setAmount(card, percentage, type) {
             if (!web3 || !account) {
                 document.getElementById("searchStatus").innerText = "Please connect wallet.";
                 return;
             }
-            const input = document.querySelector(".amount-input");
+            const input = card.querySelector(".amount-input");
             let amount;
             if (type === "buy") {
                 let balance = parseFloat(web3.utils.fromWei(boneBalance, "ether"));
-                amount = percentage === 100 ? Math.max(0, balance - 0.1) : balance * (percentage / 100);
+                amount = percentage === "100" ? Math.max(0, balance - 0.01) : balance * (percentage / 100);
             } else {
-                const card = document.querySelector(".post-card.active");
                 let balance = parseFloat(web3.utils.fromWei(card.dataset.tokenBalance, "ether"));
-                amount = percentage === 100 ? balance : balance * (percentage / 100);
+                amount = percentage === "100" ? balance : balance * (percentage / 100);
             }
             input.value = amount.toFixed(2);
         }
@@ -891,8 +890,8 @@
                     const pairAddress = await factory.methods.getPair(tokenAddress, wboneAddress, stable).call();
                     if (pairAddress !== "0x0000000000000000000000000000000000000000") {
                         const tempRoutes = [{ from: tokenAddress, to: wboneAddress, stable }];
-                        const amounts = await router.getAmountsOut(amountInWei, tempRoutes);
-                        const output = web3.utils.toBN(amounts[0][amounts[0].length - 1]);
+                        const amounts = await router.methods.getAmountsOut(amountInWei, tempRoutes).call();
+                        const output = web3.utils.toBN(amounts[amounts.length - 1]);
                         if (output.gt(bestOutput)) {
                             bestOutput = output;
                             routes = tempRoutes;
@@ -922,10 +921,11 @@
                 }
                 const slippageFactor = web3.utils.toBN(1000 - defaultSlippage * 1000);
                 const amountOutMin = bestOutput.mul(slippageFactor).div(web3.utils.toBN(1000));
-                status.innerText = "Approving...";
+                status.innerText = "Checking approval...";
                 const allowance = await tokenContract.methods.allowance(account, routerAddress).call();
                 if (web3.utils.toBN(allowance).lt(amountInWei)) {
-                    await tokenContract.methods.approve(routerAddress, amountInWei).send({ from: account });
+                    status.innerText = "Approving token...";
+                    await tokenContract.methods.approve(routerAddress, maxAllowance).send({ from: account });
                 }
                 status.innerText = "Processing sell...";
                 await router.methods.swapExactTokensForETHSupportingFeeOnTransferTokens(
@@ -939,9 +939,9 @@
                 await updateBalances();
                 card.querySelector(".amount-input").value = "";
             } catch (error) {
-                let errorMessage = "Transaction failed.";
+                let errorMessage = error.message || "Transaction failed.";
                 if (error.code === 4001) {
-                    errorMessage = "User rejected.";
+                    errorMessage = "User rejected transaction.";
                 } else if (error.message.includes("INSUFFICIENT_OUTPUT_AMOUNT")) {
                     errorMessage = "Slippage too high.";
                 } else if (error.message.includes("INSUFFICIENT_LIQUIDITY")) {
